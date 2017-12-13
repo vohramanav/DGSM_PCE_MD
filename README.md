@@ -1,1 +1,1 @@
-# DGSM_PCE_MD
+Contributors: M. Vohra and A. Alexanderian
