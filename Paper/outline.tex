@@ -1,0 +1,101 @@
+ \documentclass[letter,12pt]{article}
+%
+\input{def}
+\usepackage[table]{xcolor}
+\usepackage{relsize}
+\usepackage{bm}
+\usepackage{mathrsfs}
+
+ \def\ol{\overline}
+ \def\no{\noindent}
+ \def\qd{\dot{Q}}
+
+%%%%%%%FLOW DIAGRAM%%%%%%%%%%
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+%\usepackage[table]{xcolor}
+\usetikzlibrary{shapes,arrows}
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+   text width=5.0em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=cyan!20, 
+   text width=9.0em, text centered, rounded corners]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+   minimum height=2em]
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-------------------------------------------------------------------
+\begin{document}
+
+\thispagestyle{empty}
+
+\begin{center}
+\begin{Large}
+{\bf An Efficient Approach to Surrogate Modeling with Application to Molecular
+Dynamics}\\
+\end{Large}
+
+\bigskip
+
+Manav Vohra, Alen Alexanderian, Sankaran Mahadevan
+\end{center}
+
+\begin{large}
+\noindent Outline
+\end{large}
+
+\begin{enumerate}
+
+\item Introduction
+\begin{enumerate}
+\item Need for Surrogates - especially for complex models to enable forward UQ, 
+sensitivity studies, calibration, and experimental design (Include citations).
+\item Computational Hurdles: Polynomial Chaos and GP can be computationally 
+intractable and suffer from the curse of dimensionality (Include plots for PCE
+to motivate dimension reduction with citations for both PCE and GP).
+\item Sensitivity analyis - a potent tool for dimension reduction. However, SA can be
+computationally prohibitive. In fact, there are studies demonstrating the use of 
+surrogates to reduce costs associated with SA (include citations). 
+\item DGSM - brief introduction and citations. 
+\item Key contributions of the paper: 1) Methodology that exploits DGSM to reduce the
+dimensionality of the problem and thus enables efficient construction of surrogates.
+2) Application of the proposed methodology to investigate relative importance of
+parameters in the stillinger-weber potential, commonly used for studying phonon transport in silicon. Further, construct a reasonably accurate PC surrogate in the reduced 
+space and demonstrate computational advantage of this approach. .
+\end{enumerate}
+
+\item Background
+\begin{enumerate}
+\item DGSM
+\item PCE
+\end{enumerate}
+
+\item Methodology/Algorithm
+
+\item Motivating Examples
+\begin{enumerate}
+\item Borehole: Screening, Convergence, Verification
+\item Elliptic PDE: Screening, Convergence, Verification
+\item Non-linear Oscillator: Screening, Convergence, Verification
+\end{enumerate}
+
+\item Application: Phonon Transport in a Si bar
+\begin{enumerate}
+\item Include all details pertaining to the MD simulation: system, simulation, 
+ensembles, etc. 
+\item Results
+\end{enumerate}
+
+\item Discussion
+\begin{enumerate}
+\item Methodology is agnostic to the choice of surrogate.
+\item As required for a PCE, the uncertain parameters need not be independent. 
+\item Strategy depends on the application - methodology could be implemented 
+sequentially or adaptively. 
+\end{enumerate}
+
+\end{enumerate}
+
+
+\end{document}
