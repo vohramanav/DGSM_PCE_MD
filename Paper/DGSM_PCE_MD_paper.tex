@@ -28,26 +28,42 @@
 %-------------------------------------------------------------------
 \begin{document}
 
-\thispagestyle{empty}
-
 \begin{center}
-\begin{Large}
-{\bf An Efficient Approach to Surrogate Modeling with Application to Molecular
-Dynamics}\\
-\end{Large}
+\textsc{
+Efficient derivative-based global sensitivity approach to 
+surrogate modeling with application to molecular dynamics
+}
+
+\bigskip 
+
+\bigskip 
+
+Manav Vohra, Alen Alexanderian, Sankaran Mahadevan
+
+\end{center}
+
+\vspace{10cm}
+
+\begin{tabular}{ll}
+Corresponding Author:  & TBA \\
+                       & Vanderbilt University \\ 
+                       & Nashville, TN\\ 
+                       & Phone: \\ 
+                       & Email: 
+\end{tabular}
 
 \bigskip
 
-Manav Vohra, Alen Alexanderian, Sankaran Mahadevan
-\end{center}
+Submitted to: \emph{Journal of Computational Physics}
+              
 
-\begin{large}
-\noindent Outline
-\end{large}
 
-\begin{enumerate}
 
-\item Introduction
+\clearpage
+
+\tableofcontents
+
+\section{Introduction}
 \begin{enumerate}
 \item Need for efficient Surrogates - especially for complex models to enable forward UQ, 
 sensitivity studies, calibration, and experimental design (Include citations).
@@ -65,36 +81,42 @@ parameters in the stillinger-weber potential, commonly used for studying phonon 
 space and demonstrate computational advantage of this approach. .
 \end{enumerate}
 
-\item Background
-\begin{enumerate}
-\item DGSM
-\item Polynomial Chaos Expansions (PCE)
-\end{enumerate}
+\section{Background}
+\subsection{DGSM}
+\[ 
+    \mu_i = E\left(\left( \frac{\partial \mathcal{G}}{\partial \theta_i}\right)^2\right)
+          \approx \hat\mu_i := \frac1N\sum_{j = 1}^N 
+                  \left(\frac{\partial \mathcal{G}(x_j)}{\partial \theta_i}\right)^2
+\]
+Can consider variance of $\hat\mu_i$.
 
-\item Methodology/Algorithm
+\subsection{Polynomial chaos}
+\section{Method}
 
-\item Motivating Examples
-\begin{enumerate}
-\item Borehole: Screening, Convergence, Verification
-\item Elliptic PDE: Screening, Convergence, Verification
-\item Non-linear Oscillator: Screening, Convergence, Verification
-\end{enumerate}
+\section{Motivating examples}
+\subsection{Borehole: Screening, Convergence, Verification}
+\subsection{Semilinear elliptic PDE: Screening, Convergence, Verification}
+\subsection{Nonlinear Oscillator: Screening, Convergence, Verification}
 
-\item Application: Phonon Transport in a Si bar
+\section{Application: Phonon Transport in a Si bar}
+
+Seven uncertain parameters; well-established nominal values exist;
+\[
+   \theta_i \sim U(\bar\theta_i - \epsilon_i, \bar\theta_i + \epsilon_i), 
+   \quad \epsilon_i = 0.1 \bar\theta_i. 
+\]
 \begin{enumerate}
 \item Include all details pertaining to the MD simulation: system, simulation, 
 ensembles, etc. 
 \item Results
 \end{enumerate}
 
-\item Discussion
+\section{Discussion}
 \begin{enumerate}
 \item Methodology is agnostic to the choice of surrogate.
 \item As required for a PCE, the uncertain parameters need not be independent. 
 \item Strategy depends on the application - methodology could be implemented 
 sequentially or adaptively. 
-\end{enumerate}
-
 \end{enumerate}
 
 
