@@ -1,5 +1,5 @@
 #!/bin/sh
 
-pdflatex outline.tex
-pdflatex outline.tex
-rm *.aux *.log
+pdflatex DGSM_PCE_MD_paper.tex
+pdflatex DGSM_PCE_MD_paper.tex
+rm *.aux *.log *.toc
