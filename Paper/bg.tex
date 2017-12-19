@@ -1,5 +1,38 @@
 \section{Background}
 \label{sec:bg}
 
+In this section, we provide a brief theoretical background to the
+derivative-based global sensitivity approach and the polynomial chaos
+expansion.
 
+\subsection{Derivative-based global sensitivity}  
+
+The derivative-based global sensitivity analysis (DGSA) is performed by 
+estimating a sensitivity measure~\cite{Kucherenko:2009} for each stochastic
+parameter in a model or a function. The
+sensitivity measure associated with a parameter, $\theta_i$, based on
+the observable, $\mathcal{Y}$ is given as follows:
+
+\be
+\mu_i = \mathbb{E}\left[\left(\frac{\partial \mathcal{Y}(\bm{x})}{\partial \theta_i}\right)^{2}\right]
+\label{eq:mu}
+\ee
+
+\noindent The derivative in the above equation is estimated using finite
+difference as given below, and averaged using pseudo-random samples in
+the uncertain parameter domain. 
+
+\be
+\frac{\partial \mathcal{Y}(\bm{\theta}^{\ast})}{\partial \theta_i} =
+ \lim_{\Delta\theta_i^{*}\to 0}
+\frac{[\mathcal{Y}(\theta_1^{*},\ldots,\theta_{i-1}^{*},
+\theta_i^{*}+\Delta\theta_i^{*},
+\theta_{i+1}^{*},\ldots,\theta_d^{*}) - 
+\mathcal{Y}(\bm{\theta}^{*})]}{\Delta\theta_i^{*}} 
+\ee
+
+\noindent The total number of model realizations or function evaluations
+needed to
+compute $\mu_i$ in a Euclidian space $\mathbb{R}^d$ using $N$ samples is
+therefore, $N\times(d+1)$.
 
