@@ -28,41 +28,54 @@
 %-------------------------------------------------------------------
 \begin{document}
 
+\thispagestyle{empty}
 \input{cover}
+
+\baselineskip=22pt
 
 \tableofcontents
 
+\input{abstract}
+\clearpage
+
 \input{intro}
+\bigskip
+\bigskip
+
 
 \input{bg}
+\bigskip
+\bigskip
 
-\section{Method}
 
-\section{Motivating examples}
-\subsection{Borehole: Screening, Convergence, Verification}
-\subsection{Semilinear elliptic PDE: Screening, Convergence, Verification}
-\subsection{Nonlinear Oscillator: Screening, Convergence, Verification}
+\input{method}
+\bigskip
+\bigskip
 
-\section{Application: Phonon Transport in a Si bar}
 
-Seven uncertain parameters; well-established nominal values exist;
-\[
-   \theta_i \sim U(\bar\theta_i - \epsilon_i, \bar\theta_i + \epsilon_i), 
-   \quad \epsilon_i = 0.1 \bar\theta_i. 
-\]
-\begin{enumerate}
-\item Include all details pertaining to the MD simulation: system, simulation, 
-ensembles, etc. 
-\item Results
-\end{enumerate}
+\input{examples}
+\bigskip
+\bigskip
 
-\section{Discussion}
-\begin{enumerate}
-\item Methodology is agnostic to the choice of surrogate.
-\item As required for a PCE, the uncertain parameters need not be independent. 
-\item Strategy depends on the application - methodology could be implemented 
-sequentially or adaptively. 
-\end{enumerate}
 
+\input{app}
+\bigskip
+\bigskip
+
+
+\input{disc}
+\bigskip
+\bigskip
+
+\input{ack}
+\bigskip
+\bigskip
+
+\bibliographystyle{unsrt}
+\bibliography{REFER}
+
+\clearpage
+
+\input{figures}
 
 \end{document}
