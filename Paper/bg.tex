@@ -2,7 +2,7 @@
 \label{sec:bg}
 
 In this section, we provide a brief theoretical background to the
-derivative-based global sensitivity approach and the polynomial chaos
+derivative-based global sensitivity measure and the polynomial chaos
 expansion.
 
 \subsection{Derivative-based global sensitivity}  
@@ -18,7 +18,7 @@ the observable, $\mathcal{Y}$ is given as follows:
 \label{eq:mu}
 \ee
 
-\noindent The derivative in the above equation is estimated using finite
+The derivative in the above equation is estimated using finite
 difference as given below, and averaged using pseudo-random samples in
 the uncertain parameter domain. 
 
@@ -29,10 +29,121 @@ the uncertain parameter domain.
 \theta_i^{*}+\Delta\theta_i^{*},
 \theta_{i+1}^{*},\ldots,\theta_d^{*}) - 
 \mathcal{Y}(\bm{\theta}^{*})]}{\Delta\theta_i^{*}} 
+\label{eq:partial}
 \ee
 
-\noindent The total number of model realizations or function evaluations
+The total number of model realizations or function evaluations
 needed to
 compute $\mu_i$ in a Euclidian space $\mathbb{R}^d$ using $N$ samples is
-therefore, $N\times(d+1)$.
+therefore, $N\times(d+1)$. The derivative in Eq.~\ref{eq:partial} could be evaluated
+analytically in case the functional dependence of $\mathcal{Y}$ and $\theta_i$
+is known. Note that the perturbation $\Delta\theta_i^{*}$ is extremely small 
+compared to the uncertainty in $\theta_i$ which leads to a significant improvement
+over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
+using large increments. 
+
+For parameters with continuous distributions, the upper bound on the total Sobol' sensitivity index
+can be expressed in terms of $\mu_i$, the Poincar\'e constant ($\mathcal{C}_i$) and the total 
+variance of the model output ($V$)~\cite{Lamboni:2013}:
+
+\be
+ST_i \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \hat{\mathcal{C}_i\mu_i})
+\label{eq:bound}
+\ee
+
+The upper bound in the above inequality is proportional to the product of $\mathcal{C}_i$
+and $\mu_i$. However, for the purpose of parameter screening as discussed later in
+Section~\ref{sec:method}, we consider a normalized product, $\hat{\mathcal{C}_i\mu_i}$:
+
+\be
+\hat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
+\ee
+
+The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability distribution of $\theta_i$.
+Table~\ref{tab:poincare} provides its value in the case of uniform and normal
+distributions.
+\bigskip
+
+\begin{table}[htbp]
+\renewcommand*{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Distribution & $\mathcal{C}_i$ \\ \hline \hline 
+Uniform, $\mathcal{U}[a, b]$ & $(b-a)^{2}/\pi^2$ \\ 
+Normal, $\mathcal{N}(\mu,\sigma^2)$ & $\sigma^2$ \\ 
+\hline
+\end{tabular}
+\end{center}
+
+\caption{Poincare constant for the case of uniformly and normally distributed random
+parameters~\cite{Roustant:2014}.}
+\label{tab:poincare}
+\end{table}
+
+\subsection{Polynomial Chaos Expansion}
+
+As discussed earlier in Section~\ref{sec:intro}, the Polynomial Chaos Expansion (PCE)
+is one of the most commonly used surrogates for representing the dependence of a random
+observable ($\mathcal{Y}$) on independent uncertain or stochastic model parameters ($\bm{\theta}$).
+Considering a joint probability distribution of the components of ($\bm{\theta}$) as $\mathbb{P}(\bm{\theta})$,
+the following condition is imposed on $\mathcal{Y}$:
+
+\be
+\mathbb{E}[\mathcal{Y}^2] = \int_{\mathcal{D}_{\bm{\theta}}} \mathcal{Y}^2 \mathbb{P}(\bm{\theta}) 
+d\bm{\theta} < \infty
+\ee
+
+\noindent where $\mathcal{D}_{\bm{\theta}}$ is the domain of the input parameter space. The PCE of
+$\mathcal{Y}$ is a mean-square convergent truncated summation given as
+follows~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}:
+
+\be
+\mathcal{Y} = \sum_{\alpha\in\mathcal{I}} c_{\alpha}\Psi_{\alpha}(\bm{\xi(\theta)}) 
+\ee
+
+Note that the set of parameters, $\bm{\theta}$ are parameterized in terms of canonical random
+variables, $\bm{\xi}$ in the above expansion. $\Psi_{\alpha}$'s are multivariate polynomial
+basis, orthonormal with respect to the joint probability distribution of $\bm{\xi}$, $\mathcal{I}$
+is the multi-index set which identifies the degree of individual polynomials in each term in the
+multivariate basis.
+
+Computational strategies available for estimating the PC coefficients ($c_\alpha$'s) typically involve
+techniques based on projection or regression. Projection-based methods rely on numerical
+quadrature for estimating the following expectation:
+
+\be
+\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\mathcal{Y}]
+\approx
+\sum_{i=1}^{N} \mathcal{Y}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
+\ee
+
+Regression-based methods such as least angle regression (LAR)~\cite{Efron:2004} and least absolute shrinkage
+and selection operator (LASSO)~\cite{Tibshirani:1996} aim to construct a sparse PCE~\cite{Blatman:2008}
+by solving a regularized optimization problem:
+
+\be
+\hat{\bm{c}} = \mbox{argmin}~\mathbb{E}\left[\left(\bm{c}^{T}\Psi(\bm{x}) -
+\mathcal{M}(\bm{x})\right)^{2}\right]  + \lambda\norm{\bm{c}}
+\ee
+
+In this work, we construct sparse PCEs with LAR using UQLab~\cite{Marelli:2014},
+a general purpose Uncertainty Quantification software developed at ETH Zurich in Switzerland.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
