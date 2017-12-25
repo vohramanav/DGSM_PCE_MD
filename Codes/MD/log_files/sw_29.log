@@ -1,0 +1,572 @@
+# temperature
+variable	T equal 300
+#cold region temperature
+#variable        tlo equal 275
+variable        tlo equal ${T}-${L}*${cte}/4.0
+variable        tlo equal 300-${L}*${cte}/4.0
+variable        tlo equal 300-50*${cte}/4.0
+variable        tlo equal 300-50*1.5938/4.0
+#hot region temperature
+#variable        thi equal ${cte}*${L}/2+${tlo}
+variable        thi equal ${T}+${L}*${cte}/4.0
+variable        thi equal 300+${L}*${cte}/4.0
+variable        thi equal 300+50*${cte}/4.0
+variable        thi equal 300+50*1.5938/4.0
+
+#time step (picoseconds)
+variable	dt equal 0.0005 # 0.5 femtoseconds
+#number of time steps for NPT
+variable	tnpt equal 5000
+#number of time steps for NVT
+variable	tnvt equal 40000
+#number of time steps for first NVE
+variable	t1nve equal 100000
+#number of time steps for second NVE
+variable	t2nve equal 500000
+
+################### Variable Based on LAMMPS Documentation ######################
+variable	a equal 100
+variable	c equal ${t2nve}
+variable	c equal 500000
+variable	b equal $c/$a
+variable	b equal 500000/$a
+variable	b equal 500000/100
+variable	tdamp equal ${dt}*100
+variable	tdamp equal 0.0005*100
+variable	pdamp equal ${dt}*1000
+variable	pdamp equal 0.0005*1000
+
+#----------------------------------------------------------------------------------------
+# setup problem
+dimension       3
+boundary        p p p
+atom_style      atomic
+lattice 	diamond ${LC} origin 0.0 0.0 0.0 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+lattice 	diamond 5.43 origin 0.0 0.0 0.0 orient x 1 0 0 orient y 0 1 0 orient z 0 0 1
+Lattice spacing in x,y,z = 5.43 5.43 5.43
+region          0 block 0 $L 0 $W 0 $H units lattice side in
+region          0 block 0 50 0 $W 0 $H units lattice side in
+region          0 block 0 50 0 22 0 $H units lattice side in
+region          0 block 0 50 0 22 0 22 units lattice side in
+create_box      1 0
+Created orthogonal box = (0 0 0) to (271.5 119.46 119.46)
+  8 by 2 by 2 MPI processor grid
+create_atoms    1 region 0
+Created 193600 atoms
+mass		1 28.0855
+#dump		1 all xyz 1000 Si_W_${W}nm.xyz
+#dump_modify	1 element Si
+
+############################################
+pair_style   sw
+pair_coeff   * * Si${P}.sw Si
+pair_coeff   * * Si29.sw Si
+thermo		100
+thermo_style custom step lx
+min_style cg
+minimize 0.0 1.0e-8 10000 100000
+WARNING: Using 'neigh_modify every 1 delay 0 check yes' setting during minimization (../min.cpp:168)
+Neighbor list info ...
+  update every 1 steps, delay 0 steps, check yes
+  max neighbors/atom: 2000, page size: 100000
+  master list distance cutoff = 6.14239
+  ghost atom cutoff = 6.14239
+  binsize = 3.0712, bins = 89 39 39
+  1 neighbor lists, perpetual/occasional/extra = 1 0 0
+  (1) pair sw, perpetual
+      attributes: full, newton on
+      pair build: full/bin/atomonly
+      stencil: full/bin/3d
+      bin: standard
+Per MPI rank memory allocation (min/avg/max) = 5.23 | 5.23 | 5.23 Mbytes
+Step Lx 
+       0        271.5 
+       1        271.5 
+Loop time of 0.310186 on 32 procs for 1 steps with 193600 atoms
+
+96.9% CPU use with 32 MPI tasks x no OpenMP threads
+
+Minimization stats:
+  Stopping criterion = force tolerance
+  Energy initial, next-to-last, final = 
+        -1195397.22784     -1195397.22784     -1195397.22784
+  Force two-norm initial, final = 2.07263e-10 2.05783e-10
+  Force max component initial, final = 1.39669e-12 1.39667e-12
+  Final line search alpha, max atom move = 1 1.39667e-12
+  Iterations, force evaluations = 1 2
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 0.28614    | 0.28851    | 0.29393    |   0.3 | 93.01
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 0.006331   | 0.012933   | 0.017643   |   2.7 |  4.17
+Output  | 0          | 0          | 0          |   0.0 |  0.00
+Modify  | 0          | 0          | 0          |   0.0 |  0.00
+Other   |            | 0.008739   |            |       |  2.82
+
+Nlocal:    6050 ave 6050 max 6050 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+Nghost:    5892.5 ave 5893 max 5892 min
+Histogram: 16 0 0 0 0 0 0 0 0 16
+Neighs:    0 ave 0 max 0 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+FullNghs:  278300 ave 278300 max 278300 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+
+Total # of neighbors = 8905600
+Ave neighs/atom = 46
+Neighbor list builds = 0
+Dangerous builds = 0
+timestep     ${dt}
+timestep     0.0005
+velocity 	all create $T 492845
+velocity 	all create 300 492845
+
+
+fix 		NPT all npt temp $T $T ${tdamp} iso 0.0 0.0 ${pdamp}
+fix 		NPT all npt temp 300 $T ${tdamp} iso 0.0 0.0 ${pdamp}
+fix 		NPT all npt temp 300 300 ${tdamp} iso 0.0 0.0 ${pdamp}
+fix 		NPT all npt temp 300 300 0.05 iso 0.0 0.0 ${pdamp}
+fix 		NPT all npt temp 300 300 0.05 iso 0.0 0.0 0.5
+thermo		100
+thermo_style custom step lx press
+run		${tnpt}
+run		5000
+Per MPI rank memory allocation (min/avg/max) = 4.105 | 4.105 | 4.105 Mbytes
+Step Lx Press 
+       1        271.5    295801.64 
+     100    277.65433    63249.514 
+     200    280.47616    23692.998 
+     300    281.97829    7949.5681 
+     400    282.63471    1541.7627 
+     500     282.8093    126.08053 
+     600    282.84307    120.62158 
+     700    282.87243    98.462849 
+     800    282.90571    72.896372 
+     900    282.94119    57.877918 
+    1000    282.97551    118.18272 
+    1100     283.0167    72.430006 
+    1200    283.05835     69.62073 
+    1300    283.09972    39.622862 
+    1400    283.13849    106.66402 
+    1500    283.18213    24.441806 
+    1600     283.2199   -3.6481737 
+    1700    283.24789    31.921134 
+    1800     283.2701    21.237544 
+    1900    283.28462   -1.2678106 
+    2000    283.27228   -38.353356 
+    2100    283.26467   -69.500289 
+    2200    283.25426   -7.3736151 
+    2300     283.2518    42.727552 
+    2400    283.26476    15.421467 
+    2500      283.275    7.8341452 
+    2600    283.27864   -18.778015 
+    2700    283.26421    14.047388 
+    2800    283.25695    6.0913501 
+    2900    283.25865    3.3380301 
+    3000    283.26723   -46.051307 
+    3100    283.27385    21.195336 
+    3200    283.27594     19.11302 
+    3300    283.27053   -21.759559 
+    3400    283.26631   -61.486079 
+    3500    283.25998    35.064222 
+    3600    283.26357   -4.7010193 
+    3700    283.27268   -29.861222 
+    3800    283.27863   -1.0640842 
+    3900    283.27198    24.007485 
+    4000    283.26709   -16.125673 
+    4100    283.26632    7.9718003 
+    4200    283.26083    74.115168 
+    4300    283.26985    20.240399 
+    4400    283.27918   -37.916373 
+    4500    283.27717   -24.718006 
+    4600    283.27106    8.4514211 
+    4700    283.26299    49.339397 
+    4800     283.2679    -47.75689 
+    4900    283.27531   -61.068441 
+    5000    283.27516    31.809934 
+    5001     283.2754    27.493154 
+Loop time of 536.006 on 32 procs for 5000 steps with 193600 atoms
+
+Performance: 0.403 ns/day, 59.556 hours/ns, 9.328 timesteps/s
+92.2% CPU use with 32 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 463.38     | 468.4      | 482.8      |  16.3 | 87.39
+Neigh   | 0.21356    | 0.21651    | 0.2246     |   0.5 |  0.04
+Comm    | 22.157     | 39.952     | 50.206     | 101.1 |  7.45
+Output  | 0.029338   | 0.033833   | 0.036214   |   1.2 |  0.01
+Modify  | 18.066     | 26.379     | 32.828     |  89.5 |  4.92
+Other   |            | 1.021      |            |       |  0.19
+
+Nlocal:    6050 ave 6118 max 5991 min
+Histogram: 3 2 4 5 2 5 7 2 1 1
+Nghost:    5892.5 ave 5952 max 5824 min
+Histogram: 1 1 2 7 5 2 5 4 2 3
+Neighs:    0 ave 0 max 0 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+FullNghs:  228038 ave 231269 max 225009 min
+Histogram: 3 0 6 4 1 4 10 2 1 1
+
+Total # of neighbors = 7297204
+Ave neighs/atom = 37.6922
+Neighbor list builds = 14
+Dangerous builds = 2
+unfix		NPT
+variable	length equal lx/${LC}
+variable	length equal lx/5.43
+
+################### Geometrical Parameters After Relaxation ###############################
+# Thermostat_width
+variable	TW equal ${length}/40
+variable	TW equal 52.1685828650103/40
+# Hot_Start
+variable	hs equal ${length}/4-${TW}
+variable	hs equal 52.1685828650103/4-${TW}
+variable	hs equal 52.1685828650103/4-1.30421457162526
+# Hot_End
+variable	he equal ${length}/4+${TW}
+variable	he equal 52.1685828650103/4+${TW}
+variable	he equal 52.1685828650103/4+1.30421457162526
+# Cold_Start
+variable	cs equal 3*${length}/4-${TW}
+variable	cs equal 3*52.1685828650103/4-${TW}
+variable	cs equal 3*52.1685828650103/4-1.30421457162526
+# Cold_End
+variable	ce equal 3*${length}/4+${TW}
+variable	ce equal 3*52.1685828650103/4+${TW}
+variable	ce equal 3*52.1685828650103/4+1.30421457162526
+###########################################################################################
+
+################### Defining Thermostat ###################################################
+region 		hot block ${hs} ${he} EDGE EDGE EDGE EDGE
+region 		hot block 11.7379311446273 ${he} EDGE EDGE EDGE EDGE
+region 		hot block 11.7379311446273 14.3463602878778 EDGE EDGE EDGE EDGE
+region 		cold block ${cs} ${ce} EDGE EDGE EDGE EDGE
+region 		cold block 37.8222225771325 ${ce} EDGE EDGE EDGE EDGE
+region 		cold block 37.8222225771325 40.430651720383 EDGE EDGE EDGE EDGE
+group		test region cold
+9581 atoms in group test
+group		test1 region hot
+9574 atoms in group test1
+compute		Thot all temp/region hot
+compute         Tcold all temp/region cold
+###########################################################################################
+
+fix		NVT all nvt temp $T $T ${tdamp}
+fix		NVT all nvt temp 300 $T ${tdamp}
+fix		NVT all nvt temp 300 300 ${tdamp}
+fix		NVT all nvt temp 300 300 0.05
+thermo		1000
+thermo_style	custom step temp
+run		${tnvt}
+run		40000
+Per MPI rank memory allocation (min/avg/max) = 4.114 | 4.115 | 4.117 Mbytes
+Step Temp 
+    5001    300.28623 
+    6000    297.93702 
+    7000    297.74709 
+    8000    298.45233 
+    9000    301.27146 
+   10000    300.43773 
+   11000    301.20788 
+   12000    299.69326 
+   13000    300.56262 
+   14000    299.55092 
+   15000    299.58584 
+   16000    299.67985 
+   17000    300.15123 
+   18000    300.53995 
+   19000    299.11717 
+   20000     300.0252 
+   21000    299.38765 
+   22000    300.49035 
+   23000    300.18376 
+   24000      300.122 
+   25000    300.20533 
+   26000    299.71617 
+   27000    300.03547 
+   28000    300.45663 
+   29000    300.78743 
+   30000     299.8917 
+   31000    300.86026 
+   32000     299.7191 
+   33000    300.09512 
+   34000    299.88001 
+   35000    300.33863 
+   36000    300.34138 
+   37000    300.75195 
+   38000     300.6874 
+   39000    299.71345 
+   40000    299.13976 
+   41000    300.19349 
+   42000    299.89527 
+   43000    300.04608 
+   44000    299.82124 
+   45000    299.73085 
+   45001    299.77156 
+Loop time of 4253.64 on 32 procs for 40000 steps with 193600 atoms
+
+Performance: 0.406 ns/day, 59.078 hours/ns, 9.404 timesteps/s
+92.1% CPU use with 32 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 3674.2     | 3715.2     | 3765.2     |  35.3 | 87.34
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 242.15     | 328.7      | 416.33     | 276.0 |  7.73
+Output  | 0.022793   | 0.025823   | 0.028656   |   0.9 |  0.00
+Modify  | 122.46     | 188.81     | 256.82     | 313.2 |  4.44
+Other   |            | 20.89      |            |       |  0.49
+
+Nlocal:    6050 ave 6104 max 5991 min
+Histogram: 2 2 4 1 3 6 7 3 3 1
+Nghost:    5892.5 ave 5951 max 5838 min
+Histogram: 1 3 3 7 6 3 1 4 2 2
+Neighs:    0 ave 0 max 0 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+FullNghs:  227926 ave 230541 max 225235 min
+Histogram: 2 3 3 3 1 7 7 2 3 1
+
+Total # of neighbors = 7293644
+Ave neighs/atom = 37.6738
+Neighbor list builds = 0
+Dangerous builds = 0
+velocity	all scale $T
+velocity	all scale 300
+unfix		NVT
+
+fix		NVE all nve
+fix		hot all langevin ${thi} ${thi} ${tdamp} 389516 tally yes
+fix		hot all langevin 319.9225 ${thi} ${tdamp} 389516 tally yes
+fix		hot all langevin 319.9225 319.9225 ${tdamp} 389516 tally yes
+fix		hot all langevin 319.9225 319.9225 0.05 389516 tally yes
+fix_modify	hot temp Thot
+fix		cold all langevin ${tlo} ${tlo} ${tdamp} 46579 tally yes
+fix		cold all langevin 280.0775 ${tlo} ${tdamp} 46579 tally yes
+fix		cold all langevin 280.0775 280.0775 ${tdamp} 46579 tally yes
+fix		cold all langevin 280.0775 280.0775 0.05 46579 tally yes
+fix_modify	cold temp Tcold
+
+thermo_style	custom step temp c_Thot c_Tcold f_hot f_cold
+run		${t1nve}
+run		100000
+Per MPI rank memory allocation (min/avg/max) = 4.864 | 4.865 | 4.867 Mbytes
+Step Temp c_Thot c_Tcold f_hot f_cold 
+   45001          300     297.2051    300.51182           -0           -0 
+   46000    299.78925    314.93642    287.17782   -79.069092    66.901797 
+   47000    299.52414    321.48966    283.04944   -113.57953    103.78665 
+   48000    300.42389    325.05966    277.39984   -157.09881    139.99702 
+   49000     299.9654    320.48878    279.22665   -182.59686    163.98801 
+   50000     300.4032    320.60083    280.64309   -214.60635    190.20057 
+   51000    301.02248    317.26916    284.18535   -245.91962     214.7733 
+   52000     299.9243    320.98575     283.2155    -287.1483    259.04425 
+   53000    300.79087    317.27373     282.5377   -318.51956    297.93411 
+   54000    299.35656    320.22809    276.62477   -363.35489    351.35595 
+   55000    299.95776    316.19565    282.42298    -402.5133    393.59103 
+   56000    299.24557    316.43263    278.22835   -449.80034    446.87277 
+   57000    300.49415    319.42355     279.8935   -493.51326    475.85717 
+   58000    300.20867    316.55388    279.56894   -528.72059    516.49632 
+   59000    299.92967    318.39733     284.7032   -570.03614     552.7655 
+   60000    299.73508    315.30989    279.52879   -604.67964    600.26824 
+   61000    300.15603    317.29123    277.76426   -653.82793    649.07818 
+   62000     300.6356    317.68746    281.27199   -697.00443    689.78852 
+   63000    299.85268    319.72381    284.06285    -752.8488    738.40658 
+   64000    300.34643    317.97298    285.22839   -796.80066    775.14142 
+   65000    300.29234    316.16746    287.53744   -837.56844    812.10202 
+   66000    300.53466    318.38559    281.84937   -890.93448    859.27674 
+   67000    300.33698    318.35375    280.89686   -934.29932    894.81434 
+   68000    301.44267    320.96002    282.75427   -984.11584     937.8598 
+   69000    300.07024    316.19419    281.97943   -1019.8048     994.9188 
+   70000    300.29514    320.08775    279.76268   -1063.3593    1047.5916 
+   71000    300.74782    319.34924    284.59873   -1113.6949     1082.438 
+   72000    299.92576    318.02959    287.72125   -1146.2705    1130.6017 
+   73000     299.3674    315.43428    279.64004   -1199.6131    1203.8033 
+   74000    299.41481     316.9347    281.85129   -1250.9749    1235.7147 
+   75000    299.68103    320.47302    284.75137     -1290.41    1279.3813 
+   76000    299.79265    322.25625    281.27732   -1344.9055    1331.5659 
+   77000    301.03841    318.10425    273.46686   -1390.6407    1377.1193 
+   78000    300.27008    319.03316    283.31918     -1444.79    1410.7648 
+   79000     300.0525    320.99331    284.86967   -1506.4829    1462.3822 
+   80000    300.88442     323.0068    281.05058   -1545.8199    1501.0643 
+   81000    299.75932    317.53006    282.08596   -1574.0275    1555.0586 
+   82000    299.45951    314.79379    280.74026   -1612.1991    1597.5539 
+   83000    300.76935    322.34276    283.28369   -1669.2462    1643.0469 
+   84000    300.38085    316.01055    280.54253   -1706.1767     1679.585 
+   85000    300.10954    314.91904    281.86325   -1745.3988    1718.2363 
+   86000    299.98356    313.90473    284.66846   -1775.8902    1753.1921 
+   87000    299.62519    318.38506    282.48398   -1813.6418    1810.6544 
+   88000     300.3024    317.65689    284.00443   -1857.4541     1840.374 
+   89000     300.5706    320.01153    283.30752   -1913.4728    1886.3944 
+   90000    300.12289    313.30227    279.64445   -1954.4799    1933.7388 
+   91000    300.58165    317.56879    277.10863   -1997.6671    1978.2448 
+   92000    300.35809    318.76776     283.0011   -2049.1238     2022.406 
+   93000    299.61798    319.89246     277.9474   -2087.5301    2068.6152 
+   94000    300.13239    315.81233    279.59886   -2125.1317    2105.1285 
+   95000    300.90764    319.63973    283.49468   -2181.6361    2141.3408 
+   96000     300.2391    319.90525     285.8243   -2215.8257    2184.6863 
+   97000    300.22645    316.57589    282.03846   -2261.2446    2238.2107 
+   98000    300.15155    318.56974    284.72099   -2307.3859      2277.92 
+   99000    299.86732    317.22357    285.30209   -2343.3962    2329.6177 
+  100000    299.56376    318.83343    278.72661    -2385.505    2381.6997 
+  101000    300.52586    319.15502    283.27746   -2430.5057    2415.6578 
+  102000    300.21921    323.57007    284.16764   -2489.2117    2467.6471 
+  103000    300.57849    319.68259    285.69338   -2538.5647    2513.4626 
+  104000    299.82536    317.05185    278.99064   -2578.3121    2569.0773 
+  105000    299.82054    318.12879     281.5362   -2627.6544    2603.4088 
+  106000    300.34132    313.90054    281.03496   -2671.7524    2651.6051 
+  107000     300.6243     318.3687     283.9424   -2726.7206    2692.0727 
+  108000    300.26613    319.25471     277.8154   -2766.4204    2746.4201 
+  109000    299.87172    315.77892    280.24291   -2814.1848    2780.9972 
+  110000    301.09566    320.70883    285.91878   -2862.5313    2823.3338 
+  111000    301.07899    318.15902    284.00435   -2912.4736    2875.4856 
+  112000    301.25521     321.6421    286.09516   -2950.1791    2919.5016 
+  113000    300.40648    316.05038    279.00789   -2998.9116    2965.5767 
+  114000    300.26553    321.81906    280.69848   -3028.7569    3008.3873 
+  115000    300.23962    318.31888     278.8232    -3066.657    3051.3803 
+  116000    301.41581    318.97673     286.5545   -3114.3594    3075.7317 
+  117000    300.14473    319.62324     278.0538   -3161.7771    3135.9017 
+  118000     300.3956    318.36154    283.75023   -3202.0881    3170.0281 
+  119000    300.05632    318.29377    282.12327   -3241.5435    3221.0127 
+  120000    300.39347    319.20852     276.8786     -3284.14    3276.7713 
+  121000    299.93849    318.71919    277.16594   -3321.6877    3319.8368 
+  122000    300.69716     321.0091     278.5457   -3363.4397    3358.3942 
+  123000    300.23199    320.47621    282.71491   -3407.4394    3398.4429 
+  124000    299.11625    317.46342    281.49955   -3439.4197    3447.0277 
+  125000    299.17956    318.36479    280.62841   -3501.8855    3488.5373 
+  126000    300.05453    315.26756    282.44204   -3541.0313    3531.9135 
+  127000     299.9907    317.45204    281.98135   -3583.1161    3569.3149 
+  128000     299.7564    316.40405    282.85211   -3619.9397    3613.8816 
+  129000    300.23569    315.52573    283.74476   -3664.5897    3655.7449 
+  130000    299.74391    319.63103    277.00499    -3709.339    3705.4902 
+  131000    299.75589     318.5433    280.61906   -3762.8185    3740.2547 
+  132000    299.44758    321.61893     278.2382   -3805.9396     3799.337 
+  133000    299.50137    317.17833    278.99121   -3847.0623    3834.3005 
+  134000    299.83461     315.2476    280.97881   -3885.7837    3886.1491 
+  135000     300.1731    318.94419    281.52204   -3926.3499    3935.9824 
+  136000    300.28659    318.87356    284.08813   -3972.9024    3979.9707 
+  137000    299.74118    315.03721    280.18315   -4014.2644    4024.5879 
+  138000    299.10393    317.35715    277.43691   -4050.3006    4082.1615 
+  139000    299.44141    320.76559    282.60411   -4111.8561    4111.9992 
+  140000     299.0829    316.01427    280.15838   -4143.4398     4158.893 
+  141000    299.21443    321.67585    281.88808     -4192.17    4197.2762 
+  142000    299.95701    317.94906    280.90346   -4243.5284    4232.6147 
+  143000    299.56204    318.56157    279.50329   -4286.8663     4287.067 
+  144000    300.11337    325.05946    277.54296   -4337.8605    4327.6763 
+  145000    299.68545    315.26833    278.20259   -4378.6454    4366.8742 
+  145001    299.65602    314.39447    277.84028    -4377.702    4367.2414 
+Loop time of 10840 on 32 procs for 100000 steps with 193600 atoms
+
+Performance: 0.399 ns/day, 60.222 hours/ns, 9.225 timesteps/s
+91.5% CPU use with 32 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 9168.6     | 9275.3     | 9382.7     |  49.8 | 85.57
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 655.04     | 846.95     | 1100.9     | 457.1 |  7.81
+Output  | 0.19475    | 0.20203    | 0.20494    |   0.7 |  0.00
+Modify  | 494.49     | 668.57     | 834.42     | 464.2 |  6.17
+Other   |            | 48.97      |            |       |  0.45
+
+Nlocal:    6050 ave 6096 max 5978 min
+Histogram: 1 0 1 4 3 4 8 3 5 3
+Nghost:    5892.5 ave 5965 max 5846 min
+Histogram: 2 4 5 8 3 5 3 1 0 1
+Neighs:    0 ave 0 max 0 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+FullNghs:  228188 ave 230334 max 225120 min
+Histogram: 1 1 3 2 4 3 5 6 4 3
+
+Total # of neighbors = 7302002
+Ave neighs/atom = 37.717
+Neighbor list builds = 0
+Dangerous builds = 0
+
+# thermal conductivity calculation
+# reset langevin thermostats to zero energy accumulation
+reset_timestep 0
+thermo		$c
+thermo		500000
+compute		ke all ke/atom
+variable	temp atom c_ke/1.5/8.617332478e-5
+fix		hot all langevin ${thi} ${thi} ${tdamp} 389516 tally yes
+fix		hot all langevin 319.9225 ${thi} ${tdamp} 389516 tally yes
+fix		hot all langevin 319.9225 319.9225 ${tdamp} 389516 tally yes
+fix		hot all langevin 319.9225 319.9225 0.05 389516 tally yes
+fix_modify	hot temp Thot
+fix		cold all langevin ${tlo} ${tlo} ${tdamp} 46579 tally yes
+fix		cold all langevin 280.0775 ${tlo} ${tdamp} 46579 tally yes
+fix		cold all langevin 280.0775 280.0775 ${tdamp} 46579 tally yes
+fix		cold all langevin 280.0775 280.0775 0.05 46579 tally yes
+fix_modify	cold temp Tcold
+
+compute		ch all chunk/atom bin/1d x lower 0.02 units reduced
+fix		11 all ave/chunk $a $b $c ch v_temp file sw_${P}.langevin
+fix		11 all ave/chunk 100 $b $c ch v_temp file sw_${P}.langevin
+fix		11 all ave/chunk 100 5000 $c ch v_temp file sw_${P}.langevin
+fix		11 all ave/chunk 100 5000 500000 ch v_temp file sw_${P}.langevin
+fix		11 all ave/chunk 100 5000 500000 ch v_temp file sw_29.langevin
+thermo_style	custom step temp c_Thot c_Tcold f_hot f_cold
+
+run		${t2nve}
+run		500000
+Per MPI rank memory allocation (min/avg/max) = 5.115 | 5.115 | 5.117 Mbytes
+Step Temp c_Thot c_Tcold f_hot f_cold 
+       0    299.65602    314.39048    277.64908           -0           -0 
+  500000    300.71028    319.58015     279.5788     -22230.9    22221.051 
+Loop time of 53905.7 on 32 procs for 500000 steps with 193600 atoms
+
+Performance: 0.401 ns/day, 59.895 hours/ns, 9.275 timesteps/s
+91.7% CPU use with 32 MPI tasks x no OpenMP threads
+
+MPI task timing breakdown:
+Section |  min time  |  avg time  |  max time  |%varavg| %total
+---------------------------------------------------------------
+Pair    | 45765      | 46366      | 46878      | 118.8 | 86.01
+Neigh   | 0          | 0          | 0          |   0.0 |  0.00
+Comm    | 2664.8     | 4154.8     | 5214.8     |1012.7 |  7.71
+Output  | 0.001144   | 0.011612   | 0.021916   |   9.5 |  0.00
+Modify  | 2387.9     | 3178.9     | 4175.1     |1007.1 |  5.90
+Other   |            | 206.4      |            |       |  0.38
+
+Nlocal:    6050 ave 6101 max 5994 min
+Histogram: 1 3 2 4 7 2 3 6 1 3
+Nghost:    5892.5 ave 5949 max 5841 min
+Histogram: 3 1 6 3 2 7 4 2 3 1
+Neighs:    0 ave 0 max 0 min
+Histogram: 32 0 0 0 0 0 0 0 0 0
+FullNghs:  228244 ave 230544 max 225427 min
+Histogram: 1 2 2 4 5 5 2 7 0 4
+
+Total # of neighbors = 7303812
+Ave neighs/atom = 37.7263
+Neighbor list builds = 0
+Dangerous builds = 0
+clear
+next		P
+jump		Si.in
+ units       metal
+#----------------------------- User Input Variables --------------------------------------
+################### Geometrical Parameters ###############################
+variable	P index 29 30 31 32
+variable	W equal 22
+# Lattice Constant
+variable	LC equal 5.43
+# Length
+variable	L equal 50
+# Width
+#variable	W equal 6
+# Height
+variable	H equal ${W}
+variable	H equal 22
+################### Simulation Condition ###############################
+#DT/DX=cte
+variable	cte equal 1.5938
+log         sw_${P}.log
+log         sw_30.log
