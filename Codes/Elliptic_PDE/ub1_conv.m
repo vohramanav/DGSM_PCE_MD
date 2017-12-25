@@ -20,15 +20,16 @@ for i = 1:dim
 end
 
 % Construct the set of samples based on the highest number i.e. 20
-S = zeros(20,dim);
+tsams = 20;
+S = zeros(tsams,dim);
  for j = 1:dim
-        S(:,j) = unifrnd(L(j,1),U(j,1),20,1);
+        S(:,j) = unifrnd(L(j,1),U(j,1),tsams,1);
  end
 
  % Evaluate model for the set S offline
  G = model_elliptic(S);
  
-for nsams = 5:5:20
+for nsams = 5:5:tsams
     Gdx = zeros(nsams,dim);
     
     for i = 1:dim
