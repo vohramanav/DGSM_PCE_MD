@@ -1,6 +1,6 @@
 #!/bin/bash
 
-filename="params.txt"
+filename=$1
 i=1
 si="Si"
 eps=2.1683
@@ -11,6 +11,10 @@ cost0=-0.333333333333
 while read -r line
 do
   new_file="Si$i.sw"
+#  if [ $i -lt 10  ]
+#  then
+#    new_file="Si0$i.sw"
+#  fi
   printf "%s %s %s %s %s",$si,$si,$si,$eps,$sig >> "Si.sw"  
   echo $line | awk -F" " '{printf " %s",$5 >> "Si.sw"}'
   echo $line | awk -F" " '{printf " %s",$6 >> "Si.sw"}'

@@ -16,7 +16,7 @@ w = 22.*lc;
 l1 = 50.*lc;
 l2 = 50.*lc;
 ld = 500000;
-ev2j = 1.609e-19;
+ev2j = 1.602e-19;
 
 q1 = (q1_avg*ev2j)./(2.0.*dt.*ld.*ps2s.*w.*w.*ang2m.*ang2m);
 %dTdx1 = 50./((l1./2).*ang2m);

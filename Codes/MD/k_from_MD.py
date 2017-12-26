@@ -48,6 +48,8 @@ if __name__ == "__main__":
   for i in range(nr):
    dq = float((e_avg[i,0]*eV_to_J))/float(2.0*dt*ld*ps_to_s*W*W*pow(ang_to_m,2))
    k[i,0] = float(dq*ang_to_m)/float(dTdx)
+  
+  print (k)
 
   k_data[:,1] = k[:,0]
   np.savetxt('k_data.txt',k_data,fmt='%d %5.4f')

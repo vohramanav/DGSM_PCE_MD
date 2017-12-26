@@ -15,7 +15,7 @@ N = [A;B;p;q;alpha;lambda;gamma];
 L(:,1) = 0.9.*N(:); % lower-bound
 U(:,1) = 1.1.*N(:); % upper-bound
 ts = 20; % total number of samples
-ns = 5; % subset of samples
+ns = 10; % subset of samples
 U(4,1) = 0.1;
 
 S = zeros(ts,dim);
