@@ -118,15 +118,17 @@ quadrature for estimating the following expectation:
 \sum_{i=1}^{N} \mathcal{Y}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
 \ee
 
+\noindent where $w^{(i)}$ denotes the weight associated with the quadrature node $i$. 
 Regression-based methods such as least angle regression (LAR)~\cite{Efron:2004} and least absolute shrinkage
 and selection operator (LASSO)~\cite{Tibshirani:1996} aim to construct a sparse PCE~\cite{Blatman:2008}
 by solving a regularized optimization problem:
 
 \be
 \hat{\bm{c}} = \mbox{argmin}~\mathbb{E}\left[\left(\bm{c}^{T}\Psi(\bm{x}) -
-\mathcal{M}(\bm{x})\right)^{2}\right]  + \lambda\norm{\bm{c}}
+\mathcal{M}(\bm{x})\right)^{2}\right]  + \lambda\normone{\bm{c}}
 \ee
 
+\noindent where $\normone{\bm{c}}$ = $\sum_{\alpha\in \mathcal{I}} |c_\alpha |$.
 The regularization term forces the minimization towards low-rank solutions.
 In this work, we construct sparse PCEs with LAR using UQLab~\cite{Marelli:2014},
 a general purpose uncertainty quantification software developed at ETH Zurich in Switzerland.
