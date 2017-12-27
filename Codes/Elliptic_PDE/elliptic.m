@@ -70,19 +70,19 @@ cpu_time = cputime - t;
 % Generate a set of pdf evaluations of the observable for comparison with
 % the 3D case
 
-dim = 4; % dimension
-nsams = 1e6; % number of points at which the pdf needs to be evaluated
-
-S = zeros(nsams,dim);
-for j = 1:dim
-    L = IOpts.Marginals(j).Parameters(1);
-    U = IOpts.Marginals(j).Parameters(2);
-    S(:,j) = unifrnd(L,U,nsams,1);
-end
-
-Y_PCE4D = uq_evalModel(S);
-save('valpts_pdf.mat','S');
-save('y4d.mat','Y_PCE4D');
+%dim = 4; % dimension
+%nsams = 1e6; % number of points at which the pdf needs to be evaluated
+%
+%S = zeros(nsams,dim);
+%for j = 1:dim
+%    L = IOpts.Marginals(j).Parameters(1);
+%    U = IOpts.Marginals(j).Parameters(2);
+%    S(:,j) = unifrnd(L,U,nsams,1);
+%end
+%
+%Y_PCE4D = uq_evalModel(S);
+%save('valpts_pdf.mat','S');
+%save('y4d.mat','Y_PCE4D');
 
 
 
