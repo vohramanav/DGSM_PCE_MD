@@ -95,13 +95,17 @@ d\bm{\theta} < \infty
 \ee
 
 \noindent where $\mathcal{D}_{\bm{\theta}}$ is the domain of the input parameter space. The PCE of
-$\mathcal{Y}$ is a mean-square convergent truncated summation given as
+$\mathcal{Y}$ ($\mathcal{Y}^{\mbox{\tiny {PC}}}$) is a mean-square 
+convergent truncated summation given as
 follows~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}:
 
 \be
-\mathcal{Y} = \sum_{\alpha\in\mathcal{I}} c_{\alpha}\Psi_{\alpha}(\bm{\xi(\theta)}) 
+\mathcal{Y}^{\mbox{\tiny M}} \approx \mathcal{Y}^{\mbox{\tiny PC}} = 
+\sum_{\alpha\in\mathcal{I}} c_{\alpha}\Psi_{\alpha}(\bm{\xi(\theta)}) 
 \ee
 
+\noindent where $\mathcal{Y}^{\mbox{\tiny M}}$ corresponds to realizations of the
+observable using the original (typically physics-based) model. 
 Note that the set of parameters, $\bm{\theta}$ are parameterized in terms of canonical random
 variables, $\bm{\xi}$ in the above expansion. $\Psi_{\alpha}$'s are multivariate polynomial
 basis, orthonormal with respect to the joint probability distribution of $\bm{\xi}$, $\mathcal{I}$

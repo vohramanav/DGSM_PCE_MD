@@ -1,2 +1,79 @@
 \section{Motivating Examples}
-\label{examples}
+\label{sec:examples}
+
+In Section~\ref{sec:method}, we presented a methodology for screening model
+parameters using an approximate estimate of the upper bound on the Sobol'
+total effect sensitivity index. The screening process helped identify parameters
+that are relatively insignificant with respect to the observable. These insignificant
+parameters could thus be fixed at their nominal values thereby reducing the
+dimensionality of the problem. 
+
+In this section, we motivate this approach based
+on parameter screening to construct low-dimensional PC surrogates by 
+applying it to simple test problems: (1) Borehole function, (2) Non-linear Oscillator, and
+(3) Semi-linear Elliptic PDE. Since model evaluations in all these test
+problems are not expensive, it allows us to compare relative importance of
+model parameters,
+obtained using the derivative-based sensitivity approach with that obtained
+using converged estimates of Sobol' total effect sensitivity index~\cite{Sobol:2001}.
+Additionally, we compare convergence of the PC Surrogates, constructed in
+the full and the reduced space, based on the 
+leave-one-out-cross-validation error ($\epsilon_{\mbox{\tiny LOO}}$), defined
+as follows~\cite{Blatman:2010}:
+
+\be
+\epsilon_{\mbox{\tiny LOO}} = 
+\frac{\sum_{i=1}^N\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - 
+ \mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}(\bm{\theta}_i)\right)^2}
+{\sum_{i=1}^N
+\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - \widetilde{\mu}\right)^2}
+\label{eq:loo}
+\ee
+
+\noindent where $\widetilde{\mu}~=~\frac{1}{N}\sum_{i=1}^N \mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i)$
+is the sample mean of the model response, and $ \mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}$
+is the PCE surrogate constructed using all but the $i^{\mbox{\tiny{th}}}$ model realization. 
+From Eq.~\ref{eq:loo}, it appears that $N$ PCE's are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.
+However, in practice a modified formulation for $\epsilon_{\mbox{\tiny LOO}}$~\cite{Blatman:2009},
+independent of $\mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}$ is used.
+
+\subsection{Borehole function}
+
+The borehole function is a benchmark reference problem in sensitivity analysis. It models the discharge
+of water ($\mathcal{Q}$) through a borehole in terms of geometrical and physical parameters:
+
+\be
+\mathcal{Q} = \frac{2\pi T_u(H_u - H_l)}{\ln\left(\frac{r}{r_w}\right)\left(1 +
+\frac{2LT_u}{\ln\left(\frac{r}{r_w}\right)r_w^2K_w} + \frac{T_u}{T_l}\right)}
+\label{eq:bore}
+\ee
+
+\noindent The radius of influence, $r$ is fixed at 3698.30 m whereas all other parameters
+in the RHS of Eq.~\ref{eq:bore} are considered as uncertain. Table~\ref{tab:bore} provides
+marginal distributions of the uncertain parameters. 
+
+\begin{table}[htbp]
+\renewcommand*{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{|c|c|}
+\hline
+Parameter & Distribution \\ \hline \hline
+$r_w$ (Borehole radius, m) & $\mathcal{N}$(0.1,0.016) \\
+$L$ (Borehole length, m) & $\mathcal{U}$[1120,1680] \\
+$T_u$ (Transmissivity of upper aquifer, m$^2$/yr) & $\mathcal{U}$[63070,115600] \\
+$H_u$ (Potentiometric head of upper aquifer, m) & $\mathcal{U}$[990,1110] \\
+$T_l$ (Transmissivity of lower aquifer, m$^2$/yr) & $\mathcal{U}$[63.1,116] \\
+$H_l$ (Potentiometric head of lower aquifer, m) & $\mathcal{U}$[700,820] \\
+$K_w$ (Borehole hydraulic conductivity, m/yr) & $\mathcal{U}$[9855,12045] \\
+\hline
+\end{tabular}
+\end{center}
+
+\caption{Description and marginal distributions of uncertain parameters in the borehole function
+given by Eq.~\ref{eq:bore}.}
+\label{tab:bore}
+\end{table}
+
+Since function evaluations of the discharge using Eq.~\ref{eq:bore} are quite cheap, the converged
+estimates of Sobol' total effect sensitivity index can be easily computed. 
+
