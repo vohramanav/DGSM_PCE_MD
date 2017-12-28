@@ -117,9 +117,9 @@ techniques based on projection or regression. Projection-based methods rely on n
 quadrature for estimating the following expectation:
 
 \be
-\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\mathcal{Y}]
+\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\mathcal{Y}^{\mbox{\tiny{M}}}]
 \approx
-\sum_{i=1}^{N} \mathcal{Y}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
+\sum_{i=1}^{N} \mathcal{Y}^{\mbox{\tiny{M}}}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
 \ee
 
 \noindent where $w^{(i)}$ denotes the weight associated with the quadrature node $i$. 
@@ -128,8 +128,8 @@ and selection operator (LASSO)~\cite{Tibshirani:1996} aim to construct a sparse 
 by solving a regularized optimization problem:
 
 \be
-\hat{\bm{c}} = \mbox{argmin}~\mathbb{E}\left[\left(\bm{c}^{T}\Psi(\bm{x}) -
-\mathcal{M}(\bm{x})\right)^{2}\right]  + \lambda\normone{\bm{c}}
+\hat{\bm{c}} = \mbox{argmin}~\mathbb{E}\left[\left(\bm{c}^{T}\Psi(\bm{\bm{\xi(\theta)}}) -
+\mathcal{Y}^{\mbox{\tiny{M}}}(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
 \ee
 
 \noindent where $\normone{\bm{c}}$ = $\sum_{\alpha\in \mathcal{I}} |c_\alpha |$.

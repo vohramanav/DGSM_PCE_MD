@@ -15,9 +15,18 @@ applying it to simple test problems: (1) Borehole function, (2) Non-linear Oscil
 problems are not expensive, it allows us to compare relative importance of
 model parameters,
 obtained using the derivative-based sensitivity approach with that obtained
-using converged estimates of Sobol' total effect sensitivity index~\cite{Sobol:2001}.
-Additionally, we compare convergence of the PC Surrogates, constructed in
-the full and the reduced space, based on the 
+using converged estimates of Sobol' total effect sensitivity index, $\mathcal{T}(\theta_i)$~\cite{Sobol:2001}:
+
+\be
+\mathcal{T}(\theta_i) = 
+\frac{\mathbb{E}_{\bm{\theta}\sim i}[\mathbb{V}_{\theta_i}(\mathcal{G}|\bm{\theta}_{\sim i})]}{\mathbb{V}(\mathcal{G})}
+\ee
+
+\noindent $\mathcal{T}(\theta_i)$ is essentially the ratio of the contribution to the variance of an
+observable $\mathcal{G}$ by the parameter $\theta_i$ to the total variance of $\mathcal{G}$.
+Additionally, we compare convergence of the PCE constructed in
+the full parameter space with those constructed in the reduced space. To assess convergence, 
+we rely on the 
 leave-one-out-cross-validation error ($\epsilon_{\mbox{\tiny LOO}}$), defined
 as follows~\cite{Blatman:2010}:
 
@@ -74,6 +83,11 @@ given by Eq.~\ref{eq:bore}.}
 \label{tab:bore}
 \end{table}
 
-Since function evaluations of the discharge using Eq.~\ref{eq:bore} are quite cheap, the converged
-estimates of Sobol' total effect sensitivity index can be easily computed. 
+As mentioned earlier in this section, cheap function evaluations of the discharge using 
+Eq.~\ref{eq:bore} enable us to compute converged estimates of $\mathcal{T}(\theta_i)$. Plotted in
+Figure~\ref{fig:sense_bore} are estimates of these indices corresponding to the uncertain
+parameters in the borehole function.
+
+
+
 
