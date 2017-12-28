@@ -59,7 +59,7 @@ STi = PCESobolResults.Total;
 uq_figure('Position', [50 50 500 400])
 cm = colormap;
 uq_bar(1:7,PCESobolResults.Total, 0.25,'facecolor', cm(1,:), 'edgecolor', 'none');
-ylabel('$$\mathrm{Sobol~Total~Effect~Index}$$','interpreter','latex');
+ylabel('$$\mathrm{\mathcal{T}(\theta_i)}$$','interpreter','latex');
 xlabel('$$\mathrm{Parameter}$$','interpreter','latex');
 ylim([0 1]);
 xlim([0 8]);
