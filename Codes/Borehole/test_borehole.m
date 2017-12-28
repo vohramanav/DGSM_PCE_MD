@@ -55,22 +55,41 @@ PCESobolAnalysis = uq_createAnalysis(SobolOpts);
 PCESobolResults = PCESobolAnalysis.Results;
 STi = PCESobolResults.Total;
 
+% Plot Sobol indices
+uq_figure('Position', [50 50 500 400])
+cm = colormap;
+uq_bar(1:7,PCESobolResults.Total, 0.25,'facecolor', cm(1,:), 'edgecolor', 'none');
+ylabel('$$\mathrm{Sobol~Total~Effect~Index}$$','interpreter','latex');
+xlabel('$$\mathrm{Parameter}$$','interpreter','latex');
+ylim([0 1]);
+xlim([0 8]);
+xticklabels({'$$\mathrm{r_w}$$','$$\mathrm{T_u}$$','$$\mathrm{H_u}$$','$$\mathrm{T_l}$$',...
+                '$$\mathrm{H_l}$$','$$\mathrm{L}$$','$$\mathrm{K_w}$$'});
+set(gca, 'xtick', 1:length(IOpts.Marginals), 'xticklabel',...
+    xticklabels, 'fontsize',14);
+set(gca,'TickLabelInterpreter','latex');
+grid off;
+set(gcf,'color',[1,1,1]);
+box on;
+
+print -depsc sense_borehole.eps
+
 % Compute UB1 for all variables
-X = myPCE.ExpDesign.X;
-dim = size(X,2);
-nsam = size(X,1);
-V = myPCE.PCE.Moments.Var;
-dX = zeros(dim,1); pc = zeros(dim,1);
-dX(1) = 1e-6; pc(1) = 0.0161812.^2;
-for i = 2:dim
-    lim = IOpts.Marginals(i).Parameters;
-    dX(i) = 1e-5.*(lim(2) - lim(1));
-    pc(i) = (1./(pi.^2)).*((lim(2)-lim(1)).^2);
-end
+%X = myPCE.ExpDesign.X;
+%dim = size(X,2);
+%nsam = size(X,1);
+%V = myPCE.PCE.Moments.Var;
+%dX = zeros(dim,1); pc = zeros(dim,1);
+%dX(1) = 1e-6; pc(1) = 0.0161812.^2;
+%for i = 2:dim
+%    lim = IOpts.Marginals(i).Parameters;
+%    dX(i) = 1e-5.*(lim(2) - lim(1));
+%    pc(i) = (1./(pi.^2)).*((lim(2)-lim(1)).^2);
+%end
 
 %ub1 = dgsm(dim,nsam,X,V,dX,pc);
-data = load('val_pts.mat');
-E = validate(data.val_pts);
+%data = load('val_pts.mat');
+%E = validate(data.val_pts);
 
 function ub1 = dgsm(dim,nsam,X,V,dX,pc)
 G = uq_borehole(X);

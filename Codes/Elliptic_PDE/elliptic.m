@@ -32,10 +32,16 @@ PCEOpts.MetaType = 'PCE';
 PCEOpts.FullModel = myModel;
 PCEOpts.Degree = 1:10;
 PCEOpts.Method = 'LARS';
-PCEOpts.ExpDesign.NSamples = 25;
+PCEOpts.ExpDesign.NSamples = 20;
 t = cputime;
 myPCE = uq_createModel(PCEOpts);
 cpu_time = cputime - t;
+
+X = myPCE.ExpDesign.X;
+Y = myPCE.ExpDesign.Y;
+XS = X(:,2:4);
+save('X20.dat','XS','-ASCII');
+save('Y20.dat','Y','-ASCII');
 
 % ========================================================================
 % Compute Sobol Indices
