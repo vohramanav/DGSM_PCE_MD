@@ -42,12 +42,13 @@ compared to the uncertainty in $\theta_i$ which leads to a significant improveme
 over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
 using large increments. 
 
-For parameters with continuous distributions, the upper bound on the total Sobol' sensitivity index
+For parameters with continuous distributions, the upper bound on the total 
+Sobol' sensitivity index ($\mathcal{T}(\theta_i)$)
 can be expressed in terms of $\mu_i$, the Poincar\'e constant ($\mathcal{C}_i$) and the total 
 variance of the model output ($V$)~\cite{Lamboni:2013}:
 
 \be
-ST_i \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \hat{\mathcal{C}_i\mu_i})
+\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \hat{\mathcal{C}_i\mu_i})
 \label{eq:bound}
 \ee
 
@@ -57,6 +58,7 @@ Section~\ref{sec:method}, we consider a normalized product, $\hat{\mathcal{C}_i\
 
 \be
 \hat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
+\label{eq:cmu}
 \ee
 
 The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability distribution of $\theta_i$.
