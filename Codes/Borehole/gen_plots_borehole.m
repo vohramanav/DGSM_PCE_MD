@@ -1,7 +1,52 @@
 close all;
 clear all;
+addpath(genpath('./line_fewer_markers_v4/'));
 
-err_samples();
+%err_samples();
+ub_conv();
+
+function ubc = ub_conv()
+data_ub = load('nsams_ub.txt');
+%data_sti = load('STi_conv.mat');
+col = ['c','r','b','m','g','k'];
+ls = ['-','-.','--','-s','-d',':','-*'];
+
+figure
+hold on;
+%for i = 1:7
+%plot(data_ub(:,1),data_ub(:,i+1),'LineWidth',2,'color',col(i));
+%plot(data_ub(:,1),data_ub(:,2),'LineWidth',1.5,'color',[0 0 0]);
+%plot(data_ub(:,1),data_ub(:,3),':','LineWidth',1.5,'color',[0 0 0]);
+%plot(data_ub(:,1),data_ub(:,4),'-.','LineWidth',1.5,'color',[0 0 0]);
+%plot(data_ub(:,1),data_ub(:,5),':','LineWidth',1.5,'color',[0 0 0]);
+%plot(data_ub(:,1),data_ub(:,6),'-.','LineWidth',1.5,'color',[0 0 0]);
+%plot(data_ub(:,1),data_ub(:,7),'-.','LineWidth',1.5,'color',[0 0 0]);
+line_fewer_markers(data_ub(:,1),data_ub(:,2),20,':ko','MarkerSize',6,'MarkerFaceColor','k');
+plot(data_ub(:,1),data_ub(:,3),'--k');
+line_fewer_markers(data_ub(:,1),data_ub(:,4),20,':ks','MarkerSize',6,'MarkerFaceColor','k');
+plot(data_ub(:,1),data_ub(:,5),'--k');
+line_fewer_markers(data_ub(:,1),data_ub(:,6),20,':ks','MarkerSize',6,'MarkerFaceColor','k');
+%line_fewer_markers(data_ub(:,1),data_ub(:,7),10,':kd','MarkerSize',4,'MarkerFaceColor','k');
+plot(data_ub(:,1),data_ub(:,7),'-.k');
+line_fewer_markers(data_ub(:,1),data_ub(:,8),20,':k*','MarkerSize',6);
+%line_fewer_markers(t, sin(3*t).*cos(t/2), 10, 'p-');
+%end
+
+hold off;
+xlabel('$$\mathrm{Number~of~Samples}$$','interpreter','latex');
+ylabel('$$\mathrm{\hat{\mathcal{C}_i\mu_i}}$$','interpreter','latex');
+ylim([-0.01,1.1.*max(max(data_ub(:,2:end)))]);
+set(gca,'fontsize',14);
+set(gca,'TickLabelInterpreter','latex');
+set(gcf,'color',[1,1,1]);
+leg = legend({'$\mathrm{r_w}~[0.6941]$','$\mathrm{T_u}~[0.0000]$',...
+              '$\mathrm{H_u}~[0.1061]$','$\mathrm{T_l}~[0.0000]$',...
+              '$\mathrm{H_l}~[0.1061]$','$\mathrm{L}~[0.1028]$',...
+              '$\mathrm{K_w}~[0.0251]$'},'location','East');
+set(leg,'Interpreter','latex');
+box on;
+print -depsc ub_conv_borehole.eps
+end
 
 function err = err_samples()
 ns = [10;20;30;40;50];
