@@ -86,11 +86,53 @@ given by Eq.~\ref{eq:bore}.}
 As mentioned earlier in this section, cheap function evaluations of the discharge using 
 Eq.~\ref{eq:bore} enable us to compute converged estimates of $\mathcal{T}(\theta_i)$. Plotted in
 Figure~\ref{fig:sense_bore} are estimates of these indices corresponding to the uncertain
-parameters in the borehole function. The indices are estimated using 10$^6$ pseudo-random
-samples in the input parameter domain. 
+parameters in the borehole function using 10$^6$ pseudo-random
+samples in the input parameter domain. These estimates are used to verify fidelity of
+parameter screening based on the methodology presented in Section~\ref{sec:method}. 
+In Figure~\ref{fig:screen_bore}, we plot estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$)
+for a wide range of the number of samples used for approximating $\mu_i$ using Eq.~\ref{eq:mu}.
+Estimates for $\hat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$
+even when small number of samples are used to estimate the expectation in Eq.~\ref{eq:mu}. 
+Consequently, the relative importance of uncertain 
+parameters in the borehole function is found to be consistent with predictions based on the Sobol' index. 
 
-We now shift our focus on assessing the relative importance of the uncertain parameters by
-estimating $\hat{\mathcal{C}_i\mu_i}$ using Eqs.~\ref{eq:mu} and \ref{eq:cmu}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
