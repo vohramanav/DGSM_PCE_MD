@@ -87,22 +87,31 @@ As mentioned earlier in this section, cheap function evaluations of the discharg
 Eq.~\ref{eq:bore} enable us to compute converged estimates of $\mathcal{T}(\theta_i)$. Plotted in
 Figure~\ref{fig:sense_bore} are estimates of these indices corresponding to the uncertain
 parameters in the borehole function using 10$^6$ pseudo-random
-samples in the input parameter domain. These estimates are used to verify fidelity of
+samples\footnote{Although $\mathcal{T}(\theta_i)$ 
+might converge with much fewer samples depending upon the model, we consider a large number that
+typically ensures a converged estimate for the purpose of illustration.} in the input parameter domain. 
+These estimates are used to verify fidelity of
 parameter screening based on the methodology presented in Section~\ref{sec:method}. 
 In Figure~\ref{fig:screen_bore}, we plot estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$)
 for a wide range of the number of samples used for approximating $\mu_i$ using Eq.~\ref{eq:mu}.
 Estimates for $\hat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$
-even when small number of samples (5 -- 10) are used to estimate the expectation in Eq.~\ref{eq:mu}. 
+even when small number of samples (5 -- 10) are used. 
 Consequently, the relative importance of uncertain 
 parameters in the borehole function is found to be consistent with predictions based on the Sobol' index. 
 In the considered intervals for the uncertain parameters, it is clear that the discharge is insensitive to
-$T_u$ and $T_l$. Moreover, the sensitivity towards $K_w$ is also small. We exploit this result by 
-discounting the uncertainties in $T_u$, $T_l$, and $K_w$ while using nominal values for these
+$T_u$ and $T_l$. Moreover, the sensitivity towards $K_w$ is also small. We exploit this result to reduce
+the dimensionality of the problem by 
+discounting the uncertainties in $T_u$, $T_l$, and $K_w$, while using nominal values for these
 parameters instead.  
 
-
-
-
+Our goal as discussed is to gain computational advantage by constructing surrogates in a 
+reduced input parameter space. To this end, we construct PCE's in 5D and 4D spaces by
+fixing $\{T_u,T_l\}$ in the former and additionally fixing $K_w$ in the latter at their respective
+mean values. In Figure~\ref{fig:conv_bore}, we compare convergence of PCE's constructed
+in the full space (7D) with those constructed in the two reduced spaces (4D and 5D) using
+$\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). As expected, it is observed that the PCE
+constructed in the 4D space converges at a much faster rate. For instance, if a PCE with
+$\mathcal{O}(10^{-6})$ accuracy is sought, we need 
 
 
 
