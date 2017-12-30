@@ -2,8 +2,8 @@ close all;
 clear all;
 addpath(genpath('./line_fewer_markers_v4/'));
 
-%err_samples();
-ub_conv();
+err_samples();
+%ub_conv();
 
 function ubc = ub_conv()
 data_ub = load('nsams_ub.txt');
@@ -49,7 +49,11 @@ print -depsc ub_conv_borehole.eps
 end
 
 function err = err_samples()
+%ns = [10;20;30;40;50;60;70;80];
 ns = [10;20;30;40;50];
+%err7D = [1.836;2.958e-1;1.864e-2;1.632e-2;1.934e-2;2.374e-3;2.319e-3;1.184e-3];
+%err5D = [4.018e-1;3.136e-1;1.629e-2;2.955e-2;2.345e-3;2.770e-3;4.879e-4;4.331e-4];
+%err4D = [1.135e-1;1.603e-1;7.151e-3;1.571e-3;1.519e-4;5.217e-5;3.378e-4;4.286e-6];
 err7D = [1.836;2.958e-1;1.864e-2;1.632e-2;1.934e-2];
 err5D = [4.018e-1;3.136e-1;1.629e-2;2.955e-2;2.345e-3];
 err4D = [1.135e-1;1.603e-1;7.151e-3;1.571e-3;1.519e-4];
@@ -60,9 +64,9 @@ err(:,3) = log10(err4D(:));
 
 figure
 hold on;
-plot(ns,err(:,1),'-o','color','k','linewidth',2);
-plot(ns,err(:,2),'-d','color','b','linewidth',2);
-plot(ns,err(:,3),'-s','color','r','linewidth',2);
+plot(ns,err(:,1),':ko','MarkerFaceColor','k');
+plot(ns,err(:,2),':kd','MarkerFaceColor','k');
+plot(ns,err(:,3),':ks','MarkerFaceColor','k');
 xlabel('$$\mathrm{Number~of~Samples}$$','interpreter','latex');
 ylabel('$$\mathrm{log_{10}(\epsilon_{LOO})}$$','interpreter','latex');
 xlim([8,52]);

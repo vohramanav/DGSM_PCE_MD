@@ -32,16 +32,16 @@ PCEOpts.MetaType = 'PCE';
 PCEOpts.FullModel = myModel;
 PCEOpts.Degree = 1:10;
 PCEOpts.Method = 'LARS';
-PCEOpts.ExpDesign.NSamples = 10;
+PCEOpts.ExpDesign.NSamples = 80;
 myPCE = uq_createModel(PCEOpts);
 
 % Compute Sobol Indices
-SobolOpts.Type = 'Sensitivity';
-SobolOpts.Method = 'Sobol';
-SobolOpts.Sobol.SampleSize = 1e5;
-PCESobolAnalysis = uq_createAnalysis(SobolOpts);
-PCESobolResults = PCESobolAnalysis.Results;
-STi = PCESobolResults.Total;
+%SobolOpts.Type = 'Sensitivity';
+%SobolOpts.Method = 'Sobol';
+%SobolOpts.Sobol.SampleSize = 1e5;
+%PCESobolAnalysis = uq_createAnalysis(SobolOpts);
+%PCESobolResults = PCESobolAnalysis.Results;
+%STi = PCESobolResults.Total;
 
 % Compute UB1 for all variables
 X = myPCE.ExpDesign.X;
