@@ -92,10 +92,13 @@ parameter screening based on the methodology presented in Section~\ref{sec:metho
 In Figure~\ref{fig:screen_bore}, we plot estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$)
 for a wide range of the number of samples used for approximating $\mu_i$ using Eq.~\ref{eq:mu}.
 Estimates for $\hat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$
-even when small number of samples are used to estimate the expectation in Eq.~\ref{eq:mu}. 
+even when small number of samples (5 -- 10) are used to estimate the expectation in Eq.~\ref{eq:mu}. 
 Consequently, the relative importance of uncertain 
 parameters in the borehole function is found to be consistent with predictions based on the Sobol' index. 
-
+In the considered intervals for the uncertain parameters, it is clear that the discharge is insensitive to
+$T_u$ and $T_l$. Moreover, the sensitivity towards $K_w$ is also small. We exploit this result by 
+discounting the uncertainties in $T_u$, $T_l$, and $K_w$ while using nominal values for these
+parameters instead.  
 
 
 
