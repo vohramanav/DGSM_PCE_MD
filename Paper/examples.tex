@@ -1,7 +1,7 @@
 \section{Motivating Examples}
 \label{sec:examples}
 
-In Section~\ref{sec:method}, we presented a methodology for screening model
+In section~\ref{sec:method}, we presented a methodology for screening model
 parameters using an approximate estimate of the upper bound on the Sobol'
 total effect sensitivity index. The screening process helped identify parameters
 that are relatively insignificant with respect to the observable. These insignificant
@@ -33,7 +33,7 @@ as follows~\cite{Blatman:2010}:
 \be
 \epsilon_{\mbox{\tiny LOO}} = 
 \frac{\sum_{i=1}^N\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - 
- \mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}(\bm{\theta}_i)\right)^2}
+ \mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}(\bm{\xi(\theta}_i))\right)^2}
 {\sum_{i=1}^N
 \left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - \widetilde{\mu}\right)^2}
 \label{eq:loo}
@@ -45,6 +45,31 @@ is the PCE surrogate constructed using all but the $i^{\mbox{\tiny{th}}}$ model 
 From Eq.~\ref{eq:loo}, it appears that $N$ PCE's are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.
 However, in practice a modified formulation for $\epsilon_{\mbox{\tiny LOO}}$~\cite{Blatman:2009},
 independent of $\mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}$ is used.
+
+The converged low-dimensional PCE is assessed
+for predictive accuracy. While several techniques could be used, we consider predictive verification
+in an L-2 sense as well as a probabilistic sense. In the former case, we estimate a relative L-2 norm
+of the error ($\epsilon_{\mbox{\tiny{L-2}}}$) as follows:
+
+\be
+\epsilon_{\mbox{\tiny{L-2}}} = 
+\frac{\left[\sum_{i=1}^N\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - 
+ \mathcal{Y}^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
+{\left[\sum_{i=1}^N
+\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i)\right)^2\right]^{\frac{1}{2}}}
+\label{eq:l2}
+\ee
+
+\noindent As discussed earlier in section~\ref{sec:method}, computational cost associated with
+L-2 verification is negligible since function evaluations or model realizations obtained during the
+screening step could be re-used.
+However, since the test problems are computationally inexpensive, we generate an independent
+set of samples ($\bm{\theta_i}$) to estimate $\epsilon_{\mbox{\tiny{L-2}}}$ using Eq.~\ref{eq:l2}
+in each case.
+For the purpose of probabilistic verification, we compare the probability density function of
+the observable obtained using PCE's in the full space and the reduced space in the following
+test problems. In situations where model runs are computationally expensive, probabilistic verification might
+not be feasible. 
 
 \subsection{Borehole function}
 
@@ -111,7 +136,10 @@ mean values. In Figure~\ref{fig:conv_bore}, we compare convergence of PCE's cons
 in the full space (7D) with those constructed in the two reduced spaces (4D and 5D) using
 $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). As expected, it is observed that the PCE
 constructed in the 4D space converges at a much faster rate. For instance, if a PCE with
-$\mathcal{O}(10^{-6})$ accuracy is sought, we need 
+$\mathcal{O}(10^{-4})$ accuracy is sought, we need function evaluations at only about
+50 sample points in the 4D parameter space whereas the number of samples needed in the full 
+7D space seems much higher. 
+
 
 
 
