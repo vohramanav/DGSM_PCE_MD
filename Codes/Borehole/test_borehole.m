@@ -44,7 +44,7 @@ PCEOpts.MetaType = 'PCE';
 PCEOpts.FullModel = myModel;
 PCEOpts.Degree = 1:10;
 PCEOpts.Method = 'LARS';
-PCEOpts.ExpDesign.NSamples = 80;
+PCEOpts.ExpDesign.NSamples = 50;
 myPCE = uq_createModel(PCEOpts);
 
 % Compute Sobol Indices

@@ -36,7 +36,7 @@ PCEOpts.MetaType = 'PCE';
 PCEOpts.FullModel = myModel;
 PCEOpts.Degree = 1:10;
 PCEOpts.Method = 'LARS';
-PCEOpts.ExpDesign.NSamples = 80;
+PCEOpts.ExpDesign.NSamples = 50;
 myPCE = uq_createModel(PCEOpts);
 
 % Compute Sobol Indices
@@ -62,6 +62,17 @@ end
 
 %ub1 = dgsm(dim,nsam,X,V,dX,pc);
 
+X7 = load('X7.mat');
+Y7 = load('Y7.mat');
+X7 = X7.X;
+Y7 = Y7.Y;
+X5 = zeros(size(X7,1),5);
+X5(:,1) = X7(:,1);
+X5(:,2) = X7(:,3);
+X5(:,3:5) = X7(:,5:7);
+
+errL2 = validate(X5,X7,Y7);
+
 function ub1 = dgsm(dim,nsam,X,V,dX,pc)
 G = uq_borehole(X);
 Gdx = zeros(nsam,dim);
@@ -80,12 +91,12 @@ for i = 1:dim
 end
 end
 
-
-
-
-
-
-
+function errv = validate(X5,X7,Y7)
+Y_PCE = uq_evalModel(X5);
+NR = sum(((Y7-Y_PCE).^2)).^(0.5);
+DR = sum((Y7.^2)).^(0.5);
+errv = double(NR)./double(DR);
+end
 
 
 
