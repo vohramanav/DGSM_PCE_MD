@@ -91,6 +91,71 @@ myPCE = uq_createModel(PCEOpts);
 %data = load('val_pts.mat');
 %E = validate(data.val_pts);
 
+%========================================================================
+% Generate a set of pdf evaluations of the observable for comparison with
+% the 3D case
+
+dim = 7; % dimension
+nsams = 1e6; % number of points at which the pdf needs to be evaluated
+
+S = zeros(nsams,dim);
+S(:,1) = normrnd(IOpts.Marginals(1).Parameters(1),IOpts.Marginals(1).Parameters(2),nsams,1);
+for j = 2:dim
+    L = IOpts.Marginals(j).Parameters(1);
+    U = IOpts.Marginals(j).Parameters(2);
+    S(:,j) = unifrnd(L,U,nsams,1);
+end
+
+Y_PCE7D = uq_evalModel(S);
+save('valpts_pdf.mat','S');
+save('y7d.mat','Y_PCE7D');
+
+%========================================================================
+%Plot comparison of 7D, 5D, and 4D PDFs
+
+data7 = load('y7d.mat');
+data5 = load('y5d.mat');
+data4 = load('y4d.mat');
+
+Y_PCE7D = data7.Y_PCE7D;
+Y_PCE5D = data5.Y_PCE5D;
+Y_PCE4D = data4.Y_PCE4D;
+
+step = (max(Y_PCE7D) - min(Y_PCE7D)).*(1e-4);
+pts_PCE7D = min(Y_PCE7D):step:max(Y_PCE7D);
+
+step = (max(Y_PCE5D) - min(Y_PCE5D)).*(1e-4);
+pts_PCE5D = min(Y_PCE5D):step:max(Y_PCE5D);
+
+step = (max(Y_PCE4D) - min(Y_PCE4D)).*(1e-4);
+pts_PCE4D = min(Y_PCE4D):step:max(Y_PCE4D);
+
+[density_PCE7D,xmesh_PCE7D] = ksdensity(Y_PCE7D,pts_PCE7D);
+[density_PCE5D,xmesh_PCE5D] = ksdensity(Y_PCE5D,pts_PCE5D);
+[density_PCE4D,xmesh_PCE4D] = ksdensity(Y_PCE4D,pts_PCE4D);
+
+figure;
+hold on;
+plot(xmesh_PCE7D,density_PCE7D,'Linewidth',2,'color','k');
+plot(xmesh_PCE5D,density_PCE5D,'--','Linewidth',2,'color','k');
+plot(xmesh_PCE4D,density_PCE4D,':','Linewidth',2,'color','k');
+xlabel('$$\mathrm{\mathcal{Q}}$$','interpreter','latex');
+ylabel('$$\mathrm{PDF}$$','interpreter','latex');
+set(gca,'fontsize',14);
+set(gca,'TickLabelInterpreter','latex');
+set(gcf,'color',[1,1,1]);
+leg = legend({'$\mathrm{7D~PCE}$','$\mathrm{5D~PCE}$','$\mathrm{4D~PCE}$'});
+set(leg,'Interpreter','latex');
+box on;
+print -depsc pdf_comp_borehole.eps
+
+
+
+
+
+
+
+
 function ub1 = dgsm(dim,nsam,X,dX,pc)
 G = uq_borehole(X);
 Gdx = zeros(nsam,dim);
@@ -108,6 +173,8 @@ for i = 1:dim
     ub1(i) = (pc(i)./V).*nu(i);
 end
 end
+
+%========================================================================
 
 function errv = validate(vp)
 Y_PCE = uq_evalModel(vp);

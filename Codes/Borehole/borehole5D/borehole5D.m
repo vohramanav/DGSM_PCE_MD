@@ -47,6 +47,17 @@ myPCE = uq_createModel(PCEOpts);
 %PCESobolResults = PCESobolAnalysis.Results;
 %STi = PCESobolResults.Total;
 
+% PCE Evaluations for pdf comp
+
+data_pts = load('../valpts_pdf.mat');
+X7 = data_pts.S;
+X5 = zeros(size(X7,1),5);
+X5(:,1) = X7(:,1);
+X5(:,2) = X7(:,3);
+X5(:,3:5) = X7(:,5:7);
+Y_PCE5D = uq_evalModel(X5);
+save('y5d.mat','Y_PCE5D');
+
 % Compute UB1 for all variables
 X = myPCE.ExpDesign.X;
 dim = size(X,2);
