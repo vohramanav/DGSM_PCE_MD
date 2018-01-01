@@ -62,10 +62,7 @@ of the error ($\epsilon_{\mbox{\tiny{L-2}}}$) as follows:
 
 \noindent As discussed earlier in section~\ref{sec:method}, computational cost associated with
 L-2 verification is negligible since function evaluations or model realizations obtained during the
-screening step could be re-used.
-However, since the test problems are computationally inexpensive, we generate an independent
-set of samples ($\bm{\theta_i}$) to estimate $\epsilon_{\mbox{\tiny{L-2}}}$ using Eq.~\ref{eq:l2}
-in each case.
+screening step could be re-used to estimate $\epsilon_{\mbox{\tiny{L-2}}}$ using Eq.~\ref{eq:l2}.
 For the purpose of probabilistic verification, we compare the probability density function of
 the observable obtained using PCE's in the full space and the reduced space in the following
 test problems. In situations where model runs are computationally expensive, probabilistic verification might
@@ -140,12 +137,26 @@ $\mathcal{O}(10^{-4})$ accuracy is sought, we need function evaluations at only 
 50 sample points in the 4D parameter space whereas the number of samples needed in the full 
 7D space seems much higher. 
 
-As discussed earlier in this section, the reduced order PCE is verified for predictive accuracy in 
-a least-squares sense and a probabilistic sense. 
+As discussed earlier in this section, the reduced order PCE's are verified for predictive accuracy in 
+a least-squares sense and a probabilistic sense. Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$
+based on 50 samples and corresponding function evaluations in the original 7D parameter space
+were found to be 0.0551 and 0.0112 for the 4D and 5D PCE's respectively. In other words, the 4D
+PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within 1.12$\%$ of predictions based on
+the borehole function. It is interesting to note that although the order of convergence in the case of a 5D
+PCE is lower (Figure~\ref{fig:conv_bore}), its predictive accuracy is higher than the 4D PCE. A possible
+explanation for this observation is that above a certain order of convergence, the uncertainty in $k_w$ 
+contributes much more towards predictive accuracy of the reduced order PCE. It is therefore critical
+to account for the order of PCE convergence as well as its predictive accuracy for a given application,
+as highlighted earlier in section~\ref{sec:method}. 
 
-
-
-
+Figure~\ref{fig:pdfcomp_bore} illustrates a comparison of the PDF's of the discharge, $\mathcal{Q}$
+obtained by propagating 10$^6$ Monte-Carlo (MC) samples through the 7D PCE in the
+original input parameter domain as well as the reduced order PCE's constructed in 4 and 5 dimensions. 
+It is evident from this plot, that the PDF's agree quite favorably with each other. Consequently, it can
+be said that the reduced order PCE is verified in a probabilistic sense. In other words, the mode as
+well as the uncertainty in the observable is reliably captured and predicted by the reduced order PCE. 
+ 
+\subsection{Non-linear Oscillator}
 
 
 
