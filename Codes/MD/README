@@ -1,0 +1,13 @@
+Sequence of steps for parameter screening:
+1. Generate "params.txt" for a given sample size, say N
+2. "params.txt" will have N(d+1) points as needed for DGSM. Extract the new set
+   of 5 points and write to file using "write_params.m".
+3. Create sw files (5*8) from these points.
+4. Set-up MD runs based on these sw files. 
+5. Transfer the resulting log files from accre and save in a new dir
+6. update names of the log files with single numeric (1-9) to (01-09).
+7. Create "Energy.txt" using the bash script.
+8. Combine "Energy.txt" from all sets to create a combined "Energy.txt" file,
+   consistent with "params.txt"
+9. Run "k_from_MD.py" to generate "k_data.txt"
+10.Compute ub using screen.m

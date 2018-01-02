@@ -1,6 +1,6 @@
 #!/bin/bash
 
-for f in ./log_files/*.log
+for f in $1/*.log
 do
   INPUT="$(basename $f .log)"
   echo $INPUT | awk -F"_" '{printf "%s",$2 >> "energy.txt";}'
