@@ -14,8 +14,8 @@ lambda = 21.0; gamma = 1.20;
 N = [A;B;p;q;alpha;lambda;gamma];
 L(:,1) = 0.9.*N(:); % lower-bound
 U(:,1) = 1.1.*N(:); % upper-bound
-ts = 20; % total number of samples
-ns = 15; % subset of samples
+ts = 30; % total number of samples
+ns = 20; % subset of samples
 U(4,1) = 0.1;
 
 S = zeros(ts,dim);
