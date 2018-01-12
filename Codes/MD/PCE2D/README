@@ -1,0 +1,7 @@
+Steps for constructing a PC Surrogate using Gauss quadrature
+
+1. Generate samples
+2. Submit MD runs
+3. extract energy using the bash script
+4. Create samples_qoi.txt using the python script
+5. Run error2D_quad.m for surrogate and related plots.

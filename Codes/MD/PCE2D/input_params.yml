@@ -1,0 +1,17 @@
+# Time step
+dt: 0.0005
+
+# Langevin duration
+ld: 500000
+
+# width
+w: 22
+
+# k measured at 300 K
+km: 149
+
+# nlen: number of length values
+nlen: 5
+
+# ncte: number of gradients
+ncte: 5
