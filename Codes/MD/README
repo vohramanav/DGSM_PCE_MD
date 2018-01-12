@@ -6,8 +6,11 @@ Sequence of steps for parameter screening:
 4. Set-up MD runs based on these sw files. 
 5. Transfer the resulting log files from accre and save in a new dir
 6. update names of the log files with single numeric (1-9) to (01-09).
-7. Create "Energy.txt" using the bash script.
-8. Combine "Energy.txt" from all sets to create a combined "Energy.txt" file,
-   consistent with "params.txt"
-9. Run "k_from_MD.py" to generate "k_data.txt"
-10.Compute ub using screen.m
+7. Create "Energy.txt" using extract_energy.bash
+8. Combine "Energy.txt" from all sets to create a "combined_Energy.txt" file,
+   consistent with "params.txt" by modifying combine_energy.m
+9. Create Lr.txt that contains relaxed lengths using extract_Lr.bash
+10. Combine Lr.txt from all sets to create "combined_Lr.txt" by modifying
+    combine_Lr.m  
+11. Run "k_from_MD.py" to generate "k_data.txt"
+12. Modify screen.m to update nsams and compute ub using screen.m

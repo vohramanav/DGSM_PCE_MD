@@ -23,7 +23,7 @@ for j = 1:dim
   pc(j) = ((U(j,1)-L(j,1)).^2)./(pi.^2);
 end
 
-nsams = 10;
+nsams = 5;
 G = zeros(nsams,1); Gdx = zeros(nsams,dim);
 G(:,1) = k_data(1:nsams,2);
 
