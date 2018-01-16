@@ -5,7 +5,8 @@ set1 = load('energy_setwise/energy_set1.txt');
 set2 = load('energy_setwise/energy_set2.txt');
 set3 = load('energy_setwise/energy_set3.txt');
 set4 = load('energy_setwise/energy_set4.txt');
-tot = 160;
+set5 = load('energy_setwise/energy_set5.txt');
+tot = 200;
 com = zeros(tot,3);
 np = 5; % N for each set where N(d+1) computations were performed
 
@@ -42,7 +43,14 @@ while f <= tot
   com(in_f:fin_f,1) = in_f:fin_f;
   com(in_f:fin_f,2:3) = set4(in_k:fin_k,2:3);
   
-  f = f+4*np;
+%% set5
+  in_f = fin_f+1;
+  fin_f = in_f+(np-1);
+
+  com(in_f:fin_f,1) = in_f:fin_f;
+  com(in_f:fin_f,2:3) = set5(in_k:fin_k,2:3);
+  
+  f = f+5*np;
   k = k+np;
 end
 
