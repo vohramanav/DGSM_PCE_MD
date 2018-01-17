@@ -1,8 +1,9 @@
 close all;
 clear all;
 
-q1_1 = -15866.256;
-q1_2 = 15888.444;
+q1_1 = -24065.333;
+q1_2 = 24078.935;
+lr = 50.633;
 %q2_1 = -19072.368;
 %q2_2 = 19058.147;
 
@@ -21,7 +22,7 @@ ev2j = 1.602e-19;
 q1 = (q1_avg*ev2j)./(2.0.*dt.*ld.*ps2s.*w.*w.*ang2m.*ang2m);
 %dTdx1 = 50./((l1./2).*ang2m);
 cte1 = 1.5938;
-dTdx1 = cte1./(lc.*ang2m);
+dTdx1 = (cte1.*50.0)./(lr.*lc.*ang2m);
 %cte2 = 1.5938;
 %dTdx2 = cte2./(lc.*ang2m);
 %q2 = (q2_avg*ev2j)./(2.0.*dt.*ld.*ps2s.*w.*w.*ang2m.*ang2m);
