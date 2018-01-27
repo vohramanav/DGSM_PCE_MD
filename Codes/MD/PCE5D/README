@@ -1,0 +1,15 @@
+1. Change the seed and generate a batch of 40 samples in the 5D space.
+2. Record the seed in the text file
+3. Verify that the new set of points is differenct from older sets.
+4. change filename for "params.txt"
+5. Create sw files using the bash script
+6. submit MD runs
+7. Transfer log files in a new dir
+8. update names of the log files (1-9) to (01-09).
+9. Create energy.txt using the bash script. 
+10. Check energy.txt to make sure all points are good.
+11. Create Lr.txt using the bash script.
+12. Update filenames for files created in steps 8 and 9.
+13. Run "k_fromMD.py" to generate "k_data.txt"
+14. Create compbined "params5D*.dat" and "k_1_*.dat" files usinf Matlab.
+15. Update "build_pce.m" for filenames and run

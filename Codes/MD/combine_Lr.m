@@ -4,10 +4,10 @@ clear all
 set1 = load('Lr_setwise/Lr_set1.txt');
 set2 = load('Lr_setwise/Lr_set2.txt');
 set3 = load('Lr_setwise/Lr_set3.txt');
-%set4 = load('Lr_setwise/Lr_set4.txt');
-%set5 = load('Lr_setwise/Lr_set5.txt');
-%set6 = load('Lr_setwise/Lr_set6.txt');
-tot = 120;
+set4 = load('Lr_setwise/Lr_set4.txt');
+set5 = load('Lr_setwise/Lr_set5.txt');
+set6 = load('Lr_setwise/Lr_set6.txt');
+tot = 240;
 com = zeros(tot,3);
 np = 5; % N for each set where N(d+1) computations were performed
 
@@ -35,24 +35,24 @@ while f <= tot
   com(in_f:fin_f,1) = set3(in_k:fin_k,1);
 %  
 %% set4
-%  in_f = fin_f+1;
-%  fin_f = in_f+(np-1);
-%
-%  com(in_f:fin_f,1) = set4(in_k:fin_k,1);
+  in_f = fin_f+1;
+  fin_f = in_f+(np-1);
+
+  com(in_f:fin_f,1) = set4(in_k:fin_k,1);
   
 %% set5
-%  in_f = fin_f+1;
-%  fin_f = in_f+(np-1);
-%
-%  com(in_f:fin_f,1) = set5(in_k:fin_k,1);
+  in_f = fin_f+1;
+  fin_f = in_f+(np-1);
+
+  com(in_f:fin_f,1) = set5(in_k:fin_k,1);
   
 %% set6
-%  in_f = fin_f+1;
-%  fin_f = in_f+(np-1);
-%
-%  com(in_f:fin_f,1) = set6(in_k:fin_k,1);
+  in_f = fin_f+1;
+  fin_f = in_f+(np-1);
+
+  com(in_f:fin_f,1) = set6(in_k:fin_k,1);
   
-  f = f+3*np;
+  f = f+6*np;
   k = k+np;
 end
 
