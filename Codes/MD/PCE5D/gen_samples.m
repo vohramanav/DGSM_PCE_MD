@@ -1,6 +1,6 @@
 close all;
 clear all;
-rng(20);
+rng(40);
 
 dim = 5;
 L = zeros(dim,1); U = zeros(dim,1);
@@ -13,7 +13,7 @@ lambda = 21.0; gamma = 1.20;
 N = [A;q;alpha;lambda;gamma];
 L(:,1) = 0.9.*N(:); % lower-bound
 U(:,1) = 1.1.*N(:); % upper-bound
-ts = 40; % total number of samples
+ts = 1e6; % total number of samples
 U(2,1) = 0.1;
 
 S = zeros(ts,dim);
