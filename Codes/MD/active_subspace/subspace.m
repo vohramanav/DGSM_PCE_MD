@@ -51,8 +51,8 @@ end
 % refine xp as xpr
 
 xpr = zeros(nsams-1,ncols);
-xpr(1:23,:) = params(1:23,:);
-xpr(24:nsams-1,:) = params(25:nsams,:);
+xpr(1:23,:) = xp(1:23,:);
+xpr(24:nsams-1,:) = xp(25:nsams,:);
 
 % Computing the C matrix (Eq. 1.2)
 
@@ -65,7 +65,7 @@ for i = 1:nsams-1
 end
 
 C = (1./(nsams-1)).*(C);
-[W, D] = eig(C);
+[W,D] = eig(C);
 
 [lambda, idx] = sort(diag(D), 'descend');
 W = W(:,idx);
@@ -99,7 +99,7 @@ end
 
 % Plots
 %eig(lambda);
-%ssp1D(eta,xpr,G);
+ssp1D(eta,xpr,G);
 %ssp2D(eta,xpr,G);
 
 function as = activity_scores(dim,lambda,eta)
