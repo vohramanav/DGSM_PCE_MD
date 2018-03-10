@@ -29,7 +29,7 @@ myPCE = uq_createModel(MetaOpts);
 uq_print(myPCE);
 
 % Plots
-err_samples();
+%err_samples();
 
 nsams = 35;
 qoi = load('k_data35.txt');
