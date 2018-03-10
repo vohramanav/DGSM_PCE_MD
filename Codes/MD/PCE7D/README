@@ -1,4 +1,4 @@
-1. Change the seed and generate a batch of 40 samples in the 5D space.
+1. Change the seed and generate a batch of 80 samples in the 7D space.
 2. Record the seed in the text file
 3. Verify that the new set of points is differenct from older sets.
 4. change filename for "params.txt"
@@ -10,6 +10,7 @@
 10. Check energy.txt to make sure all points are good.
 11. Create Lr.txt using the bash script.
 12. Update filenames for files created in steps 8 and 9.
-13. Run "k_fromMD.py" to generate "k_data.txt"
-14. Create compbined "params5D*.dat" and "k_1_*.dat" files usinf Matlab.
-15. Update "build_pce.m" for filenames and run
+13. Refine energy and Lr text files to remove unphysical points using c_energy_Lr.m. 
+14. Run "k_fromMD.py" to generate "k_data.txt"
+15. Create combined "params5D*.dat" and "k_1_*.dat" files using Matlab.
+16. Update "build_pce.m" for filenames and run

@@ -1,6 +1,6 @@
 close all;
 clear all;
-rng(10);
+rng(40);
 
 dim = 7;
 L = zeros(dim,1); U = zeros(dim,1);
