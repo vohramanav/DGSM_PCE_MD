@@ -11,5 +11,5 @@
 11. Create Lr.txt using the bash script.
 12. Update filenames for files created in steps 8 and 9.
 13. Run "k_fromMD.py" to generate "k_data.txt"
-14. Create compbined "params5D*.dat" and "k_1_*.dat" files usinf Matlab.
+14. Create combined "params5D*.dat" and "k_1_*.dat" files using Matlab.
 15. Update "build_pce.m" for filenames and run

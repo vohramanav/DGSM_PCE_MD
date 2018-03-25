@@ -1,6 +1,6 @@
-1. Change the seed and generate a batch of 40 samples in the 5D space.
+1. Change the seed and generate a batch of 80 samples in the 7D space.
 2. Record the seed in the text file
-3. Verify that the new set of points is differenct from older sets.
+3. Verify that the new set of points is different from older sets.
 4. change filename for "params.txt"
 5. Create sw files using the bash script
 6. submit MD runs
