@@ -3,16 +3,16 @@ clearvars
 uqlab
 
 % Input data
-X = dlmread(fullfile('params5D_1_153.dat')) ;
-Y = dlmread(fullfile('k_1_153.dat')) ;
+X = dlmread(fullfile('pc.dat')) ;
+Y = dlmread(fullfile('kc.dat')) ;
 MetaOpts.ExpDesign.X = X;
 MetaOpts.ExpDesign.Y = Y;
 
 % Input Random Parameters
-L = [6.3446 0 1.62 18.90 1.08];
-U = [7.7545 0.1 1.98 23.10 1.32];
+L = [3.5248 0.3011 2.0 0 0.9 10.5 0.6];
+U = [10.5743 0.9033 6.0 0.5 2.7 31.5 1.8];
 
-for ii = 1:5
+for ii = 1:7
     IOpts.Marginals(ii).Type = 'Uniform';
     IOpts.Marginals(ii).Parameters = [L(ii), U(ii)];
 end
@@ -29,13 +29,13 @@ myPCE = uq_createModel(MetaOpts);
 uq_print(myPCE);
 
 % Plots
-err_samples();
+%err_samples();
 
-nsams = 35;
-qoi = load('k_data35.txt');
-qoic = zeros(nsams-1,1); % ignoring the faulty point
-qoic(1:23,1) = qoi(1:23,2);
-qoic(24:nsams-1,1) = qoi(25:nsams,2);
+%nsams = 35;
+%qoi = load('k_data35.txt');
+%qoic = zeros(nsams-1,1); % ignoring the faulty point
+%qoic(1:23,1) = qoi(1:23,2);
+%qoic(24:nsams-1,1) = qoi(25:nsams,2);
 
 %E1 = verify_L2(nsams,qoic);
 %verify_pdf(qoic);
