@@ -25,6 +25,7 @@
 \usepackage{dashrule} % for dotted vertical line
 \usepackage{smartdiagram}
 \usepackage{multicol}
+\usepackage{enumerate}  
 
 %% Algorithm %%%%%
 \usepackage[linesnumbered]{algorithm2e}
@@ -270,11 +271,12 @@ Polynomial Chaos Surrogates using Adaptive DGSM}}
 
 
 %\subtitle{SUBTITLE}
-\author[Vohra, Alexanderian, and Mahadevan]{Manav Vohra$^{\dag}$, Sankaran Mahadevan$^{\dag}$ \\ \vspace{1mm}
-Collaborator: Alen Alexanderian$^{\S}$}
+\author[Vohra, Alexanderian, and Mahadevan]{Manav Vohra$^{\dag}$, Sankaran Mahadevan$^{\dag}$ \\\vspace{1mm}
+\scriptsize{Collaborators: Alen Alexanderian$^{\S}$, Cosmin Safta$^{\ddag}$}}
 \vspace{-1mm}
 \institute{$^{\dag}$Vanderbilt University\\ \vspace{1mm}
-$^{\S}$North Carolina State University}
+$^{\S}$North Carolina State University \\ \vspace{1mm}
+$^{\ddag}$Sandia National Laboratories}
 
 \date{\today}
 
@@ -492,7 +494,6 @@ ST_i \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \hat{\mathcal{C}_i\mu_i}) \nonum
 \end{frame}
 %%___________________________NEW SLIDE______________________________________
 %
-\section{\scshape Algorithm}
 \subsection{alg}
 \begin{frame}{Algorithm: Parameter Screening}
 %\textsc{Algorithm}
@@ -901,7 +902,7 @@ $\bm{X}~=~\{m,k_1,k_2,r,F,t_1\}$ \hspace{3mm} $\omega_0~=~\sqrt{\frac{c_1+c_2}{m
 \be
 \epsilon_{val} = \frac{\left[\sum_{i=1}^{N}\left(\mathcal{M}(\bm{x}^{(i)}) - 
 \mathcal{M}^{PCE}(\bm{x}^{(i)})\right)^{2}\right]^{\frac{1}{2}}}{\left[\sum_{i=1}^{N}
-\left(\mathcal{M}(\bm{x}^{(i)})\right)^2\right]^{\frac{1}{2}}} = 8.35\times10^{-2}
+\left(\mathcal{M}(\bm{x}^{(i)})\right)^2\right]^{\frac{1}{2}}} \approx 8.35\times10^{-2}
 \nonumber
 \ee
 
@@ -1015,6 +1016,100 @@ q = (-2\pi^2)(a\cos(2\pi x)\sin^2(\pi y) + b\cos(2\pi y)\sin^2(\pi x)) \nonumber
 
 \end{frame}
 %
+
+%%___________________________NEW SLIDE______________________________________
+%
+\section{\scshape Kinetics}
+\subsection{kinetics}
+\begin{frame}{H$_2$/O$_2$ Reaction Mechanism}
+
+\begin{columns}
+\begin{column}{0.65\textwidth}
+\begin{itemize}
+
+\myitem Reactions rates:
+\be
+k = AT^{n}\exp(-E_a/RT) \nonumber
+\ee
+\vspace{-2mm}
+\scriptsize{$k$: Reaction rate, $A$: Pre-Exponent\\ \vspace{1mm} $E_a$: Activation Energy}
+\normalsize
+
+\vspace{3mm}
+\myitem Uniform prior marginals:
+\be
+A_i \sim \mathcal{U}[0.9A_{i,\mbox{\tiny{nom}}},1.1A_{i,\mbox{\tiny{nom}}}] \nonumber
+\ee
+\vspace{-2mm}
+\scriptsize{\hspace{-5mm}$A_{i,\mbox{\tiny{nom}}}$: Nominal value of the $i^{\mbox{th}}$ Pre-Exponent}
+\normalsize
+\vspace{3mm}
+
+\myitem QoI: Ignition Delay 
+
+\end{itemize}
+\end{column}
+
+\begin{column}{0.35\textwidth}
+\tiny{
+\begin{enumerate}
+\item H + O$_2$ $\Longleftrightarrow$ O + OH 
+\item O + H$_2$ $\Longleftrightarrow$ H + OH 
+\item H$_2$ + OH $\Longleftrightarrow$ H$_2$O + H 
+\item OH + OH $\Longleftrightarrow$ O + H$_2$O 
+\item H$_2$ + M $\Longleftrightarrow$ H + H + M 
+\item O + O + M $\Longleftrightarrow$ O$_2$ + M 
+\item O + H + M $\Longleftrightarrow$ OH + M 
+\item H + OH +M $\Longleftrightarrow$ H$_2$O + M 
+\item H + O$_2$ + M $\Longleftrightarrow$ HO$_2$ + M 
+\item HO$_2$ + H $\Longleftrightarrow$ H$_2$ + O$_2$ 
+\item HO$_2$ + H $\Longleftrightarrow$ OH + OH 
+\item HO$_2$ + O $\Longleftrightarrow$ O$_2$ + OH 
+\item HO$_2$ + OH $\Longleftrightarrow$ H$_2$O + O$_2$ 
+\item HO$_2$ + HO$_2$ $\Longleftrightarrow$ H$_2$O$_2$ + O$_2$ 
+\item H$_2$O$_2$ + M $\Longleftrightarrow$ OH + OH + M
+\item H$_2$O$_2$ + H $\Longleftrightarrow$ H$_2$O + OH
+\item H$_2$O$_2$ + H $\Longleftrightarrow$ HO$_2$ + H$_2$
+\item H$_2$O$_2$ + O $\Longleftrightarrow$ OH + HO$_2$
+\item H$_2$O$_2$ + OH $\Longleftrightarrow$ HO$_2$ + H$_2$O
+
+\end{enumerate}
+}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+%%___________________________NEW SLIDE______________________________________
+%
+\subsection{kinetics}
+\begin{frame}{Derivative-based Sensitivity Measures}
+
+ \begin{figure}[htbp]
+   \includegraphics[width=0.75\textwidth]{./Figures/ub_conv_kinetics}
+\end{figure}
+
+\end{frame}
+
+%%___________________________NEW SLIDE______________________________________
+%
+\subsection{kinetics}
+\begin{frame}{PCE Verification}
+
+\begin{itemize}
+\myitem Relative L-2 norm of the error is computed:
+
+\be
+\epsilon_{val} = \frac{\left[\sum_{i=1}^{N}\left(\mathcal{M}(\bm{x}_{\mbox{\tiny{19D}}}^{(i)}) - 
+\mathcal{M}^{PCE}(\bm{x}_{\mbox{\tiny{2D}}}^{(i)})\right)^{2}\right]^{\frac{1}{2}}}{\left[\sum_{i=1}^{N}
+\left(\mathcal{M}(\bm{x}_{\mbox{\tiny{19D}}}^{(i)})\right)^2\right]^{\frac{1}{2}}} \approx 3.35\times10^{-2}
+\nonumber
+\ee
+
+\end{itemize}
+
+\end{frame}
+
 %%___________________________NEW SLIDE______________________________________
 %
 \end{document}
