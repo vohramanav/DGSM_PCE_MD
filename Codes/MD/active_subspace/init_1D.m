@@ -18,7 +18,7 @@ rn1 = Nr./Dr;
 
 
 % SSP 1D
-ssp1D(eta,xpr,G);
+%ssp1D(eta,xpr,G);
 
 % Generate a million random samples in the 7D space
 ts = 1e5;

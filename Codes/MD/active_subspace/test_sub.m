@@ -73,16 +73,28 @@ eta(:,1) = W(:,1);
 eta(:,2) = W(:,2);
 eta(:,3) = W(:,3);
 
+
+% Computing activity scores
+
+as = zeros(7,1);
+
+for i = 1:dim
+  for j=1:3
+    as(i) = as(i) + lambda(j).*(W(i,j).^2);
+  end
+end
+
 % Eigvalue plot
 %eigv(lambda);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 [rn1,xmesh_PCE1,density_PCE1] = init_1D(eta,xpr,G,dim,L,U); % 1D active var analysis, 
-rn2 = init_2D(eta,xpr,G,dim,L,U,xmesh_PCE1,density_PCE1); % 2D active var analysis
-%rn: rel L2 norm of error
-rn3 = init_3D(eta,xpr,G,dim,L,U,xmesh_PCE1,density_PCE1); % 2D active var analysis
+%[rn2,xmesh_PCE2,density_PCE2] = init_2D(eta,xpr,G,dim,L,U,xmesh_PCE1,density_PCE1); 
+% 2D active var analysis, rn: rel L2 norm of error
+%rn3 = init_3D(eta,xpr,G,dim,L,U,xmesh_PCE1,density_PCE1,xmesh_PCE2,density_PCE2); % 2D active var analysis
 
+%plot_rn(rn1,rn2,rn3);
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -98,5 +110,18 @@ set(gcf,'color',[1,1,1]);
 box on;
 grid on;
 print -depsc eigv.eps
+end
+
+function prn = plot_rn(rn1,rn2,rn3);
+figure;
+plot([1 2 3],[rn1 rn2 rn3],'o--','MarkerFaceColor','k');
+xlabel('$$\mathrm{Active~Subspace~Dimension}$$','interpreter','latex','fontsize',18);
+ylabel('$$\mathrm{Relative~L-2~Norm~of~Error}$$','interpreter','latex','fontsize',18);
+xticks([1 2 3]);
+xlim([0,4]);
+set(gca,'TickLabelInterpreter','latex');
+set(gcf,'color',[1,1,1]);
+box on;
+print -depsc rn.eps
 end
 

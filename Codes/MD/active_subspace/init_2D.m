@@ -1,4 +1,4 @@
-function rn2 = init_2D(eta,xpr,G,dim,L,U,xmesh_PCE1,density_PCE1);
+function [rn2,xmesh_PCE2,density_PCE2] = init_2D(eta,xpr,G,dim,L,U,xmesh_PCE1,density_PCE1);
 
 % 2D Polynomial surface fit
 y1 = eta(:,1)'*xpr';
@@ -15,11 +15,11 @@ end
 
 Nr = (sum((G-Y_surr_data).^2)).^(0.5);
 Dr = (sum((G).^2)).^(0.5);
-%rn2 = Nr./Dr; 
-rn2 = max(Y_surr_data);
+rn2 = Nr./Dr; 
 
 % SSP 2D
-ssp2D(y1,y2,G,sf);
+%ssp2D(y1,y2,G,sf); % 3D plot with surface fit
+ssp2D_2(y1,y2,G); % 2D plot showing trends in k along first two active variables
 
 % compare pdf with the histogram'
 ts = 1e5;
@@ -47,7 +47,7 @@ for i = 1:ts
   Y_surr_rs(i) = sf(y1_rs(i),y2_rs(i));
 end
 
-pdf_comp_ssp2D(G,Y_surr_rs);
+%pdf_comp_ssp2D(G,Y_surr_rs);
 
 % Function Definitions
 
@@ -66,18 +66,34 @@ box on;
 print -depsc ssp2D.eps
 end
 
-% compare pdf of kappa using 1D SSP
+function ssp2_2 = ssp2D_2(y1,y2,G);
+figure;
+ps = 100; % size of the point
+scatter(y1,y2,ps,G,'filled');
+shading interp;
+xlabel('$$\mathrm{\eta_1^{T}\xi}$$','interpreter','latex','fontsize',18);
+ylabel('$$\mathrm{\eta_2^{T}\xi}$$','interpreter','latex','fontsize',18);
+set(gca,'TickLabelInterpreter','latex','fontsize',14);
+set(gcf,'color',[1,1,1]);
+box on;
+c = colorbar();
+set(c,'TickLabelInterpreter','latex');
+print -depsc ssp2D_2.eps
+end
+
+
+% compare pdf of kappa using 2D SSP
 function comp2 = pdf_comp_ssp2D(G,Y_PCE)
 step = (max(Y_PCE) - min(Y_PCE)).*(1e-4);
 pts_PCE = min(Y_PCE):step:max(Y_PCE);
-[density_PCE,xmesh_PCE] = ksdensity(Y_PCE,pts_PCE);
+[density_PCE2,xmesh_PCE2] = ksdensity(Y_PCE,pts_PCE);
 
 figure;
 hold on;
 nbins = 15;
 histogram(G,nbins,'Normalization','pdf','FaceAlpha',0.2);
 plot(xmesh_PCE1,density_PCE1,'Linewidth',1.5,'color','k');
-plot(xmesh_PCE,density_PCE,'Linewidth',1.5,'color','b');
+plot(xmesh_PCE2,density_PCE2,'Linewidth',1.5,'color','b');
 %plot(xmesh_Model,density_Model,'Linewidth',2,'color','k');
 xlabel('$$\mathrm{\kappa}$$','interpreter','latex');
 xlim([0,50]);
