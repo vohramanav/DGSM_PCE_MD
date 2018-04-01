@@ -1086,7 +1086,8 @@ A_i \sim \mathcal{U}[0.9A_{i,\mbox{\tiny{nom}}},1.1A_{i,\mbox{\tiny{nom}}}] \non
 \begin{frame}{Derivative-based Sensitivity Measures}
 
  \begin{figure}[htbp]
-   \includegraphics[width=0.75\textwidth]{./Figures/ub_conv_kinetics}
+   \includegraphics[width=0.75\textwidth]{./Figures/ub_conv_kinetics_lean}
+   \\ \scriptsize{Lean Mixture}
 \end{figure}
 
 \end{frame}
@@ -1096,17 +1097,34 @@ A_i \sim \mathcal{U}[0.9A_{i,\mbox{\tiny{nom}}},1.1A_{i,\mbox{\tiny{nom}}}] \non
 \subsection{kinetics}
 \begin{frame}{PCE Verification}
 
+\begin{columns}
+\begin{column}{0.5\textwidth}
 \begin{itemize}
-\myitem Relative L-2 norm of the error is computed:
+\myitem Relative L-2 norm of the error:
 
-\be
-\epsilon_{val} = \frac{\left[\sum_{i=1}^{N}\left(\mathcal{M}(\bm{x}_{\mbox{\tiny{19D}}}^{(i)}) - 
+\scriptsize{
+\begin{eqnarray}
+\epsilon_{\mbox{\tiny{L-2}}} &=& \frac{\left[\sum_{i=1}^{N}\left(\mathcal{M}(\bm{x}_{\mbox{\tiny{19D}}}^{(i)}) - 
 \mathcal{M}^{PCE}(\bm{x}_{\mbox{\tiny{2D}}}^{(i)})\right)^{2}\right]^{\frac{1}{2}}}{\left[\sum_{i=1}^{N}
-\left(\mathcal{M}(\bm{x}_{\mbox{\tiny{19D}}}^{(i)})\right)^2\right]^{\frac{1}{2}}} \approx 3.35\times10^{-2}
+\left(\mathcal{M}(\bm{x}_{\mbox{\tiny{19D}}}^{(i)})\right)^2\right]^{\frac{1}{2}}} \nonumber \\ 
+&\approx& 3.35\times10^{-2}
 \nonumber
-\ee
+\end{eqnarray}
+}
 
 \end{itemize}
+\end{column}
+
+\hspace{5mm}
+\begin{column}{0.5\textwidth}
+
+ \begin{figure}[htbp]
+   \includegraphics[width=0.8\textwidth]{./Figures/pdf_comp_kinetics_lean}
+   \\ \scriptsize{Lean Mixture}
+\end{figure}
+
+\end{column}
+\end{columns}
 
 \end{frame}
 
