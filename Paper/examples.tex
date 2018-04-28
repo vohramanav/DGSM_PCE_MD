@@ -158,6 +158,29 @@ well as the uncertainty in the observable is reliably captured and predicted by 
  
 \subsection{Non-linear Oscillator}
 
+\subsection{Semilinear elliptic PDE with random source term}
+
+We consider the semilinear elliptic PDE,
+\begin{equation}\label{equ:semilinear}
+\begin{aligned}
+-\kappa \Delta u + c u^3 &= q, \quad \text{in } \Omega\\
+ u &= 0. \quad \text{on } \partial \Omega
+\end{aligned}
+\end{equation}
+We model the source term as 
+\begin{equation}
+q(x, y, \theta) = \sum_{i = 1}^N \theta_i \sin(i \pi x)
+\cos(i \pi y),
+\quad N = 8.
+\end{equation}
+Here $\kappa \sim U(0.08, 0.12)$, $c \sim U(0.8, 1.2)$, 
+and $\theta_i$ are uniformly distributed in interval $[0, 1]$. We consider
+the following QoI,
+\[
+     f(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
+\]
+where $D$ is the region, $[1/2, 3/4] \times [1/2, 3/4]$.
+
 
 
 
