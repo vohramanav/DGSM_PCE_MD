@@ -1,10 +1,10 @@
 all:
-	pdflatex DGSM_PCE_MD_paper 
-	bibtex DGSM_PCE_MD_paper
-	pdflatex DGSM_PCE_MD_paper
-	pdflatex DGSM_PCE_MD_paper
+	pdflatex paper 
+	bibtex paper
+	pdflatex paper
+	pdflatex paper
 
 clean:
 
-	rm -f *.aux *.log *.bbl *.blg *.pdf *.out
+	rm -f *.toc *.aux *.log *.bbl *.blg *.pdf *.out
 

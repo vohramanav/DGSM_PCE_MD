@@ -18,3 +18,30 @@
 %space and demonstrate computational advantage of this approach. .
 %\end{enumerate}
 
+The emerging field of uncertainty quantification (UQ) aims at methodologies for 
+incorporating, characterizing, quantifying, propagating, and reducing the 
+uncertainties associated with predictive models and simulations. For situations
+involving complex physical models and compute-intensive simulations, an
+efficient approach to construction of model surrogates is sought to enable UQ
+in a tractable manner. Polynomial chaos expansion 
+(PCE)~\cite{Xiu:2002,Ghanem:2003,Eldred:2008,Olivier:2010} and 
+Gaussian Process (GP)~\cite{Rasmussen:2004} or Kriging~\cite{Stein:2012} are
+among the most commonly used surrogates for scientific applications. However,
+both approaches quickly become prohibitive when the set of uncertain model
+inputs and parameters is large-dimensional. Specifically, in the case of a PCE,
+a $d$-dimensional polynomial basis with a total order of truncation, $p$ 
+requires model realizations at $(p+1)^d$ quadrature nodes to estimate the PC
+coefficients using a fully-tensorized Gauss quadrature. This trend is 
+illustrated below in Figure~\ref{fig:curse}.
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.70\textwidth]{./Figures/quad_comp}
+\caption{Number of fully-tensorized Gauss quadrature nodes ($(p+1)^d$) is plotted against PCE total order truncation, $p$ for $d$ = 2,3, and 4.}
+\label{fig:curse}
+\end{center}
+\end{figure}
+
+
+
+

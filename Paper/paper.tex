@@ -1,0 +1,80 @@
+ \documentclass[letter,12pt]{article}
+%
+\input{def}
+\usepackage[table]{xcolor}
+\usepackage{relsize}
+\usepackage{bm}
+\usepackage{mathrsfs}
+
+ \def\ol{\overline}
+ \def\no{\noindent}
+ \def\qd{\dot{Q}}
+%%%%%%%FLOW DIAGRAM%%%%%%%%%%
+\usepackage[latin1]{inputenc}
+\usepackage{tikz}
+%\usepackage[table]{xcolor}
+\usetikzlibrary{shapes,arrows}
+% Define block styles
+\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+   text width=5.0em, text badly centered, node distance=3cm, inner sep=0pt]
+\tikzstyle{block} = [rectangle, draw, fill=cyan!20, 
+   text width=9.0em, text centered, rounded corners]
+\tikzstyle{line} = [draw, -latex']
+\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+   minimum height=2em]
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%-------------------------------------------------------------------
+\begin{document}
+
+\thispagestyle{empty}
+\input{cover}
+
+\baselineskip=22pt
+
+\tableofcontents
+
+\input{abstract}
+\clearpage
+
+\input{intro}
+\bigskip
+\bigskip
+
+
+\input{bg}
+\bigskip
+\bigskip
+
+
+\input{method}
+\bigskip
+\bigskip
+
+
+\input{examples}
+\bigskip
+\bigskip
+
+
+\input{app}
+\bigskip
+\bigskip
+
+
+\input{disc}
+\bigskip
+\bigskip
+
+\input{ack}
+\bigskip
+\bigskip
+
+\bibliographystyle{unsrt}
+\bibliography{REFER}
+
+\clearpage
+
+\input{figures}
+
+\end{document}
