@@ -8,7 +8,7 @@ expansion.
 \subsection{Derivative-based global sensitivity}  
 
 The derivative-based global sensitivity analysis (DGSA) is performed by 
-estimating a sensitivity measure~\cite{Kucherenko:2009} for each stochastic
+estimating a sensitivity measure~\cite{Sobol:2009} for each stochastic
 parameter in a model or a function. The
 sensitivity measure associated with a parameter, $\theta_i$, based on
 the observable, $\mathcal{Y}$ is given as follows:
@@ -18,7 +18,7 @@ the observable, $\mathcal{Y}$ is given as follows:
 \label{eq:mu}
 \ee
 
-The derivative in the above equation is estimated using finite
+\noindent The derivative in the above equation is estimated using finite
 difference as given below, and averaged using pseudo-random samples in
 the uncertain parameter domain. 
 
@@ -52,7 +52,7 @@ variance of the model output ($V$)~\cite{Lamboni:2013}:
 \label{eq:bound}
 \ee
 
-The upper bound in the above inequality is proportional to the product of $\mathcal{C}_i$
+\noindent The upper bound in the above inequality is proportional to the product of $\mathcal{C}_i$
 and $\mu_i$. However, for the purpose of parameter screening as discussed later in
 Section~\ref{sec:method}, we consider a normalized product, $\hat{\mathcal{C}_i\mu_i}$:
 
@@ -61,7 +61,7 @@ Section~\ref{sec:method}, we consider a normalized product, $\hat{\mathcal{C}_i\
 \label{eq:cmu}
 \ee
 
-The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability distribution of $\theta_i$.
+\noindent The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability distribution of $\theta_i$.
 Table~\ref{tab:poincare} provides its value in the case of uniform and normal
 distributions.
 \bigskip

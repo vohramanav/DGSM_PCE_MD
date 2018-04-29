@@ -114,9 +114,31 @@ might converge with much fewer samples depending upon the model, we consider a l
 typically ensures a converged estimate for the purpose of illustration.} in the input parameter domain. 
 These estimates are used to verify fidelity of
 parameter screening based on the methodology presented in Section~\ref{sec:method}. 
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.65\textwidth]{./Figures/sense_borehole}
+\caption{Sobol' total effect sensitivity index for uncertain parameters in the borehole
+function (Eq.~\ref{eq:bore}).}
+\label{fig:sense_bore}
+\end{center}
+\end{figure}
+
 In Figure~\ref{fig:screen_bore}, we plot estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$)
 for a wide range of the number of samples used for approximating $\mu_i$ using Eq.~\ref{eq:mu}.
-Estimates for $\hat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.65\textwidth]{./Figures/ub_conv_borehole}
+\caption{Estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$) is plotted 
+against number of samples considered for evaluating $\mu_i$. Corresponding estimates
+for the converged Sobol' total effect index ($\mathcal{T}(\theta_i)$) in each case is also included in the
+legend.}
+\label{fig:screen_bore}
+\end{center}
+\end{figure}
+
+\noindent Estimates for $\hat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$
 even when small number of samples (5 -- 10) are used. 
 Consequently, the relative importance of uncertain 
 parameters in the borehole function is found to be consistent with predictions based on the Sobol' index. 
@@ -131,7 +153,19 @@ reduced input parameter space. To this end, we construct PCE's in 5D and 4D spac
 fixing $\{T_u,T_l\}$ in the former and additionally fixing $K_w$ in the latter at their respective
 mean values. In Figure~\ref{fig:conv_bore}, we compare convergence of PCE's constructed
 in the full space (7D) with those constructed in the two reduced spaces (4D and 5D) using
-$\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). As expected, it is observed that the PCE
+$\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.65\textwidth]{./Figures/err_samples_borehole}
+\caption{A comparison of order of the leave-one-out-error 
+($\epsilon_{\mbox{\tiny{LOO}}}$) as a function of number of regression samples
+used for constructing the PCE in 4, 5, and 7 dimensions.}
+\label{fig:conv_bore}
+\end{center}
+\end{figure}
+
+\noindent As expected, it is observed that the PCE
 constructed in the 4D space converges at a much faster rate. For instance, if a PCE with
 $\mathcal{O}(10^{-4})$ accuracy is sought, we need function evaluations at only about
 50 sample points in the 4D parameter space whereas the number of samples needed in the full 
@@ -152,7 +186,19 @@ as highlighted earlier in section~\ref{sec:method}.
 Figure~\ref{fig:pdfcomp_bore} illustrates a comparison of the PDF's of the discharge, $\mathcal{Q}$
 obtained by propagating 10$^6$ Monte-Carlo (MC) samples through the 7D PCE in the
 original input parameter domain as well as the reduced order PCE's constructed in 4 and 5 dimensions. 
-It is evident from this plot, that the PDF's agree quite favorably with each other. Consequently, it can
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.65\textwidth]{./Figures/pdf_comp_borehole}
+\caption{A comparison of PDF's of the discharge, $\mathcal{Q}$ as obtained
+by propagating
+parametric uncertainties through the 4D, 5D, and 7D PCE's.These PDF's 
+were obtained using 10$^{6}$ MC samples in the input parameter domain.} 
+\label{fig:pdfcomp_bore}
+\end{center}
+\end{figure}
+
+\noindent It is evident from this plot, that the PDF's agree quite favorably with each other. Consequently, it can
 be said that the reduced order PCE is verified in a probabilistic sense. In other words, the mode as
 well as the uncertainty in the observable is reliably captured and predicted by the reduced order PCE. 
  
