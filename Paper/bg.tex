@@ -1,26 +1,38 @@
 \section{Background}
 \label{sec:bg}
 
-In this section, we provide a brief theoretical background to the
-derivative-based global sensitivity measure and the polynomial chaos
-expansion.
+In this section, we introduce the notations used in the rest of
+the article, and present the requisite background material on 
+derivative-based global sensitivity measures and surrogate modeling 
+using polynomial chaos expansion.
 
-\subsection{Derivative-based global sensitivity}  
 
-The derivative-based global sensitivity analysis (DGSA) is performed by 
-estimating a sensitivity measure~\cite{Sobol:2009} for each stochastic
-parameter in a model or a function. The
-sensitivity measure associated with a parameter, $\theta_i$, based on
-the observable, $\mathcal{Y}$ is given as follows:
 
+
+\subsection{Derivative-based global sensitivity analysis}  
+Let $\mathcal{Y}$ be a mathematical model that is a function of $\Np$ uncertain 
+parameters, $\theta_1, \theta_2, \ldots, \theta_\Np$. The goal of sensitivity analysis
+is measuring the influence of each component of the parameter vector 
+$\bm{\theta}$ on the model output. 
+\alennote{We consider the case of statistically independent parameters, right? 
+Should we make this precise?}
+Derivative-based global sensitivity analysis (DGSA) is performed by 
+computing derivative based global sensitivity measures (DGSMs)~\cite{Sobol:2009} 
+for each uncertain parameter in the model. 
+Specifically, we consider the following DGSMs, 
 \be
-\mu_i = \mathbb{E}\left[\left(\frac{\partial \mathcal{Y}(\bm{x})}{\partial \theta_i}\right)^{2}\right]
+\mu_i = 
+\mathbb{E}\left[\left(\frac{\partial \mathcal{Y}(\bm{\bm{\theta}})}{\partial \theta_i}\right)^{2}\right], \quad i = 1, \ldots, \Np.
 \label{eq:mu}
 \ee
+Here $\mathbb{E}$ denotes expectation over the uncertain parameters.
+Notice that this formulation assumes that the function $\mathcal{Y}$ is differentiable
+with respect to $\theta_i$, $i = 1, \ldots, \Np$, almost surely.
 
-\noindent The derivative in the above equation is estimated using finite
-difference as given below, and averaged using pseudo-random samples in
-the uncertain parameter domain. 
+The derivative in the above equation can be estimated using finite
+differences as given below, and averaged using Monte Carlo sampling in
+the uncertain parameter space. 
+
 
 \be
 \frac{\partial \mathcal{Y}(\bm{\theta}^{\ast})}{\partial \theta_i} =
@@ -40,7 +52,10 @@ analytically in case the functional dependence of $\mathcal{Y}$ and $\theta_i$
 is known. Note that the perturbation $\Delta\theta_i^{*}$ is extremely small 
 compared to the uncertainty in $\theta_i$ which leads to a significant improvement
 over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
-using large increments. 
+using large increments.  It is noted by many authors~[REFS], and also observed
+in the numerical experiments in the present work, that a modest Monte Carlo
+sample size is often sufficient for computing~\eqref{eq:mu} with reasonable
+accuracy.
 
 For parameters with continuous distributions, the upper bound on the total 
 Sobol' sensitivity index ($\mathcal{T}(\theta_i)$)
@@ -48,16 +63,16 @@ can be expressed in terms of $\mu_i$, the Poincar\'e constant ($\mathcal{C}_i$) 
 variance of the model output ($V$)~\cite{Lamboni:2013}:
 
 \be
-\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \hat{\mathcal{C}_i\mu_i})
+\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \widehat{\mathcal{C}_i\mu_i})
 \label{eq:bound}
 \ee
 
 \noindent The upper bound in the above inequality is proportional to the product of $\mathcal{C}_i$
 and $\mu_i$. However, for the purpose of parameter screening as discussed later in
-Section~\ref{sec:method}, we consider a normalized product, $\hat{\mathcal{C}_i\mu_i}$:
+Section~\ref{sec:method}, we consider a normalized product, $\widehat{\mathcal{C}_i\mu_i}$:
 
 \be
-\hat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
+\widehat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
 \label{eq:cmu}
 \ee
 
