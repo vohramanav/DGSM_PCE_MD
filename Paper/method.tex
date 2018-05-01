@@ -1,4 +1,13 @@
 \section{Method}
 \label{sec:method}
 
-
+%Stage1: QoI selection for accurate estimation of derivatives and PCE, Stage 2: Parameter Screening, Stage 3: Reduced-order Surrogate Verification
+%
+%1. Goal is to estimate the upper bound on Sobol total-effect index using DGSM. 
+%2. QoI should be differentiable w.r.t all the parameters. 
+%3. Derivative could be estimated analytically or numerically.
+%4. The expected value of the partial derivative w.r.t a given parameter is approximated over a few samples.
+%5. Gradually enhance the sample size until some degree of convergence is established.
+%6. Note that model runs at the full parameter space will be used for verification of the ROS. However, one could consider
+%relaxing the convergence criterion to reduce computational costs. 
+%7. Consider the product of Ci and mu_i to screen parameters. 
