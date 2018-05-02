@@ -10,23 +10,28 @@ using polynomial chaos expansion.
 
 
 \subsection{Derivative-based global sensitivity analysis}  
-Let $\mathcal{Y}$ be a mathematical model that is a function of $\Np$ uncertain 
+
+\alennote{1. Remove $G^M$; use $G$ and $G^{PC}$. 2. Start with $G$ in $\xi$ and
+the, in one sentence connect to physical range. 3. Equation (9) should be moved up to 
+2.1.}
+Let $\GG$ be a mathematical model that is a function of $\Np$ uncertain 
 parameters, $\theta_1, \theta_2, \ldots, \theta_\Np$. The goal of sensitivity analysis
 is measuring the influence of each component of the parameter vector 
 $\bm{\theta}$ on the model output. 
-\alennote{We consider the case of statistically independent parameters, right? 
-Should we make this precise?}
+In the present work, we consider the case where the input parameters are statistically 
+independent. 
+
 Derivative-based global sensitivity analysis (DGSA) is performed by 
 computing derivative based global sensitivity measures (DGSMs)~\cite{Sobol:2009} 
 for each uncertain parameter in the model. 
 Specifically, we consider the following DGSMs, 
 \be
 \mu_i = 
-\mathbb{E}\left[\left(\frac{\partial \mathcal{Y}(\bm{\bm{\theta}})}{\partial \theta_i}\right)^{2}\right], \quad i = 1, \ldots, \Np.
+\mathbb{E}\left[\left(\frac{\partial \GG(\bm{\bm{\theta}})}{\partial \theta_i}\right)^{2}\right], \quad i = 1, \ldots, \Np.
 \label{eq:mu}
 \ee
 Here $\mathbb{E}$ denotes expectation over the uncertain parameters.
-Notice that this formulation assumes that the function $\mathcal{Y}$ is differentiable
+Notice that this formulation assumes that the function $\GG$ is differentiable
 with respect to $\theta_i$, $i = 1, \ldots, \Np$, almost surely.
 
 The derivative in the above equation can be estimated using finite
@@ -35,12 +40,12 @@ the uncertain parameter space.
 
 
 \be
-\frac{\partial \mathcal{Y}(\bm{\theta}^{\ast})}{\partial \theta_i} =
+\frac{\partial \GG(\bm{\theta}^{\ast})}{\partial \theta_i} =
  \lim_{\Delta\theta_i^{*}\to 0}
-\frac{[\mathcal{Y}(\theta_1^{*},\ldots,\theta_{i-1}^{*},
+\frac{[\GG(\theta_1^{*},\ldots,\theta_{i-1}^{*},
 \theta_i^{*}+\Delta\theta_i^{*},
 \theta_{i+1}^{*},\ldots,\theta_d^{*}) - 
-\mathcal{Y}(\bm{\theta}^{*})]}{\Delta\theta_i^{*}} 
+\GG(\bm{\theta}^{*})]}{\Delta\theta_i^{*}} 
 \label{eq:partial}
 \ee
 
@@ -48,7 +53,7 @@ The total number of model realizations or function evaluations
 needed to
 compute $\mu_i$ in a Euclidian space $\mathbb{R}^d$ using $N$ samples is
 therefore, $N\times(d+1)$. The derivative in Eq.~\ref{eq:partial} could be evaluated
-analytically in case the functional dependence of $\mathcal{Y}$ and $\theta_i$
+analytically in case the functional dependence of $\GG$ and $\theta_i$
 is known. Note that the perturbation $\Delta\theta_i^{*}$ is extremely small 
 compared to the uncertainty in $\theta_i$ which leads to a significant improvement
 over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
@@ -98,30 +103,57 @@ parameters~\cite{Roustant:2014}.}
 \label{tab:poincare}
 \end{table}
 
-\subsection{Polynomial Chaos Expansion}
+\subsection{Polynomial chaos expansion}
 
-As discussed earlier in Section~\ref{sec:intro}, the Polynomial Chaos Expansion (PCE)
-is one of the most commonly used surrogates for representing the dependence of a random
-observable ($\mathcal{Y}$) on independent uncertain or stochastic model parameters ($\bm{\theta}$).
-Considering a joint probability distribution of the components of ($\bm{\theta}$) as $\mathbb{P}(\bm{\theta})$,
-the following condition is imposed on $\mathcal{Y}$:
+%As discussed earlier in Section~\ref{sec:intro}, the 
+%Polynomial chaos expansion
+%(PCE) is a commonly used tool for surrogate modeling.
+We consider models with $\Np$ random inputs, 
+$\theta_1, \ldots, \theta_\Np$ that are modeled
+as statistically independent random variables. The 
+variables $\theta_i$ will take in physically meaningful
+ranges; it is common to parameterize input uncertainties
+with canonical random variables $\xi_1, \ldots, \xi_\Np$,
+which can be then shifted and scaled to obtain the corresponding $\theta_i's$.
+Typical choices for distribution of $\xi_i$ include standard normal 
+and uniform distribution on the interval $[-1, 1]$.
+Let 
+\[
+   \bm{f}(\bm{x}) = \prod_{i=1}^\Np f_i(x_i), \quad \bm{x} \in \mathbb{R}^\Np
+\]
+where $f_i$ are probability density functions of $\xi_i$, $i = 1, \ldots, \Np$.
+We consider a square integrable random variable $\GG:\R^\Np \to \R$; 
+that is,
+\[
+\int_{\mathcal{D}} \GG(\bm{\xi})^2 \, \bm{f}(\bm{\xi})d\bm{\xi} < \infty,
+\]
+where $\mathcal{D}$ is the support of the distribution law of the random vector
+$\bm{\xi}$. In applications, 
+the random variable $\GG$ is the mathematical model of interest. 
+
+% for representing the
+%dependence of a random observable ($\GG$) on independent uncertain or
+%stochastic model parameters ($\bm{\theta}$).  Considering a joint probability
+%distribution of the components of ($\bm{\theta}$) as
+%$\mathbb{P}(\bm{\theta})$, the following condition is imposed on
+%$\GG$:
 
 \be
-\mathbb{E}[\mathcal{Y}^2] = \int_{\mathcal{D}_{\bm{\theta}}} \mathcal{Y}^2 \mathbb{P}(\bm{\theta}) 
+\mathbb{E}[\GG^2] = \int_{\mathcal{D}_{\bm{\theta}}} \GG^2 \mathbb{P}(\bm{\theta}) 
 d\bm{\theta} < \infty
 \ee
 
 \noindent where $\mathcal{D}_{\bm{\theta}}$ is the domain of the input parameter space. The PCE of
-$\mathcal{Y}$ ($\mathcal{Y}^{\mbox{\tiny {PC}}}$) is a mean-square 
+$\GG$ ($\GG^{\mbox{\tiny {PC}}}$) is a mean-square 
 convergent truncated summation given as
 follows~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}:
 
 \be
-\mathcal{Y}^{\mbox{\tiny M}} \approx \mathcal{Y}^{\mbox{\tiny PC}} = 
+\GG^{\mbox{\tiny M}} \approx \GG^{\mbox{\tiny PC}} = 
 \sum_{\alpha\in\mathcal{I}} c_{\alpha}\Psi_{\alpha}(\bm{\xi(\theta)}) 
 \ee
 
-\noindent where $\mathcal{Y}^{\mbox{\tiny M}}$ corresponds to realizations of the
+\noindent where $\GG^{\mbox{\tiny M}}$ corresponds to realizations of the
 observable using the original (typically physics-based) model. 
 Note that the set of parameters, $\bm{\theta}$ are parameterized in terms of canonical random
 variables, $\bm{\xi}$ in the above expansion. $\Psi_{\alpha}$'s are multivariate polynomial
@@ -134,9 +166,9 @@ techniques based on projection or regression. Projection-based methods rely on n
 quadrature for estimating the following expectation:
 
 \be
-\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\mathcal{Y}^{\mbox{\tiny{M}}}]
+\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\GG^{\mbox{\tiny{M}}}]
 \approx
-\sum_{i=1}^{N} \mathcal{Y}^{\mbox{\tiny{M}}}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
+\sum_{i=1}^{N} \GG^{\mbox{\tiny{M}}}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
 \ee
 
 \noindent where $w^{(i)}$ denotes the weight associated with the quadrature node $i$. 
@@ -146,7 +178,7 @@ by solving a regularized optimization problem:
 
 \be
 \hat{\bm{c}} = \mbox{argmin}~\mathbb{E}\left[\left(\bm{c}^{T}\Psi(\bm{\bm{\xi(\theta)}}) -
-\mathcal{Y}^{\mbox{\tiny{M}}}(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
+\GG^{\mbox{\tiny{M}}}(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
 \ee
 
 \noindent where $\normone{\bm{c}}$ = $\sum_{\alpha\in \mathcal{I}} |c_\alpha |$.
