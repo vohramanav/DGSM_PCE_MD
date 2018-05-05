@@ -34,30 +34,37 @@ Here $\mathbb{E}$ denotes expectation over the uncertain parameters.
 Notice that this formulation assumes that the function $\GG$ is differentiable
 with respect to $\theta_i$, $i = 1, \ldots, \Np$, almost surely.
 
-The derivative in the above equation can be estimated using finite
-differences as given below, and averaged using Monte Carlo sampling in
-the uncertain parameter space. 
-
-
+If an analytic expression for $\GG$ is available the derivative in the above
+expression can be computed directly. In applications, however, $\GG$ is often
+defined in terms of a solution of a mathematical model. In some cases, 
+one has access to appropriate adjoint solvers that enable efficient
+adjoint-based gradient computations. In the present work, we consider
+a generic computational model and only assume that the model
+output depends differentiablly to the parameter $\bm{\theta}$. Thus, 
+we consider finite-difference gradient computation: 
 \be
-\frac{\partial \GG(\bm{\theta}^{\ast})}{\partial \theta_i} =
- \lim_{\Delta\theta_i^{*}\to 0}
-\frac{[\GG(\theta_1^{*},\ldots,\theta_{i-1}^{*},
-\theta_i^{*}+\Delta\theta_i^{*},
-\theta_{i+1}^{*},\ldots,\theta_d^{*}) - 
-\GG(\bm{\theta}^{*})]}{\Delta\theta_i^{*}} 
+\frac{\partial \GG(\bm{\theta})}{\partial \theta_i} 
+\approx
+\frac{\GG(\theta_1,\ldots,\theta_{i-1},
+\theta_i+\Delta\theta_i,
+\theta_{i+1},\ldots,\theta_d) - 
+\GG(\bm{\theta})}{\Delta\theta_i}, \quad i = 1, \ldots, \Np. 
 \label{eq:partial}
 \ee
-
+Then,~\eqref{eq:mu} can be evaluated by Monte Carlo sampling in
+the uncertain parameter space. 
 The total number of model realizations or function evaluations
 needed to
-compute $\mu_i$ in a Euclidian space $\mathbb{R}^d$ using $N$ samples is
-therefore, $N\times(d+1)$. The derivative in Eq.~\ref{eq:partial} could be evaluated
-analytically in case the functional dependence of $\GG$ and $\theta_i$
-is known. Note that the perturbation $\Delta\theta_i^{*}$ is extremely small 
-compared to the uncertainty in $\theta_i$ which leads to a significant improvement
-over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
-using large increments.  It is noted by many authors~[REFS], and also observed
+compute $\mu_i$ for a function $G$ of $\Np$ random inputs and using $N$ samples is
+therefore, $N\times(\Np+1)$. 
+%The derivative in Eq.~\ref{eq:partial} could be evaluated
+%analytically in case the functional dependence of $\GG$ and $\theta_i$
+%is known. 
+%Note that the perturbation $\Delta\theta_i^{*}$ is extremely small 
+%compared to the uncertainty in $\theta_i$ which leads to a significant improvement
+%over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
+%using large increments.  
+It is noted by many authors~[REFS], and also observed
 in the numerical experiments in the present work, that a modest Monte Carlo
 sample size is often sufficient for computing~\eqref{eq:mu} with reasonable
 accuracy.
@@ -105,9 +112,6 @@ parameters~\cite{Roustant:2014}.}
 
 \subsection{Polynomial chaos expansion}
 
-%As discussed earlier in Section~\ref{sec:intro}, the 
-%Polynomial chaos expansion
-%(PCE) is a commonly used tool for surrogate modeling.
 We consider models with $\Np$ random inputs, 
 $\theta_1, \ldots, \theta_\Np$ that are modeled
 as statistically independent random variables. The 
@@ -128,8 +132,8 @@ that is,
 \int_{\mathcal{D}} \GG(\bm{\xi})^2 \, \bm{f}(\bm{\xi})d\bm{\xi} < \infty,
 \]
 where $\mathcal{D}$ is the support of the distribution law of the random vector
-$\bm{\xi}$. In applications, 
-the random variable $\GG$ is the mathematical model of interest. 
+$\bm{\xi}$. 
+
 
 % for representing the
 %dependence of a random observable ($\GG$) on independent uncertain or
@@ -137,54 +141,62 @@ the random variable $\GG$ is the mathematical model of interest.
 %distribution of the components of ($\bm{\theta}$) as
 %$\mathbb{P}(\bm{\theta})$, the following condition is imposed on
 %$\GG$:
+%\be
+%\mathbb{E}[\GG^2] = \int_{\mathcal{D}_{\bm{\theta}}} \GG^2 \mathbb{P}(\bm{\theta}) 
+%d\bm{\theta} < \infty
+%\ee
 
+%\noindent where $\mathcal{D}_{\bm{\theta}}$ is the domain of the input parameter space. 
+
+As mentioned in Section~\ref{sec:intro}, the 
+polynomial chaos expansion
+(PCE) is a commonly used tool for surrogate modeling. 
+The PCE of
+$\GG$ is a mean-square 
+convergent series expansion~\cite{Xiu:2002,Ghanem:2003,Olivier:2010} of the form:
 \be
-\mathbb{E}[\GG^2] = \int_{\mathcal{D}_{\bm{\theta}}} \GG^2 \mathbb{P}(\bm{\theta}) 
-d\bm{\theta} < \infty
+\GG(\bm\xi) = \sum_{k=0}^\infty c_k\Psi_k(\bm{\xi}),
 \ee
-
-\noindent where $\mathcal{D}_{\bm{\theta}}$ is the domain of the input parameter space. The PCE of
-$\GG$ ($\GG^{\mbox{\tiny {PC}}}$) is a mean-square 
-convergent truncated summation given as
-follows~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}:
-
-\be
-\GG^{\mbox{\tiny M}} \approx \GG^{\mbox{\tiny PC}} = 
-\sum_{\alpha\in\mathcal{I}} c_{\alpha}\Psi_{\alpha}(\bm{\xi(\theta)}) 
+where $\Psi_k$'s form a multivariate orthogonal polynomial
+basis---orthogonal with respect to the joint probability distribution of $\bm{\xi}$.
+%
+In practice, a truncated expansion is used.  Moreover, in applications, $\GG$
+is a mathematical model of interest that takes a parameter vector $\bm{\theta}$
+(with components in physically meaningful ranges) as input. Therefore, we 
+write the truncated PC representation of a model $\GG$ as follows:
+\be 
+\GG(\bm\theta) \approx \GG^{\mbox{\tiny PC}}(\bm\theta) := \sum_{k=0}^{\Npc}
+c_k\Psi_k (\bm\xi(\bm\theta)), 
 \ee
+where $\bm\xi(\bm\theta)$ is found by a simple linear transformation.
 
-\noindent where $\GG^{\mbox{\tiny M}}$ corresponds to realizations of the
-observable using the original (typically physics-based) model. 
-Note that the set of parameters, $\bm{\theta}$ are parameterized in terms of canonical random
-variables, $\bm{\xi}$ in the above expansion. $\Psi_{\alpha}$'s are multivariate polynomial
-basis, orthonormal with respect to the joint probability distribution of $\bm{\xi}$, $\mathcal{I}$
-is the multi-index set which identifies the degree of individual polynomials in each term in the
-multivariate basis.
-
-Computational strategies available for estimating the PC coefficients ($c_\alpha$'s) typically involve
-techniques based on projection or regression. Projection-based methods rely on numerical
-quadrature for estimating the following expectation:
-
-\be
-\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\GG^{\mbox{\tiny{M}}}]
-\approx
-\sum_{i=1}^{N} \GG^{\mbox{\tiny{M}}}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
-\ee
-
-\noindent where $w^{(i)}$ denotes the weight associated with the quadrature node $i$. 
+Computational strategies available for estimating the PC coefficients
+($c_k$'s) typically involve techniques based on projection or regression.
+Projection-based methods consider the orthogonal projection of 
+$\GG$ on the PC basis $\{\Psi_k\}_{k=0}^\Npc$ and compute
+the resulting expansion coefficients via quadrature~\cite{Olivier:2010}.
+%on numerical quadrature for estimating the
+%following expectation:
+%\be
+%\bm{c} = \mathbb{E}[\Psi_\alpha(\bm{\xi})\cdot\GG^{\mbox{\tiny{M}}}]
+%\approx
+%\sum_{i=1}^{N} \GG^{\mbox{\tiny{M}}}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
+%\ee
+%\noindent where $w^{(i)}$ denotes the weight associated with the quadrature node $i$. 
 Regression-based methods such as least angle regression (LAR)~\cite{Efron:2004} and least absolute shrinkage
 and selection operator (LASSO)~\cite{Tibshirani:1996} aim to construct a sparse PCE~\cite{Blatman:2008}
 by solving a regularized optimization problem:
-
 \be
-\hat{\bm{c}} = \mbox{argmin}~\mathbb{E}\left[\left(\bm{c}^{T}\Psi(\bm{\bm{\xi(\theta)}}) -
+\hat{\bm{c}} = \mbox{argmin}~\mathbb{E}_{\bm\theta}
+\left[\left(\sum_{k=0}^\Npc c_k \Psi_k(\bm\xi(\bm\theta)) -
 \GG^{\mbox{\tiny{M}}}(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
 \ee
-
-\noindent where $\normone{\bm{c}}$ = $\sum_{\alpha\in \mathcal{I}} |c_\alpha |$.
-The regularization term forces the minimization towards low-rank solutions.
+where $\normone{\bm{c}}$ = $\sum_{k=0}^\Npc |c_k |$.
+The regularization term forces the minimization towards sparse coefficient vectors resulting
+in sparse PC representations.
 In this work, we construct sparse PCEs with LAR using UQLab~\cite{Marelli:2014},
-a general purpose uncertainty quantification software developed at ETH Zurich in Switzerland.
+a general purpose uncertainty quantification software developed at ETH Zurich.
+% in Switzerland.
 
 
 
