@@ -1,4 +1,4 @@
-\section{Method}
+\section{Methodology}
 \label{sec:method}
 
 %Stage1: QoI selection for accurate estimation of derivatives and PCE, Stage 2: Parameter Screening, Stage 3: Reduced-order Surrogate Verification
@@ -10,4 +10,22 @@
 %5. Gradually enhance the sample size until some degree of convergence is established.
 %6. Note that model runs at the full parameter space will be used for verification of the ROS. However, one could consider
 %relaxing the convergence criterion to reduce computational costs. 
-%7. Consider the product of Ci and mu_i to screen parameters. 
+%7. Consider the product of Ci and mu_i to screen parameters.i
+
+In this section, we outline the underlying methodology for constructing a 
+reduced-order surrogate using sensitivity analysis. The term `reduced-order'
+in the present context implies that the surrogate is constructed in a 
+subspace that sufficiently captures the uncertainty in the model output. 
+In other words, the dimensionality of the polynomial basis functions in
+the case of PC surrogates is effectively reduced. A possible approach to 
+constructing a reduced-order surrogate involves sensitivity analysis of the
+uncertain model parameters with respect to a given output, and thereby
+disregard parameters considered as unimportant. For this purpose, global
+sensitivity analysis based on Sobol indices could be pursued. However,
+as discussed earlier in section~\ref{sec:intro}, determining converged 
+estimates of Sobol sensitivity indices typically requires tens of thousands
+of model evaluations. Consequently, the exercise becomes prohibitive in
+situations where the model runs are compute-intensive.    
+
+
+ 
