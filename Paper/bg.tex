@@ -11,9 +11,6 @@ using polynomial chaos expansion.
 
 \subsection{Derivative-based global sensitivity analysis}  
 
-\alennote{1. Remove $G^M$; use $G$ and $G^{PC}$. 2. Start with $G$ in $\xi$ and
-the, in one sentence connect to physical range. 3. Equation (9) should be moved up to 
-2.1.}
 Let $\GG$ be a mathematical model that is a function of $\Np$ uncertain 
 parameters, $\theta_1, \theta_2, \ldots, \theta_\Np$. The goal of sensitivity analysis
 is measuring the influence of each component of the parameter vector 
@@ -69,13 +66,23 @@ in the numerical experiments in the present work, that a modest Monte Carlo
 sample size is often sufficient for computing~\eqref{eq:mu} with reasonable
 accuracy.
 
-For parameters with continuous distributions, the upper bound on the total 
-Sobol' sensitivity index ($\mathcal{T}(\theta_i)$)
-can be expressed in terms of $\mu_i$, the Poincar\'e constant ($\mathcal{C}_i$) and the total 
-variance of the model output ($V$)~\cite{Lamboni:2013}:
-
+Consider the total 
+Sobol' sensitivity index~\cite{Sobol:2001},
 \be
-\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{V}~(\propto \widehat{\mathcal{C}_i\mu_i})
+\mathcal{T}(\theta_i) = 1 - 
+\frac{\mathbb{V}[\mathbb{E}(\GG|\bm{\theta}_{\sim i})]}{\mathbb{V}(\GG)},
+\ee
+where $\bm{\theta}_{\sim i}$ is the random vector $\bm\theta$ with $i$th component removed, 
+and $\mathbb{V}$ denotes the variance. The total Sobol' index quantifies the total contribution 
+of $\theta_i$ to variance of the model $\GG$. Components of $\bm\theta$ with small 
+total Sobol' index can be considered inessential and can be fixed at nominal values. However, 
+computing the total Sobol' index is a computationally expensive task for expensive-to-evaluate 
+models with large number of uncertain parameters. Fortunately, 
+for parameters with continuous distributions, an upper bound on $\mathcal{T}_i$  
+can be expressed in terms of $\mu_i$, the Poincar\'e constant ($\mathcal{C}_i$) and the total 
+variance of the model output ($\mathbb{V}(\GG)$)~\cite{Lamboni:2013}:
+\be
+\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{\mathbb{V}(\GG)}~(\propto \widehat{\mathcal{C}_i\mu_i})
 \label{eq:bound}
 \ee
 
