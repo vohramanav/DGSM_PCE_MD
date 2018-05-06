@@ -16,16 +16,61 @@ In this section, we outline the underlying methodology for constructing a
 reduced-order surrogate using sensitivity analysis. The term `reduced-order'
 in the present context implies that the surrogate is constructed in a 
 subspace that sufficiently captures the uncertainty in the model output. 
-In other words, the dimensionality of the polynomial basis functions in
-the case of PC surrogates is effectively reduced. A possible approach to 
+For instance, in the case of PC surrogates, the dimensionality of the polynomial
+basis functions is effectively reduced. A possible approach to 
 constructing a reduced-order surrogate involves sensitivity analysis of the
 uncertain model parameters with respect to a given output, and thereby
-disregard parameters considered as unimportant. For this purpose, global
-sensitivity analysis based on Sobol indices could be pursued. However,
-as discussed earlier in section~\ref{sec:intro}, determining converged 
+disregarding the uncertainty associated with parameters considered as unimportant.
+For this purpose, a global sensitivity analysis based on Sobol indices could be pursued.
+However, as discussed earlier in sections~\ref{sec:intro} and~\ref{sec:bg}, determining converged 
 estimates of Sobol sensitivity indices typically requires tens of thousands
 of model evaluations. Consequently, the exercise becomes prohibitive in
-situations where the model runs are compute-intensive.    
+situations where the model runs are compute-intensive. Instead, we estimate a normalized
+upper-bound ($\widehat{\mathcal{C}_i\mu_i}$, see Eq.~\ref{eq:bound}) on the Sobol total
+effect index ($\mathcal{T}(\theta_i)$) for each parameter, $\theta_i$, and use it as a 
+metric to identify the unimportant parameters. Below, we provide an algorithm for 
+parameter screening. It is assumed that the partial derivatives in Eq.~\ref{eq:mu}
+are estimated using finite difference. 
+
+\bigskip
+
+\begin{breakablealgorithm}
+  \caption{Parameter screening with derivative-based sensitivity measures.}
+  \begin{algorithmic}[1]
+    \Procedure{Screening}{}
+      \State Generate $n_1$ points in $\mathbb{R}^{d}$.\Comment{$d$: 
+             Number of uncertain model parameters.}
+      \State Perturb each point along the $d$ directions to obtain a set of $n_1(d+1)$ points.
+      \State Compute $\mu_i$ using model evaluations at the $n_1(d+1)$ points in Eq.~\ref{eq:mu}
+      \State Determine initial ranks, $\mathcal{R}^{old}$ based on $\widehat{\mathcal{C}_i\mu_i}$ values for $\theta_i$.
+      \State set $k$ = 1\Comment{Iteration counter}
+      \Do
+        \State Generate $n_k$ new points in $\mathbb{R}^{d}$.
+        \State Perturb each point along the $d$ directions to obtain a set of $n_k(d+1)$ points.
+        \State Compute and store model evaluations at the $n_k(d+1)$ points.
+        \State Compute $\mu_i$ using prior model evaluations at $(d+1)(n_1 + \sum_j^k n_j)$ points.
+        \State Determine new ranks, $\mathcal{R}^{new}$ based on updated $\widehat{\mathcal{C}_i\mu_i}$ values.
+        \State Compute $max\_pdev$ = max$\left(\frac{|\mu_{i,k} - 
+               \mu_{i,k-1}|}{ \mu_{i,k-1}}\right)$.\Comment{$max\_pdev$:
+               Maximum percentage deviation in $\mu_i$ between successive iterations.}
+        \State set $k$ = $k$ + 1
+      \doWhile{($\mathcal{R}^{\tiny{new}}$ $\neq$ $\mathcal{R}^{\tiny{old}}$ {\bf or}  
+               $max\_pdev$~$>~\tau$)\Comment{$\tau$:~Tolerance}}
+    \EndProcedure
+  \end{algorithmic}
+\end{breakablealgorithm}
+
+\bigskip
+
+Based on the steps outlined in the above algorithm, it can be said that the set of sample points used for
+estimating the screening metric, $\widehat{\mathcal{C}_i\mu_i}$ is enriched until consistency in ranks
+between successive iterations as well as a certain degree of convergence in estimates of the screening 
+metric for each uncertain parameter is accomplished. Parameter
+screening is an integral part of the overall strategy for constructing the reduced-order surrogate as 
+depicted below using a flow-diagram. 
+
+
+
 
 
  
