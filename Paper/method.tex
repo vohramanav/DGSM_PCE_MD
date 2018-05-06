@@ -72,15 +72,23 @@ depicted below using a flow-diagram.
 \bigskip
 
 \begin{center}
-\begin{tikzpicture}[node distance=2cm]
+\begin{tikzpicture}[node distance=1.5cm]
 
 \node (start) [startstop] {Start};
 
-\node (qoi) [io, below of=start, align=left] {Select an appropriate model output};
+\node (qoi) [io, below of=start,align=left] {Select an appropriate model output};
 
 \draw [line] (start) -- (qoi);
 
+\node (tol) [process, below of=qoi, text width=8em] {Set an initial tolerance, $\tau$};
 
+\draw [line] (qoi) -- (tol);
+
+\node (screen) [process, below of=tol, text width=9.5em] {Parameter Screening};
+
+\draw [line] (tol) -- (screen);
+
+\node (dr) [draw, diamond, aspect=2.0] {Is \\ Dimension-reduction \\ possible$?$};
 
 \end{tikzpicture}
 \end{center}
