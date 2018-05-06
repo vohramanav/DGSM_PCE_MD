@@ -69,6 +69,21 @@ metric for each uncertain parameter is accomplished. Parameter
 screening is an integral part of the overall strategy for constructing the reduced-order surrogate as 
 depicted below using a flow-diagram. 
 
+\bigskip
+
+\begin{center}
+\begin{tikzpicture}[node distance=2cm]
+
+\node (start) [startstop] {Start};
+
+\node (qoi) [io, below of=start, align=left] {Select an appropriate model output};
+
+\draw [line] (start) -- (qoi);
+
+
+
+\end{tikzpicture}
+\end{center}
 
 
 

@@ -15,13 +15,16 @@
 %\usepackage[table]{xcolor}
 \usetikzlibrary{shapes,arrows}
 % Define block styles
-\tikzstyle{decision} = [diamond, draw, fill=blue!20, 
+\tikzstyle{decision} = [diamond, draw, 
    text width=5.0em, text badly centered, node distance=3cm, inner sep=0pt]
-\tikzstyle{block} = [rectangle, draw, fill=cyan!20, 
-   text width=9.0em, text centered, rounded corners]
+\tikzstyle{startstop} = [rectangle, draw, 
+   text width=4.5em, text centered, rounded corners]
+ \tikzstyle{process} = [rectangle, draw, 
+   text width=9.0em, text centered]  
 \tikzstyle{line} = [draw, -latex']
-\tikzstyle{cloud} = [draw, ellipse,fill=red!20, node distance=3cm,
+\tikzstyle{cloud} = [draw, ellipse, node distance=3cm,
    minimum height=2em]
+   \tikzstyle{io} = [trapezium, trapezium left angle=70, trapezium right angle=110, minimum width=5cm, minimum height=1cm, text centered, draw, inner sep=0pt]
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Breakable algorithm %%%
