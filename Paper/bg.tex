@@ -191,9 +191,11 @@ the resulting expansion coefficients via quadrature~\cite{Olivier:2010}.
 %\sum_{i=1}^{N} \GG^{\mbox{\tiny{M}}}(\bm{\theta}^{(i)})w^{(i)}\Psi_\alpha(\bm{\xi}^{(i)})
 %\ee
 %\noindent where $w^{(i)}$ denotes the weight associated with the quadrature node $i$. 
-Regression-based methods such as least angle regression (LAR)~\cite{Efron:2004} and least absolute shrinkage
+Regression-based methods such as least angle regression (LAR)~\cite{Efron:2004}, and least absolute shrinkage
 and selection operator (LASSO)~\cite{Tibshirani:1996} aim to construct a sparse PCE~\cite{Blatman:2008}
-by solving a regularized optimization problem:
+by solving a regularized optimization problem. Specifically in the case of LAR, a penalty term comprising the L-1
+norm of the PC coefficients is used:
+
 \be
 \hat{\bm{c}} = \mbox{argmin}~\mathbb{E}_{\bm\theta}
 \left[\left(\sum_{k=0}^\Npc c_k \Psi_k(\bm\xi(\bm\theta)) -
