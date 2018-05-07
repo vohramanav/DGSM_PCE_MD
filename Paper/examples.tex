@@ -81,8 +81,12 @@ of water ($\mathcal{Q}$) through a borehole in terms of geometrical and physical
 \ee
 
 \noindent The radius of influence, $r$ is fixed at 3698.30 m whereas all other parameters
-in the RHS of Eq.~\ref{eq:bore} are considered as uncertain. Table~\ref{tab:bore} provides
-marginal distributions of the uncertain parameters. 
+in the right hand side of~\eqref{eq:bore} are considered 
+as uncertain. Thus, $\mathcal{Q} = \mathcal{Q}(\vec{\theta})$ with 
+\[
+   \vec{\theta} = (r_w, L, T_u, H_u, T_l, H_l, K_w)^T.
+\] 
+Table~\ref{tab:bore} provides distributions of the uncertain inputparameters. 
 
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
@@ -101,107 +105,122 @@ $K_w$ (Borehole hydraulic conductivity, m/yr) & $\mathcal{U}$[9855,12045] \\
 \end{tabular}
 \end{center}
 
-\caption{Description and marginal distributions of uncertain parameters in the borehole function
-given by Eq.~\ref{eq:bore}.}
+\caption{Description and distributions of uncertain parameters in the borehole function
+given by~\eqref{eq:bore}.}
 \label{tab:bore}
 \end{table}
 
-As mentioned earlier in this section, cheap function evaluations of the discharge using 
-Eq.~\ref{eq:bore} enable us to compute converged estimates of $\mathcal{T}(\theta_i)$. Plotted in
-Figure~\ref{fig:sense_bore} are estimates of these indices corresponding to the uncertain
-parameters in the borehole function using 10$^6$ pseudo-random
-samples\footnote{Although $\mathcal{T}(\theta_i)$ 
-might converge with much fewer samples depending upon the model, we consider a large number that
-typically ensures a converged estimate for the purpose of illustration.} in the input parameter domain. 
+Cheap function evaluations of the discharge $\mathcal{Q}(\vec{\theta})$ using
+enables computing accurate estimates of $\mathcal{T}(\theta_i)$ through
+sampling, with a sufficiently large Monte Carlo sample size.  Shown in
+Figure~\ref{fig:sense_bore}~(left) are estimates of these indices corresponding to the
+uncertain parameters in the borehole function using 10$^6$ pseudo-random
+samples in the input parameter space. 
+%\footnote{Although $\mathcal{T}(\theta_i)$ might converge with much fewer
+%samples depending upon the model, we consider a large number that typically
+%ensures a converged estimate for the purpose of illustration.} 
 These estimates are used to verify fidelity of
 parameter screening based on the methodology presented in Section~\ref{sec:method}. 
 
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.6\textwidth]{./Figures/sense_borehole}
-\caption{Sobol' total effect sensitivity index for uncertain parameters in the borehole
-function (Eq.~\ref{eq:bore}).}
+  \includegraphics[width=0.48\textwidth]{./Figures/sense_borehole}
+  \includegraphics[width=0.48\textwidth]{./Figures/ub_conv_borehole}
+\caption{
+Left: Sobol' total sensitivity index for uncertain parameters in the borehole
+function. Right: 
+estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$) is plotted
+against number of samples considered for evaluating $\mu_i$. Corresponding estimates
+for the converged Sobol' total effect index ($\mathcal{T}(\theta_i)$) in each case is also included in the
+legend. \alennote{Can we have larger fontsizes for the right image? Also the y-axis label
+needs to be modified with a widehat as done in the text now.}}
 \label{fig:sense_bore}
 \end{center}
 \end{figure}
-
-In Figure~\ref{fig:screen_bore}, we plot estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$)
-for a wide range of the number of samples used for approximating $\mu_i$ using Eq.~\ref{eq:mu}.
-
-\begin{figure}[htbp]
- \begin{center}
-  \includegraphics[width=0.6\textwidth]{./Figures/ub_conv_borehole}
-\caption{Estimates of the screening parameter ($\hat{\mathcal{C}_i\mu_i}$) is plotted 
-against number of samples considered for evaluating $\mu_i$. Corresponding estimates
-for the converged Sobol' total effect index ($\mathcal{T}(\theta_i)$) in each case is also included in the
-legend.}
-\label{fig:screen_bore}
-\end{center}
-\end{figure}
-
-\noindent Estimates for $\hat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$
-even when small number of samples (5 -- 10) are used. 
+In Figure~\ref{fig:sense_bore}~(right), we plot estimates of the screening parameter 
+$\widehat{\mathcal{C}_i\mu_i}$ for a wide range of the number of 
+samples used for approximating $\mu_i$ using~\eqref{eq:mu}.
+Estimates for $\widehat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$ even when small number of samples (5--10) are used. 
 Consequently, the relative importance of uncertain 
-parameters in the borehole function is found to be consistent with predictions based on the Sobol' index. 
-In the considered intervals for the uncertain parameters, it is clear that the discharge is insensitive to
-$T_u$ and $T_l$. Moreover, the sensitivity towards $K_w$ is also small. We exploit this result to reduce
+parameters in the borehole function is found to be consistent 
+with predictions based on the Sobol' index. 
+In the considered intervals for the uncertain parameters, it is clear 
+that the discharge is insensitive to $T_u$ and $T_l$. 
+Moreover, the sensitivity to $K_w$ is also small. We exploit these findings to reduce
 the dimensionality of the problem by 
-discounting the uncertainties in $T_u$, $T_l$, and $K_w$, while using nominal values for these
-parameters instead.  
+discounting the uncertainties in $T_u$, $T_l$, and $K_w$ by fixing 
+them at their respective nominal values. 
 
-Our goal as discussed is to gain computational advantage by constructing surrogates in a 
-reduced input parameter space. To this end, we construct PCE's in 5D and 4D spaces by
-fixing $\{T_u,T_l\}$ in the former and additionally fixing $K_w$ in the latter at their respective
-mean values. In Figure~\ref{fig:conv_bore}, we compare convergence of PCE's constructed
-in the full space (7D) with those constructed in the two reduced spaces (4D and 5D) using
-$\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
-
+Our goal as discussed is to gain computational advantage by constructing
+surrogates in a reduced input parameter space. To this end, we construct PCE's
+in 5D and 4D spaces by fixing $\{T_u,T_l\}$ in the former and additionally
+fixing $K_w$ in the latter at their respective mean values. In
+Figure~\ref{fig:conv_bore}, we compare convergence of PCE's constructed in the
+full space (7D) with those constructed in the two reduced spaces (4D and 5D)
+using $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.6\textwidth]{./Figures/err_samples_borehole}
 \caption{A comparison of order of the leave-one-out-error 
 ($\epsilon_{\mbox{\tiny{LOO}}}$) as a function of number of regression samples
-used for constructing the PCE in 4, 5, and 7 dimensions.}
+used for constructing the PCE in 4, 5, and 7 dimensions. \alennote{Use different line styles
+and colors. Also use thicker lines. Instead of taking log of the error, just use a 
+semilogy in Matlab to use logarithmic scale on the y-axis.}}
 \label{fig:conv_bore}
 \end{center}
 \end{figure}
 
-\noindent As expected, it is observed that the PCE
-constructed in the 4D space converges at a much faster rate. For instance, if a PCE with
-$\mathcal{O}(10^{-4})$ accuracy is sought, we need function evaluations at only about
-50 sample points in the 4D parameter space whereas the number of samples needed in the full 
-7D space seems much higher. 
+As expected, it is observed that the PCE constructed in the 4D space converges
+at a much faster rate. For instance, if a PCE with $\mathcal{O}(10^{-4})$
+accuracy is sought, we need function evaluations at only about 50 sample points
+in the 4D parameter space whereas the number of samples needed in the full 7D
+space seems much higher.~\alennote{How are these samples used? Are we doing 
+Latin Hypercube sample, or some other QMC approach?} 
 
-As discussed earlier in this section, the reduced order PCE's are verified for predictive accuracy in 
-a least-squares sense and a probabilistic sense. Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$
-based on 50 samples and corresponding function evaluations in the original 7D parameter space
-were found to be 0.0551 and 0.0112 for the 4D and 5D PCE's respectively. In other words, the 4D
-PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within 1.12$\%$ of predictions based on
-the borehole function. It is interesting to note that although the order of convergence in the case of a 5D
-PCE is lower (Figure~\ref{fig:conv_bore}), its predictive accuracy is higher than the 4D PCE. A possible
-explanation for this observation is that above a certain order of convergence, the uncertainty in $k_w$ 
-contributes much more towards predictive accuracy of the reduced order PCE. It is therefore critical
-to account for the order of PCE convergence as well as its predictive accuracy for a given application,
-as highlighted earlier in section~\ref{sec:method}. 
+As discussed earlier in this section, the reduced order PCE's are verified for
+predictive accuracy in a least-squares sense and a probabilistic sense.
+Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ based on 50 samples and
+corresponding function evaluations in the original 7D parameter space were
+found to be 0.0551 and 0.0112 for the 4D and 5D PCE's respectively. In other
+words, the 4D PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within
+1.12$\%$ of predictions based on the borehole function. We note  that although
+the convergence in the case of a 5D PCE is slower (Figure~\ref{fig:conv_bore}),
+its predictive accuracy is higher than the 4D PCE. This illustrates the
+tradeoff between accuracy and computational efficiency for the present 
+problem. Generally, the required level of accuracy is problem dependent. 
+The present framework allows for moving towards higher fidelity 
+reduced order surrogates based on the ranking of the parameter sensitivities. 
+ 
+%A possible explanation for this observation is that above a certain order
+%of convergence, the uncertainty in $k_w$ contributes much more towards
+%predictive accuracy of the reduced order PCE. It is therefore critical to
+%account for the order of PCE convergence as well as its predictive accuracy for
+%a given application, as highlighted earlier in section~\ref{sec:method}. 
 
-Figure~\ref{fig:pdfcomp_bore} illustrates a comparison of the PDF's of the discharge, $\mathcal{Q}$
-obtained by propagating 10$^6$ Monte-Carlo (MC) samples through the 7D PCE in the
-original input parameter domain as well as the reduced order PCE's constructed in 4 and 5 dimensions. 
 
+Figure~\ref{fig:pdfcomp_bore} illustrates a comparison of the PDF's of the
+discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ Monte-Carlo (MC)
+samples through the 7D PCE in the original input parameter domain as well as
+the reduced order PCE's constructed in 4 and 5 dimensions. 
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.6\textwidth]{./Figures/pdf_comp_borehole}
 \caption{A comparison of PDF's of the discharge, $\mathcal{Q}$ as obtained
 by propagating
 parametric uncertainties through the 4D, 5D, and 7D PCE's.These PDF's 
-were obtained using 10$^{6}$ MC samples in the input parameter domain.} 
+were obtained using 10$^{6}$ MC samples in the input parameter domain.
+\alennote{Use thicker lines, different colors in addition to line styles, larger 
+font size, and also use the x-axis limits to be $[0, 300]$, maybe? 
+Once figures 4, 5 are appropriate reformatted, I would combine them in one line as I did 
+things in figure 2.}
+} 
 \label{fig:pdfcomp_bore}
 \end{center}
 \end{figure}
-
-\noindent It is evident from this plot, that the PDF's agree quite favorably with each other. Consequently, it can
-be said that the reduced order PCE is verified in a probabilistic sense. In other words, the mode as
-well as the uncertainty in the observable is reliably captured and predicted by the reduced order PCE. 
+It is evident from this plot, that the PDF's agree quite favorably with each
+other. Consequently, it can be said that the reduced order PCE is verified in a
+probabilistic sense. In other words, the mode as well as the uncertainty in the
+observable is reliably captured and predicted by the reduced order PCE. 
  
 \subsection{Non-linear Oscillator}
 
