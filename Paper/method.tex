@@ -71,6 +71,9 @@ depicted below using a flow-diagram.
 
 \bigskip
 
+
+
+\begin{figure}[htbp]
 \begin{center}
 \begin{tikzpicture}[node distance=1.5cm]
 
@@ -88,10 +91,22 @@ depicted below using a flow-diagram.
 
 \draw [line] (tol) -- (screen);
 
-\node (dr) [draw, diamond, aspect=2.0] {Is \\ Dimension-reduction \\ possible$?$};
+\node (dr) [draw, diamond, aspect=1.5,yshift=-6.7cm, text width=4.5em, text centered] {Is DR possible$?$};
+
+\draw [line] (screen) -- (dr);
+
+%\node (dr_mean) [right of=dr, xshift=5cm] {DR: Dimension Reduction};
+
 
 \end{tikzpicture}
 \end{center}
+
+\caption{Flow-diagram outlining the overall strategy for constructing reduced-order surrogates using
+the derivative-based sensitivity measures. Note that DR is an abbreviation for dimension reduction.}
+\end{figure}
+
+
+
 
 
 
