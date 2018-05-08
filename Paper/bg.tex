@@ -199,7 +199,7 @@ norm of the PC coefficients is used:
 \be
 \hat{\bm{c}} = \mbox{argmin}~\mathbb{E}_{\bm\theta}
 \left[\left(\sum_{k=0}^\Npc c_k \Psi_k(\bm\xi(\bm\theta)) -
-\GG^{\mbox{\tiny{M}}}(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
+\GG(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
 \ee
 where $\normone{\bm{c}}$ = $\sum_{k=0}^\Npc |c_k |$.
 The regularization term forces the minimization towards sparse coefficient vectors resulting

@@ -24,7 +24,7 @@ uncertainties associated with predictive models and simulations. For situations
 involving complex physical models and compute-intensive simulations, an
 efficient approach to construction of model surrogates is sought to enable UQ
 in a tractable manner. Polynomial chaos expansion 
-(PCE)~\cite{Xiu:2002,Ghanem:2003,Eldred:2008,Olivier:2010} and 
+(PCE)~\cite{Xiu:2002,Ghanem:2003,Olivier:2010} and 
 Gaussian Process (GP)~\cite{Rasmussen:2004} or Kriging~\cite{Stein:2012} are
 among the most commonly used surrogates for scientific applications. However,
 both approaches quickly become prohibitive when the set of uncertain model
@@ -51,7 +51,7 @@ of computational resources. It can thus be understood that dimension reduction p
 constructing the surrogate might lead to enormous computational savings. In this work,
 we present a strategy for identifying and screening uncertain model parameters that 
 are significantly less important that the rest, thereby reducing the dimensionality of the
-problem and enabling the construction of a reduced-order surrogate. As discussed in
+problem and enabling the construction of a reduced-order surrogate (ROS). As discussed in
 section~\ref{sec:method}, parameter ranks are determined using a \textit{screening-metric}
 based on derivative-based global sensitivity 
 measures~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016}. 

@@ -1,73 +1,21 @@
 \section{Motivating Examples}
 \label{sec:examples}
 
-In section~\ref{sec:method}, we presented a methodology for screening model
-parameters using an approximate estimate of the upper bound on the Sobol'
-total effect sensitivity index. The screening process helped identify parameters
-that are relatively insignificant with respect to the observable. These insignificant
-parameters could thus be fixed at their nominal values thereby reducing the
-dimensionality of the problem. 
-
-In this section, we motivate this approach based
-on parameter screening to construct low-dimensional PC surrogates by 
-applying it to simple test problems: (1) Borehole function, (2) Non-linear Oscillator, and
-(3) Semi-linear Elliptic PDE. Since model evaluations in all these test
-problems are not expensive, it allows us to compare relative importance of
-model parameters,
-obtained using the derivative-based sensitivity approach with that obtained
-using converged estimates of Sobol' total effect sensitivity index, $\mathcal{T}(\theta_i)$.
-
-%\cite{Sobol:2001}:
-%\be
-%\mathcal{T}(\theta_i) = 
-%\frac{\mathbb{E}_{\bm{\theta}\sim i}[\mathbb{V}_{\theta_i}(\mathcal{G}|\bm{\theta}_{\sim i})]}{\mathbb{V}(\mathcal{G})}
-%\ee
-
-\noindent $\mathcal{T}(\theta_i)$ is essentially the ratio of the contribution to the variance of an
-observable $\mathcal{G}$ by the parameter $\theta_i$ to the total variance of $\mathcal{G}$.
-Additionally, we compare convergence of the PCE constructed in
-the full parameter space with those constructed in the reduced space. To assess convergence, 
-we rely on the 
-leave-one-out-cross-validation error ($\epsilon_{\mbox{\tiny LOO}}$), defined
-as follows~\cite{Blatman:2010}:
-
-\be
-\epsilon_{\mbox{\tiny LOO}} = 
-\frac{\sum_{i=1}^N\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - 
- \mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}(\bm{\xi(\theta}_i))\right)^2}
-{\sum_{i=1}^N
-\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - \widetilde{\mu}\right)^2}
-\label{eq:loo}
-\ee
-
-\noindent where $\widetilde{\mu}~=~\frac{1}{N}\sum_{i=1}^N \mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i)$
-is the sample mean of the model response, and $ \mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}$
-is the PCE surrogate constructed using all but the $i^{\mbox{\tiny{th}}}$ model realization. 
-From Eq.~\ref{eq:loo}, it appears that $N$ PCE's are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.
-However, in practice a modified formulation for $\epsilon_{\mbox{\tiny LOO}}$~\cite{Blatman:2009},
-independent of $\mathcal{Y}^{\mbox{\tiny {PC}\textbackslash i}}$ is used.
-
-The converged low-dimensional PCE is assessed
-for predictive accuracy. While several techniques could be used, we consider predictive verification
-in an L-2 sense as well as a probabilistic sense. In the former case, we estimate a relative L-2 norm
-of the error ($\epsilon_{\mbox{\tiny{L-2}}}$) as follows:
-
-\be
-\epsilon_{\mbox{\tiny{L-2}}} = 
-\frac{\left[\sum_{i=1}^N\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i) - 
- \mathcal{Y}^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
-{\left[\sum_{i=1}^N
-\left(\mathcal{Y}^{\mbox{\tiny M}}(\bm{\theta}_i)\right)^2\right]^{\frac{1}{2}}}
-\label{eq:l2}
-\ee
-
-\noindent As discussed earlier in section~\ref{sec:method}, computational cost associated with
-L-2 verification is negligible since function evaluations or model realizations obtained during the
-screening step could be re-used to estimate $\epsilon_{\mbox{\tiny{L-2}}}$ using Eq.~\ref{eq:l2}.
-For the purpose of probabilistic verification, we compare the probability density function of
-the observable obtained using PCE's in the full space and the reduced space in the following
-test problems. In situations where model runs are computationally expensive, probabilistic verification might
-not be feasible. 
+In section~\ref{sec:method}, we presented a methodology for constructing
+an ROS by identifying unimportant parameters based on 
+estimates of the upper bound on the Sobol'
+total effect sensitivity index ($\mathcal{T}(\theta_i)$) for individual parameters.
+In this section, we motivate the methodology by applying it to three test problems,
+namely, the borehole function, a non-linear oscillator, and a semi-linear elliptic PDE.
+Since model evaluations in all these test
+problems are inexpensive, we compare relative importance of model parameters based
+on DGSMs, obtained using model predictions with 
+converged estimates of $\mathcal{T}(\theta_i)$ based on the surrogate, constructed in the
+full parameter space. Additionally, to illustrate computational gains, we compare
+convergence trends as a function of training runs for the ROS with the full-space
+surrogate. Furthermore, as discussed earlier in section~\ref{sec:method}, we compare
+PDFs of the model output, obtained using the ROS and the full-space surrogate for
+the purpose of verification. 
 
 \subsection{Borehole function}
 
