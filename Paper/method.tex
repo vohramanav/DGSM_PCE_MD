@@ -83,7 +83,7 @@ depicted below using a flow-diagram.
 
 \draw [line] (start) -- (qoi);
 
-\node (tol) [process, below of=qoi, text width=8em] {Set an initial tolerance, $\tau$};
+\node (tol) [io, below of=qoi, text width=7em,align=left,yshift=-0.2cm] {Set an initial tolerance, $\tau$};
 
 \draw [line] (qoi) -- (tol);
 
@@ -95,7 +95,30 @@ depicted below using a flow-diagram.
 
 \draw [line] (screen) -- (dr);
 
-%\node (dr_mean) [right of=dr, xshift=5cm] {DR: Dimension Reduction};
+\node (res) [draw, diamond, aspect=1.5, xshift=4.5cm,text width=4.5em, text centered, right of=dr] {Resource available$?$};
+
+\draw [line] (dr) -- node[anchor=south] {N} (res);
+
+\node (dtol) [io, above of=res, text width=6em,align=left,yshift=1.2cm,text centered]
+ {\vspace{-5mm}\be\tau = \tau - \delta\tau,~\delta\tau > 0\nonumber\ee};
+ 
+\draw [line] (dtol) -| (screen);
+ 
+ \draw [line] (res) -- node[anchor=west,yshift=-0.1cm] {Y} (dtol);
+
+\node (ros) [process, below of=dr, text width=11em,yshift=-1.2cm] {Construct a reduced-order surrogate};
+
+\draw [line] (dr) -- node[anchor=east] {Y}(ros);
+
+\node (verify) [process, below of=ros, text width=9em,yshift=-0.2cm] {Verify accuracy of the surrogate};
+
+\draw [line] (ros) -- (verify);
+
+\node (stop) [startstop, below of=verify] {Stop};
+
+\draw [line] (verify) -- (stop);
+
+\draw [line] (res) |- node[anchor=east,yshift=4.3cm] {N} (stop);
 
 
 \end{tikzpicture}
@@ -105,7 +128,13 @@ depicted below using a flow-diagram.
 the derivative-based sensitivity measures. Note that DR is an abbreviation for dimension reduction.}
 \end{figure}
 
-
+As illustrated in the above flow-diagram, application of the above methodology to construct a reduced-order
+surrogate relies on the choice of an \textit{appropriate} model output. Since the parameters are screened
+using derivative-based sensitivity measures, the model output should exhibit a smooth dependence on the
+individual uncertain parameters to enable a reasonable approximation of the derivatives in Eq.~\ref{eq:mu}.
+Hence, for a given problem involving multiple outputs or model predictions, it is likely that a reduced-order 
+surrogate might be possible for only selected outputs. Hence, where possible, it is recommended to a priori assess the
+nature of dependence of a given model output on the parameters.
 
 
 
