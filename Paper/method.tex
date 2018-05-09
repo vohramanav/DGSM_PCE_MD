@@ -34,28 +34,46 @@ effect index ($\mathcal{T}(\theta_i)$) for each parameter, $\theta_i$, and using
 metric to screen parameters that are relatively unimportant. Below, we provide a generalized
 strategy for parameter screening. 
 
-\bigskip
-
+\clearpage
 \begin{breakablealgorithm}
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
     \Procedure{Screening}{}
-      \State Generate $n_1$ samples in $\mathbb{R}^{N_p}$ according to the joint probability density, $\bm{f(\theta)}$.
-      \State Evaluate the gradient vector, $\nabla_{\bm{\theta}}G_k$ at each sample point, $\bm{\theta}_k$.
-      \State Approximate sensitivity measures, $\bm{\mu}$: \be\bm{\mu} \approx \hat{\bm{\mu}} = 
-      \frac{1}{n_1}\sum\limits_{k=1}^{n_1}(\nabla_{\bm{\theta}}G_k)(\nabla_{\bm{\theta}}G_k)^{T}\nonumber\ee
-      \State Estimate $\widehat{\mathcal{C}_i\mu_i}$ for each parameter, $\theta_i$ and determine initial ranks,
-       $\mathcal{R}^{old}$.
-      \State set $s$ = 1\Comment{Iteration counter}
-      \Do
-        \State Generate $n_s$ new points in $\mathbb{R}^{N_p}$.
-        \State Determine new ranks, $\mathcal{R}^{new}$ based on updated $\widehat{\mathcal{C}_i\mu_i}$ values.
-        \State Compute $\Delta\mu_m$ = max$\left(\frac{|\mu_{i,s} - 
-               \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.\Comment{$\Delta\mu_m$:
-               Maximum deviation in $\mu_i$ between successive iterations.}
-        \State set $s$ = $s$ + 1
-      \doWhile{($\mathcal{R}^{\tiny{new}}$ $\neq$ $\mathcal{R}^{\tiny{old}}$ {\bf or}  
-               $\Delta\mu_m$~$>~\tau$)\Comment{$\tau$:~Tolerance}}
+      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
+       according to the probability density $\bm{f(\theta)}$.
+      \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
+             $k = 1, \ldots, n_1$. 
+
+      \State Compute 
+      $\mu_{1, i} = \frac{1}{n_1} \sum_{k = 1}^{n_1} (g^k_i)^2$
+      \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
+             $i = 1, \ldots, \Np$. 
+      \State Determine initial ranks: 
+            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{n_1}$ such that 
+\[
+   \nu_{\sigma(1)} \geq \nu_{\sigma(2)} \geq \cdot \geq \nu_{\sigma(\Np)}. 
+\]
+      \State Set $s$ = 1.
+      \State Set $\mathrm{done} = \mathrm{false}$.
+      \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
+        \State Set $s = s + 1$.
+        \State Draw $n_s$ new samples 
+                  $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
+        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
+             $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.
+
+        \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
+               $\{\bm{g}_k \}_{k = 1}^{n_{s-1}+n_s}$.
+        \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
+        \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
+        \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
+               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
+      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
+         \State $\mathrm{done} = \mathrm{true}$
+      \Else
+          \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
+      \EndIf
+    \EndWhile
     \EndProcedure
   \end{algorithmic}
 \end{breakablealgorithm}
