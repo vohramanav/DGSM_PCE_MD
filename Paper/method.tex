@@ -74,6 +74,8 @@ strategy for parameter screening.
           \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
       \EndIf
     \EndWhile
+    \State Let $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i > \tau_\text{screen}\}.$
+    
     \EndProcedure
   \end{algorithmic}
 \end{breakablealgorithm}
