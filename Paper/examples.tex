@@ -102,17 +102,18 @@ Our goal as discussed is to gain computational advantage by constructing
 surrogates in a reduced input parameter space. To this end, we construct PCE's
 in 5D and 4D spaces by fixing $\{T_u,T_l\}$ in the former and additionally
 fixing $K_w$ in the latter at their respective mean values. In
-Figure~\ref{fig:conv_bore}, we compare convergence of PCE's constructed in the
+Figure~\ref{fig:conv_bore}(left), we compare convergence of PCE's constructed in the
 full space (7D) with those constructed in the two reduced spaces (4D and 5D)
 using $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.6\textwidth]{./Figures/err_samples_borehole}
-\caption{A comparison of order of the leave-one-out-error 
+  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_borehole}
+  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_borehole}
+\caption{Left: A comparison of order of the leave-one-out-error 
 ($\epsilon_{\mbox{\tiny{LOO}}}$) as a function of number of regression samples
-used for constructing the PCE in 4, 5, and 7 dimensions. \alennote{Use different line styles
-and colors. Also use thicker lines. Instead of taking log of the error, just use a 
-semilogy in Matlab to use logarithmic scale on the y-axis.}}
+used for constructing the PCE in 4, 5, and 7 dimensions. Right: A comparison of
+PDFs of the discharge, $\mathcal{Q}$, generated using 10$^{6}$ samples from
+the marginal distributions of the uncertain parameters in each case.} 
 \label{fig:conv_bore}
 \end{center}
 \end{figure}
@@ -145,27 +146,25 @@ reduced order surrogates based on the ranking of the parameter sensitivities.
 %a given application, as highlighted earlier in section~\ref{sec:method}. 
 
 
-Figure~\ref{fig:pdfcomp_bore} illustrates a comparison of the PDF's of the
-discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ Monte-Carlo (MC)
+Figure~\ref{fig:conv_bore}(right) illustrates a comparison of the PDFs
+of the
+discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ random
 samples through the 7D PCE in the original input parameter domain as well as
-the reduced order PCE's constructed in 4 and 5 dimensions. 
-\begin{figure}[htbp]
- \begin{center}
-  \includegraphics[width=0.6\textwidth]{./Figures/pdf_comp_borehole}
-\caption{A comparison of PDF's of the discharge, $\mathcal{Q}$ as obtained
-by propagating
-parametric uncertainties through the 4D, 5D, and 7D PCE's.These PDF's 
-were obtained using 10$^{6}$ MC samples in the input parameter domain.
-\alennote{Use thicker lines, different colors in addition to line styles, larger 
-font size, and also use the x-axis limits to be $[0, 300]$, maybe? 
-Once figures 4, 5 are appropriate reformatted, I would combine them in one line as I did 
-things in figure 2.}
-} 
-\label{fig:pdfcomp_bore}
-\end{center}
-\end{figure}
-It is evident from this plot, that the PDF's agree quite favorably with each
-other. Consequently, it can be said that the reduced order PCE is verified in a
+the reduced order PCEs constructed in 4 and 5 dimensions. 
+%\begin{figure}[htbp]
+% \begin{center}
+%  \includegraphics[width=0.6\textwidth]{./Figures/pdf_comp_borehole}
+%\caption{A comparison of PDF's of the discharge, $\mathcal{Q}$ as obtained
+%by propagating
+%parametric uncertainties through the 4D, 5D, and 7D PCE's.These PDF's 
+%were obtained using 10$^{6}$ MC samples in the input parameter domain.} 
+%\label{fig:pdfcomp_bore}
+%\end{center}
+%\end{figure}
+It is evident from this plot, that the PDFs agree quite favorably with each
+other with respect to the modal estimate as well as the uncertainty associated with 
+$\mathcal{Q}$. 
+Consequently, it can be said that the reduced order PCE is verified in a
 probabilistic sense. In other words, the mode as well as the uncertainty in the
 observable is reliably captured and predicted by the reduced order PCE. 
  
