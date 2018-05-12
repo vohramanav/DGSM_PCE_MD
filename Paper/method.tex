@@ -35,35 +35,36 @@ metric to screen parameters that are relatively unimportant. Below, we provide a
 strategy for parameter screening. 
 
 \clearpage
+
 \begin{breakablealgorithm}
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
     \Procedure{Screening}{}
       \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
        according to the probability density $\bm{f(\theta)}$.
+       \State $N_t = N_t + n_1$
       \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
              $k = 1, \ldots, n_1$. 
 
       \State Compute 
-      $\mu_{1, i} = \frac{1}{n_1} \sum_{k = 1}^{n_1} (g^k_i)^2$
+      $\mu_{1, i} = \frac{1}{N_t} \sum_{k = 1}^{N_t} (g^k_i)^2$
       \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
              $i = 1, \ldots, \Np$. 
       \State Determine initial ranks: 
-            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{n_1}$ such that 
+            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{N_t}$ such that 
 \[
    \nu_{\sigma(1)} \geq \nu_{\sigma(2)} \geq \cdot \geq \nu_{\sigma(\Np)}. 
 \]
       \State Set $s$ = 1.
       \State Set $\mathrm{done} = \mathrm{false}$.
       \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
-        \State Set $s = s + 1$.
+        \State $s = s + 1$
+        \State $N_t = N_t + n_s$
         \State Draw $n_s$ new samples 
-                  $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
-        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
-             $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.
-
+                  $\bm{\theta}_k$, $k = 1, \ldots, n_s$
+        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$
         \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
-               $\{\bm{g}_k \}_{k = 1}^{n_{s-1}+n_s}$.
+               $\{\bm{g}_k \}_{k = 1}^{N_t}$.
         \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
         \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
         \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
@@ -74,92 +75,77 @@ strategy for parameter screening.
           \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
       \EndIf
     \EndWhile
-    \State Let $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i > \tau_\text{screen}\}.$
+    \State $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i \ni \displaystyle\frac{\nu_i}{\max(\bm{\nu})}> \tau_\text{screen}\}.$
     
     \EndProcedure
   \end{algorithmic}
+  \label{alg:screen}
 \end{breakablealgorithm}
+
+%\begin{breakablealgorithm}
+%  \caption{Parameter screening with DGSMs: A generalized approach.}
+%  \begin{algorithmic}[1]
+%    \Procedure{Screening}{}
+%      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
+%       according to the probability density $\bm{f(\theta)}$.
+%      \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
+%             $k = 1, \ldots, n_1$. 
+%
+%      \State Compute 
+%      $\mu_{1, i} = \frac{1}{n_1} \sum_{k = 1}^{n_1} (g^k_i)^2$
+%      \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
+%             $i = 1, \ldots, \Np$. 
+%      \State Determine initial ranks: 
+%            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{n_1}$ such that 
+%\[
+%   \nu_{\sigma(1)} \geq \nu_{\sigma(2)} \geq \cdot \geq \nu_{\sigma(\Np)}. 
+%\]
+%      \State Set $s$ = 1.
+%      \State Set $\mathrm{done} = \mathrm{false}$.
+%      \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
+%        \State Set $s = s + 1$.
+%        \State Draw $n_s$ new samples 
+%                  $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
+%        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
+%             $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.
+%
+%        \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
+%               $\{\bm{g}_k \}_{k = 1}^{n_{s-1}+n_s}$.
+%        \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
+%        \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
+%        \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
+%               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
+%      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
+%         \State $\mathrm{done} = \mathrm{true}$
+%      \Else
+%          \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
+%      \EndIf
+%    \EndWhile
+%    \State Let $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i \ni \displaystyle\frac{\nu_i}{\max(\bm{\nu})}> \tau_\text{screen}\}.$
+%    
+%    \EndProcedure
+%  \end{algorithmic}
+%  \label{alg:screen}
+%\end{breakablealgorithm}
 
 \bigskip
 
 In case the gradient, $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically, we could use finite-difference
-to approximate its value as shown in Eq.~\ref{eq:partial}. In that case, the above algorithm could be adapted as
-follows:
-
-\bigskip
-
-\begin{breakablealgorithm}
-  \caption{Parameter screening with DGSMs using finite differences.}
-  \begin{algorithmic}[1]
-    \Procedure{Screening}{}
-      \State Generate $n_1$ samples in $\mathbb{R}^{N_p}$ according to the joint probability density, $\bm{f(\theta)}$.
-      \State Perturb each point along the $N_p$ directions to obtain a set of $n_1(N_p+1)$ samples.
-      \State Estimate $\nabla_{\bm{\theta}}G_k$ using model evaluations at the $n_1$ samples and the corresponding 
-                 neighbouring samples for each component of $\bm{\theta}$.
-      \State Approximate sensitivity measures, $\bm{\mu}$: \be\bm{\mu} \approx \hat{\bm{\mu}} = 
-      \frac{1}{n_1}\sum\limits_{k=1}^{n_1}(\nabla_{\bm{\theta}}G_k)(\nabla_{\bm{\theta}}G_k)^{T}\nonumber\ee
-      \State Estimate $\widehat{\mathcal{C}_i\mu_i}$ for each parameter, $\theta_i$ and determine initial ranks,
-       $\mathcal{R}^{old}$.
-      \State set $s$ = 1\Comment{Iteration counter}
-      \Do
-        \State Generate $n_s$ new points in $\mathbb{R}^{N_p}$.
-        \State Perturb each point along the $N_p$ directions to obtain a set of $n_s(N_p+1)$ points.
-        \State Compute $\mu_i$ using model evaluations at $(N_p+1)(n_1 + \sum\limits_j^s n_j)$ points.
-        \State Determine new ranks, $\mathcal{R}^{new}$ based on updated $\widehat{\mathcal{C}_i\mu_i}$ values.
-        \State Compute $\Delta\mu_m$ = max$\left(\frac{|\mu_{i,s} - 
-               \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.\Comment{$\Delta\mu_m$:
-               Maximum deviation in $\mu_i$ between successive iterations.}
-        \State set $s$ = $s$ + 1
-      \doWhile{($\mathcal{R}^{\tiny{new}}$ $\neq$ $\mathcal{R}^{\tiny{old}}$ {\bf or}  
-               $\Delta\mu_m$~$>~\tau$)\Comment{$\tau$:~Tolerance}}
-    \EndProcedure
-  \end{algorithmic}
-\end{breakablealgorithm}
-
-\bigskip
-
-
-
-%\bigskip
-%
-%\begin{breakablealgorithm}
-%  \caption{Parameter screening with derivative-based sensitivity measures.}
-%  \begin{algorithmic}[1]
-%    \Procedure{Screening}{}
-%      \State Generate $n_1$ points in $\mathbb{R}^{d}$.\Comment{$d$: 
-%             Number of uncertain model parameters.}
-%      \State Perturb each point along the $d$ directions to obtain a set of $n_1(d+1)$ points.
-%      \State Compute $\mu_i$ using model evaluations at the $n_1(d+1)$ points in Eq.~\ref{eq:mu}
-%      \State Determine initial ranks, $\mathcal{R}^{old}$ based on $\widehat{\mathcal{C}_i\mu_i}$ values for $\theta_i$.
-%      \State set $k$ = 1\Comment{Iteration counter}
-%      \Do
-%        \State Generate $n_k$ new points in $\mathbb{R}^{d}$.
-%        \State Perturb each point along the $d$ directions to obtain a set of $n_k(d+1)$ points.
-%        \State Compute and store model evaluations at the $n_k(d+1)$ points.
-%        \State Compute $\mu_i$ using prior model evaluations at $(d+1)(n_1 + \sum_j^k n_j)$ points.
-%        \State Determine new ranks, $\mathcal{R}^{new}$ based on updated $\widehat{\mathcal{C}_i\mu_i}$ values.
-%        \State Compute $max\_pdev$ = max$\left(\frac{|\mu_{i,k} - 
-%               \mu_{i,k-1}|}{ \mu_{i,k-1}}\right)$.\Comment{$max\_pdev$:
-%               Maximum percentage deviation in $\mu_i$ between successive iterations.}
-%        \State set $k$ = $k$ + 1
-%      \doWhile{($\mathcal{R}^{\tiny{new}}$ $\neq$ $\mathcal{R}^{\tiny{old}}$ {\bf or}  
-%               $max\_pdev$~$>~\tau$)\Comment{$\tau$:~Tolerance}}
-%    \EndProcedure
-%  \end{algorithmic}
-%\end{breakablealgorithm}
-%
-%\bigskip
+to approximate its value as shown in Eq.~\ref{eq:partial} in Algorithm~\ref{alg:screen}. However, as discussed earlier
+in section 2.1, estimating $\bm{\mu}$  using $\mathcal{N}$ samples in the full parameter space requires 
+model evaluations at model evaluations at $(N_p+1)\mathcal{N}$ samples, compared to only $\mathcal{N}$ samples in 
+situations where the derivative is available analytically. Hence, computational effort when using finite differences
+is increased by a factor of $(N_p+1)$. 
 
 Based on the steps outlined in the above algorithm, it can be said that the set of sample points used for
 estimating the screening metric, $\widehat{\mathcal{C}_i\mu_i}$ is enriched until consistency in ranks
 between successive iterations as well as a certain degree of convergence in estimates of the screening 
-metric for each uncertain parameter is accomplished. Parameter
+metric for each uncertain parameter is accomplished. However, the amount of computational effort associated
+the screening process is limited by the choice of maximum number of iterations Parameter
 screening is an integral part of the overall strategy for constructing the ROS as 
 depicted below using a flow-diagram. 
 
 \bigskip
-
-
 
 \begin{figure}[htbp]
 \begin{center}
@@ -176,7 +162,8 @@ depicted below using a flow-diagram.
 
 \draw [arro] (start) -- (qoi);
 
-\node (tol) [io, below of=qoi, text width=7em,align=left,yshift=-0.2cm] {Set an initial tolerance, $\tau$};
+\node (tol) [io, below of=qoi, text width=9em,align=left,yshift=-0.2cm] {Initialize: $\tau$, $\tau_\text{screen}$, 
+$s_\text{max}$, $N_t$ = 0};
 
 \draw [arro] (qoi) -- (tol);
 
@@ -184,9 +171,13 @@ depicted below using a flow-diagram.
 
 \draw [arro] (tol) -- (screen);
 
-\node (dr) [draw, diamond, aspect=1.5,yshift=-6.9cm, text width=4.5em, text centered] {Is DR possible$?$};
+\node (output) [process, below of=screen, text width=9.5em] {Compute $\alpha$ based on $\mathcal{I}_\text{active}$};
 
-\draw [arro] (screen) -- (dr);
+\draw [arro] (screen) -- (output);
+
+\node (dr) [draw, diamond, aspect=1.5,yshift=-8.4cm, text width=4.5em, text centered] {If $\alpha < 1$};
+
+\draw [arro] (output) -- (dr);
 
 \node (fss) [process, right of=dr, text width=9em,xshift=3.5cm] {Construct full-space surrogate (FSS)};
 
@@ -196,12 +187,11 @@ depicted below using a flow-diagram.
 
 \draw [arro] (fss) -- (res);
 
-\node (dtol) [io, above of=res, text width=6em,align=left,yshift=1.2cm,text centered]
- {\vspace{-5mm}\be\tau = \tau - \delta\tau,~\delta\tau > 0\nonumber\ee};
+\node (dtol) [io, above of=res, text width=8.7em,align=left,yshift=2.8cm] {Update: $\tau$, $s_\text{max}$, $N_t$};
  
 \draw [arro] (dtol) -| (screen);
  
- \draw [arro] (res) -- node[anchor=west,yshift=-0.1cm] {N} (dtol);
+ \draw [arro] (res) -- node[anchor=east,yshift=-0.6cm] {N} (dtol);
  
  \node (assess) [process, below of=dr, text width=11em,yshift=-1.2cm] {If applicable, assess $\alpha$ and convergence
   of FSS};
@@ -231,8 +221,8 @@ depicted below using a flow-diagram.
 \end{tikzpicture}
 \end{center}
 
-\caption{Flow-diagram outlining the overall strategy for constructing reduced-order surrogates using
-DGSMs. Note that DR is an abbreviation for dimension reduction.}
+\caption{Flow-diagram outlining the adaptive strategy for constructing reduced-order surrogates using
+DGSMs.}
 \label{fig:flow}
 \end{figure}
 
