@@ -35,14 +35,14 @@ metric to screen parameters that are relatively unimportant. Below, we provide a
 strategy for parameter screening. 
 
 \clearpage
-
+\iffalse
 \begin{breakablealgorithm}
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
     \Procedure{Screening}{}
       \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
        according to the probability density $\bm{f(\theta)}$.
-       \State $N_t = N_t + n_1$
+      \State $N_t = N_t + n_1$
       \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
              $k = 1, \ldots, n_1$. 
 
@@ -81,52 +81,68 @@ strategy for parameter screening.
   \end{algorithmic}
   \label{alg:screen}
 \end{breakablealgorithm}
+\fi
 
-%\begin{breakablealgorithm}
-%  \caption{Parameter screening with DGSMs: A generalized approach.}
-%  \begin{algorithmic}[1]
-%    \Procedure{Screening}{}
-%      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
-%       according to the probability density $\bm{f(\theta)}$.
-%      \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
-%             $k = 1, \ldots, n_1$. 
-%
-%      \State Compute 
-%      $\mu_{1, i} = \frac{1}{n_1} \sum_{k = 1}^{n_1} (g^k_i)^2$
-%      \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
-%             $i = 1, \ldots, \Np$. 
-%      \State Determine initial ranks: 
-%            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{n_1}$ such that 
-%\[
-%   \nu_{\sigma(1)} \geq \nu_{\sigma(2)} \geq \cdot \geq \nu_{\sigma(\Np)}. 
-%\]
-%      \State Set $s$ = 1.
-%      \State Set $\mathrm{done} = \mathrm{false}$.
-%      \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
-%        \State Set $s = s + 1$.
-%        \State Draw $n_s$ new samples 
-%                  $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
-%        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
-%             $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.
-%
-%        \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
-%               $\{\bm{g}_k \}_{k = 1}^{n_{s-1}+n_s}$.
-%        \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
-%        \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
-%        \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
-%               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
-%      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
-%         \State $\mathrm{done} = \mathrm{true}$
-%      \Else
-%          \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
-%      \EndIf
-%    \EndWhile
-%    \State Let $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i \ni \displaystyle\frac{\nu_i}{\max(\bm{\nu})}> \tau_\text{screen}\}.$
-%    
-%    \EndProcedure
-%  \end{algorithmic}
-%  \label{alg:screen}
-%\end{breakablealgorithm}
+
+%%%%%%%%%%% 
+
+
+
+
+
+\begin{breakablealgorithm}
+\renewcommand{\algorithmicrequire}{\textbf{Input:}}
+\renewcommand{\algorithmicensure}{\textbf{Output:}}
+  \caption{Parameter screening with DGSMs: A generalized approach.}
+  \begin{algorithmic}[1]
+\Require $\tau > 0$, $\tau_\text{screen} > 0$,
+$s_\text{max}$, $\beta > 0$. 
+\Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
+    \Procedure{Screening}{}
+      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
+       according to the probability density $\bm{f(\theta)}$.
+      \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
+             $k = 1, \ldots, n_1$. 
+
+      \State Compute 
+      $\mu_{1, i} = \frac{1}{n_1} \sum_{k = 1}^{n_1} (g^k_i)^2$
+      \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
+             $i = 1, \ldots, \Np$. 
+      \State Determine initial ranks: 
+            let $\mathcal{R}^{old} = \{ \nu_{i_1}, \nu_{i_2}, \ldots, \nu_{i_\Np}\}$ such that 
+\[
+   \nu_{i_1} \geq \nu_{i_2} \geq \cdots \geq \nu_{i_\Np}. 
+\]
+      \State Set $s$ = 1.
+      \State Set $N_\text{total} = n_1$.
+      \State Set $\mathrm{done} = \mathrm{false}$.
+      \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
+        \State Set $s = s + 1$.
+        \State Draw $n_s = \lceil \beta n_1 \rceil$ new samples 
+                  $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
+       \State Set $N_\text{total} = N_\text{total} + n_s$.
+        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
+             $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.
+
+        \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
+               $\{\bm{g}_k \}_{k = 1}^{N_\text{total}}$.
+        \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
+        \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
+        \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
+               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
+      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
+         \State $\mathrm{done} = \mathrm{true}$
+      \Else
+          \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
+      \EndIf
+    \EndWhile
+    \State $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \displaystyle\frac{\nu_i}
+        {\|\bm{\nu}\|_\infty} > \tau_\text{screen}\}.$
+    
+    \EndProcedure
+  \end{algorithmic}
+  \label{alg:screen}
+\end{breakablealgorithm}
 
 \bigskip
 
