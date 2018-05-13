@@ -96,16 +96,17 @@ strategy for parameter screening.
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
 \Require $\tau > 0$, $\tau_\text{screen} > 0$,
-$s_\text{max}$, $\beta > 0$. 
-\Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
+$s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$. 
+\Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$, $N_\text{total}$. 
     \Procedure{Screening}{}
-      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
-       according to the probability density $\bm{f(\theta)}$.
+    %  \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
+     %  according to the probability density $\bm{f(\theta)}$.
+     %   \State $N_\text{total} = N_\text{total} + n_1$.
       \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
              $k = 1, \ldots, n_1$. 
 
       \State Compute 
-      $\mu_{1, i} = \frac{1}{n_1} \sum_{k = 1}^{n_1} (g^k_i)^2$
+      $\mu_{1, i} = \frac{1}{N_\text{total}} \sum_{k = 1}^{N_\text{total}} (g^k_i)^2$
       \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
              $i = 1, \ldots, \Np$. 
       \State Determine initial ranks: 
@@ -114,13 +115,12 @@ $s_\text{max}$, $\beta > 0$.
    \nu_{i_1} \geq \nu_{i_2} \geq \cdots \geq \nu_{i_\Np}. 
 \]
       \State Set $s$ = 1.
-      \State Set $N_\text{total} = n_1$.
       \State Set $\mathrm{done} = \mathrm{false}$.
       \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
-        \State Set $s = s + 1$.
+        \State $s = s + 1$.
         \State Draw $n_s = \lceil \beta n_1 \rceil$ new samples 
                   $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
-       \State Set $N_\text{total} = N_\text{total} + n_s$.
+       \State $N_\text{total} = N_\text{total} + n_s$.
         \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
              $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.
 
@@ -129,7 +129,7 @@ $s_\text{max}$, $\beta > 0$.
         \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
         \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
         \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
-               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
+               \left(\frac{|\mu_{s,i} - \mu_{s-1,i}|}{ \mu_{s-1,i}}\right)$.
       \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
          \State $\mathrm{done} = \mathrm{true}$
       \Else
@@ -174,65 +174,74 @@ depicted below using a flow-diagram.
 
 \node (start) [startstop] {Start};
 
-\node (qoi) [io, below of=start,align=left] {Select an appropriate model output};
+\node (val) [process, below of=start, text width=14.5em] {Construct a validation test suite using
+pre-allocated resources.};
 
-\draw [arro] (start) -- (qoi);
+\draw [arro] (start) -- (val);
+
+\node (qoi) [io, below of=val,align=left,yshift=-0.2cm] {Select an appropriate model output};
+
+\draw [arro] (val) -- (qoi);
 
 \node (tol) [io, below of=qoi, text width=9em,align=left,yshift=-0.2cm] {Initialize: $\tau$, $\tau_\text{screen}$, 
-$s_\text{max}$, $N_t$ = 0};
+$s_\text{max}$, $\beta$, $N_\text{total}$ = 0};
 
 \draw [arro] (qoi) -- (tol);
 
-\node (screen) [process, below of=tol, text width=9.5em] {Parameter Screening};
+\node (sam0) [process, below of=tol, text width=12.5em, yshift=-0.3cm] {Draw $n_0$ samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ 
+     according to $\bm{f(\theta)}$};
+     
+\draw [arro] (tol) -- (sam0);     
 
-\draw [arro] (tol) -- (screen);
+\node (counter) [process, below of=sam0, text width=9.5em, yshift=-0.21cm] {\vspace{-6mm}\be N_\text{total} = N_\text{total} + n_0 \nonumber\ee};
 
-\node (output) [process, below of=screen, text width=9.5em] {Compute $\alpha$ based on $\mathcal{I}_\text{active}$};
+\draw [arro] (sam0) -- (counter);     
 
-\draw [arro] (screen) -- (output);
+\node (fss) [process, below of=counter, text width=14.5em, yshift=-0.28cm] {Construct regression-based 
+surrogate in full-space (FSS) uing $N_\text{total}$ model evaluations};
 
-\node (dr) [draw, diamond, aspect=1.5,yshift=-8.4cm, text width=4.5em, text centered] {If $\alpha < 1$};
+\draw [arro] (counter) -- (fss);   
 
-\draw [arro] (output) -- (dr);
+\node (chk) [process, below of=fss, text width=12.5em, yshift=-0.5cm] {Assess accuracy of FSS using the
+validation test suite};
 
-\node (fss) [process, right of=dr, text width=9em,xshift=3.5cm] {Construct full-space surrogate (FSS)};
+\draw [arro] (fss) -- (chk);   
 
-\draw [arro] (dr) -- node[anchor=south] {N} (fss);
+\node (res) [draw, diamond, aspect=1.5, text width=7.5em, text centered, below of=chk,yshift=-1.5cm] {Is \\ FSS, 
+sufficiently accurate$?$};
 
-\node (res) [draw, diamond, aspect=1.5, xshift=3.5cm,text width=4.5em, text centered, right of=fss] {FSS converged$?$};
+\draw [arro] (chk) -- (res);  
 
-\draw [arro] (fss) -- (res);
+\node (screen) [process, right of=res, text width=9.5em, xshift=4.5cm] {Parameter Screening};
 
-\node (dtol) [io, above of=res, text width=8.7em,align=left,yshift=2.8cm] {Update: $\tau$, $s_\text{max}$, $N_t$};
- 
-\draw [arro] (dtol) -| (screen);
- 
- \draw [arro] (res) -- node[anchor=east,yshift=-0.6cm] {N} (dtol);
- 
- \node (assess) [process, below of=dr, text width=11em,yshift=-1.2cm] {If applicable, assess $\alpha$ and convergence
-  of FSS};
- 
- \draw [arro] (dr) -- node[anchor=east] {Y}(assess);
- 
- \node (con) [draw, diamond, aspect=1.5,text width=4em, text centered, below of=assess,yshift=-0.7cm] {Continue$?$};
- 
- \draw [arro] (assess) -- (con);
+\draw [arro] (res) -- node[anchor=north] {N} (screen);
 
-\node (ros) [process, below of=con, text width=6em, yshift=-0.7cm] {Construct the ROS};
+\node (dr) [draw, diamond, aspect=1.8, text width=7.5em, text centered, right of=screen,xshift=4cm] {Is $\alpha$
+small enough$?$};
 
- \draw [arro] (con) -- node[anchor=east] {Y}(ros);
+\draw [arro] (screen) -- (dr); 
 
-\node (verify) [process, below of=ros, text width=9em,yshift=-0.2cm] {Verify accuracy of the surrogate};
+\node (dtol) [io, above of=dr, text width=8.7em,align=left,yshift=3.2cm] {Update: $\tau$, $\tau_\text{screen}$, 
+$s_\text{max}$, $\beta$};
 
-\draw [arro] (ros) -- (verify);
+\draw [arro] (dr) -- node[anchor=east,yshift=-0.8cm] {N} (dtol);
 
-\node (stop) [startstop, right of=verify,xshift=3.5cm] {Stop};
+\draw [arro] (dtol) |- (sam0); 
 
-\draw [arro] (verify) -- (stop);
+\node (ros) [process, below of=dr, text width=11.5em, yshift=-1.5cm] {Construct a reduced-order surrogate (ROS)};
 
-\draw [arro] (res) |- node[anchor=east,yshift=6.9cm] {Y} (stop);
+\draw [arro] (dr) -- node[anchor=east,yshift=0.1cm] {Y} (ros);
 
-\draw [arro] (con) -| node[anchor=south,xshift=-3cm] {N} (stop);
+\node (ver) [process, left of=ros, text width=14.5em, xshift=-5cm] {Verify ROS using evaluations at $N_\text{total}$
+$\&$ the validation test suite};
+
+\draw [arro] (ros) -- (ver); 
+
+\node (stop) [startstop, below of=chk,yshift=-4.5cm] {Stop};
+
+\draw [arro] (res) -- node[anchor=east,yshift=0.0cm] {Y} (stop);
+
+\draw [arro] (ver) -- (stop); 
 
 \end{tikzpicture}
 \end{center}
