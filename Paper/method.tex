@@ -96,7 +96,7 @@ strategy for parameter screening.
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
 \Require $\tau > 0$, $\tau_\text{screen} > 0$,
-$s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$. 
+$s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
 \Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$, $N_\text{total}$. 
     \Procedure{Screening}{}
     %  \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
@@ -174,7 +174,7 @@ depicted below using a flow-diagram.
 
 \node (start) [startstop] {Start};
 
-\node (val) [process, below of=start, text width=14.5em] {Construct a validation test suite using
+\node (val) [process, below of=start, text width=14.5em] {Create a validation test suite using
 pre-allocated resources.};
 
 \draw [arro] (start) -- (val);
@@ -221,8 +221,8 @@ small enough$?$};
 
 \draw [arro] (screen) -- (dr); 
 
-\node (dtol) [io, above of=dr, text width=8.7em,align=left,yshift=3.2cm] {Update: $\tau$, $\tau_\text{screen}$, 
-$s_\text{max}$, $\beta$};
+\node (dtol) [io, above of=dr, text width=10.5em,align=left,yshift=3.2cm,inner sep=0.2pt] {\vspace{1mm}Update: $\tau$, 
+$\tau_\text{screen}$, $s_\text{max}$, $\beta$; Input: $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$\vspace{1mm}};
 
 \draw [arro] (dr) -- node[anchor=east,yshift=-0.8cm] {N} (dtol);
 
@@ -246,8 +246,7 @@ $\&$ the validation test suite};
 \end{tikzpicture}
 \end{center}
 
-\caption{Flow-diagram outlining the adaptive strategy for constructing reduced-order surrogates using
-DGSMs.}
+\caption{Flow-diagram outlining the adaptive strategy for constructing reduced-order surrogates.}
 \label{fig:flow}
 \end{figure}
 
