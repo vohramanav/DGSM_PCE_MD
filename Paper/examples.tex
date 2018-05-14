@@ -1,19 +1,20 @@
 \section{Motivating Examples}
 \label{sec:examples}
 
-In section~\ref{sec:method}, we presented a methodology for constructing
-an ROS by identifying unimportant parameters based on 
-estimates of the upper bound on the Sobol'
-total effect sensitivity index ($\mathcal{T}(\theta_i)$) for individual parameters.
-In this section, we motivate the methodology by applying it to three test problems,
+In section~\ref{sec:method}, we presented a framework for constructing
+an ROS (if deemed advantageous) by identifying unimportant parameters based on 
+estimates of the screening metric, $\widehat{\mathcal{C}_i\mu_i}$
+for individual parameters.
+In this section, we motivate the underlying methodology by applying it to three test problems,
 namely, the borehole function, a non-linear oscillator, and a semi-linear elliptic PDE.
 Since model evaluations in all these test
 problems are inexpensive, we compare relative importance of model parameters based
-on DGSMs, obtained using model predictions with 
-converged estimates of $\mathcal{T}(\theta_i)$ based on the surrogate, constructed in the
-full parameter space. Additionally, to illustrate computational gains, we compare
-convergence trends as a function of training runs for the ROS and the full-space
-surrogate. Furthermore, as discussed earlier in section~\ref{sec:method}, we compare
+on the screening metric, obtained using model evaluations with 
+converged estimates of $\mathcal{T}(\theta_i)$ based on the surrogate constructed in the
+full parameter space (FSS). Additionally, to illustrate computational gains, we compare
+convergence trends as a function of training runs for the ROS and the FSS using 
+$\epsilon_{\mbox{\tiny LOO}}$ in Eq.~\ref{eq:loo}. 
+Furthermore, as discussed earlier in section~\ref{sec:method}, we compare
 PDFs of the model output, obtained using the ROS and the full-space surrogate for
 the purpose of verification. 
 
