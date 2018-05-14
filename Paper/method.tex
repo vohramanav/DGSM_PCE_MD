@@ -12,84 +12,30 @@
 %relaxing the convergence criterion to reduce computational costs. 
 %7. Consider the product of Ci and mu_i to screen parameters.i
 
-In this section, we outline the underlying methodology for constructing a 
-reduced-order surrogate (ROS) using sensitivity analysis. The term `reduced-order'
-in the present context implies that the surrogate is constructed in a 
+In this section, we outline the underlying framework for ``adaptively" constructing a 
+reduced-order surrogate (ROS) using sensitivity analysis.  The proposed methodology
+is described as adaptive since the ROS is constructed only in situations where
+it is expected to yield computational dividend as discussed further below. 
+The term `reduced-order' implies that the surrogate is constructed in a 
 subspace that sufficiently captures the uncertainty in the model output. 
-In the case of PC surrogates used in this work, it implies that the dimensionality
+In the context of PC surrogates used in this work, it implies that the dimensionality
 of the polynomial basis functions is effectively reduced. 
 
-A possible approach to 
-constructing the ROS involves sensitivity analysis of the
-uncertain model parameters with respect to a given output, and thereby
-disregarding the uncertainty associated with parameters considered as unimportant.
-For this purpose, a global sensitivity analysis based on Sobol indices could be pursued.
-However, as discussed earlier in sections~\ref{sec:intro} and~\ref{sec:bg}, determining converged 
+Dimension-reduction is guided by global sensitivity analysis (GSA) of the uncertain model parameters. 
+A typical approach to GSA involves estimating the Sobol sensitivity indices~\cite{Sobol:2001}
+in the case of non-linear mathematical models. However, as discussed earlier in 
+sections~\ref{sec:intro} and~\ref{sec:bg}, determining converged 
 estimates of Sobol sensitivity indices typically requires tens of thousands
-of model evaluations. Consequently, the exercise becomes prohibitive in
-situations where the model runs are compute-intensive. Instead, we adopt a novel approach
-that focuses on estimating the upper-bound
-upper-bound ($\widehat{\mathcal{C}_i\mu_i}$, see Eq.~\ref{eq:bound}) on Sobol total
-effect index ($\mathcal{T}(\theta_i)$) for each parameter, $\theta_i$, and using it as a 
-metric to screen parameters that are relatively unimportant. Below, we provide a generalized
-strategy for parameter screening. 
+of model evaluations. Consequently, the exercise becomes prohibitive especially in
+situations where the model runs are compute-intensive. In the proposed framework,
+we adopt a novel approach for constructing an ROS by estimating the upper-bound 
+($\widehat{\mathcal{C}_i\mu_i}$, see Eq.~\ref{eq:bound}) on Sobol total
+effect index ($\mathcal{T}(\theta_i)$) for each parameter, $\theta_i$, and use it
+as a metric to screen parameters that are relatively unimportant. A generalized
+methodology for parameter screening is provided below in Algorithm~\ref{alg:screen}.
 
-\clearpage
-\iffalse
-\begin{breakablealgorithm}
-  \caption{Parameter screening with DGSMs: A generalized approach.}
-  \begin{algorithmic}[1]
-    \Procedure{Screening}{}
-      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
-       according to the probability density $\bm{f(\theta)}$.
-      \State $N_t = N_t + n_1$
-      \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
-             $k = 1, \ldots, n_1$. 
-
-      \State Compute 
-      $\mu_{1, i} = \frac{1}{N_t} \sum_{k = 1}^{N_t} (g^k_i)^2$
-      \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
-             $i = 1, \ldots, \Np$. 
-      \State Determine initial ranks: 
-            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{N_t}$ such that 
-\[
-   \nu_{\sigma(1)} \geq \nu_{\sigma(2)} \geq \cdot \geq \nu_{\sigma(\Np)}. 
-\]
-      \State Set $s$ = 1.
-      \State Set $\mathrm{done} = \mathrm{false}$.
-      \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
-        \State $s = s + 1$
-        \State $N_t = N_t + n_s$
-        \State Draw $n_s$ new samples 
-                  $\bm{\theta}_k$, $k = 1, \ldots, n_s$
-        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$
-        \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
-               $\{\bm{g}_k \}_{k = 1}^{N_t}$.
-        \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
-        \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
-        \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
-               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
-      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
-         \State $\mathrm{done} = \mathrm{true}$
-      \Else
-          \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
-      \EndIf
-    \EndWhile
-    \State $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i \ni \displaystyle\frac{\nu_i}{\max(\bm{\nu})}> \tau_\text{screen}\}.$
-    
-    \EndProcedure
-  \end{algorithmic}
-  \label{alg:screen}
-\end{breakablealgorithm}
-\fi
-
-
-%%%%%%%%%%% 
-
-
-
-
-
+%%%%%%%%%%% Revised %%%%%%%%%%%
+\bigskip
 \begin{breakablealgorithm}
 \renewcommand{\algorithmicrequire}{\textbf{Input:}}
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
@@ -143,29 +89,33 @@ $s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \
   \end{algorithmic}
   \label{alg:screen}
 \end{breakablealgorithm}
-
 \bigskip
 
-In case the gradient, $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically, we could use finite-difference
-to approximate its value as shown in Eq.~\ref{eq:partial} in Algorithm~\ref{alg:screen}. However, as discussed earlier
-in section 2.1, estimating $\bm{\mu}$  using $\mathcal{N}$ samples in the full parameter space requires 
-model evaluations at model evaluations at $(N_p+1)\mathcal{N}$ samples, compared to only $\mathcal{N}$ samples in 
-situations where the derivative is available analytically. Hence, computational effort when using finite differences
-is increased by a factor of $(N_p+1)$. 
+In situations where $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically, we could use finite-difference
+to approximate its value as shown in Eq.~\ref{eq:partial}. However, as discussed earlier
+in section 2.1, estimating $\bm{\mu}$  using $M$ samples in the full parameter space requires 
+model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in 
+case the derivative is available analytically. Hence, computational effort when using finite differences
+is expected to increase by a factor of $(N_p+1)$.
 
 Based on the steps outlined in the above algorithm, it can be said that the set of sample points used for
 estimating the screening metric, $\widehat{\mathcal{C}_i\mu_i}$ is enriched until consistency in ranks
 between successive iterations as well as a certain degree of convergence in estimates of the screening 
 metric for each uncertain parameter is accomplished. However, the amount of computational effort associated
-the screening process is limited by the choice of maximum number of iterations Parameter
-screening is an integral part of the overall strategy for constructing the ROS as 
-depicted below using a flow-diagram. 
+the screening process is limited by the choice of maximum number of iterations, $s_\text{max}$. Key inputs
+include a limiting value of the maximum relative change in the sensitivity measure between succesive iterations
+($\tau$), a limiting ratio ($\tau_\text{screen}$) of the sensitivity metric relative to its maximum value,
+ a fraction $\beta$ to guide the number of new samples 
+($ \lceil \beta n_1 \rceil$ denotes an integer $\leq~\beta n_1$) at each iteration,
+a new set of samples ($\{ \bm{\theta}_k \}_{k = 1}^{n_0}$) for the initial screening step in the algorithm,
+and the set of all the available gradient evaluations ($\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$). The outputs
+include the set of active indices ($\mathcal{I}_\text{active}$) corresponding to the important parameters,
+the total number of available model evaluations ($N_\text{total}$), and the enriched set of gradient evaluations
+(($\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$)). Parameter screening is an integral part of the overall framework,
+illustrated using a flow-diagram in Figure~\ref{fig:flow}.
 
-\bigskip
-
+ 
 \begin{figure}[htbp]
-\begin{center}
-
 \tikzset{
     arro/.style={{Square[]->}}
 }  
@@ -244,44 +194,59 @@ $\&$ the validation test suite};
 \draw [arro] (ver) -- (stop); 
 
 \end{tikzpicture}
-\end{center}
 
 \caption{Flow-diagram outlining the adaptive strategy for constructing reduced-order surrogates.}
 \label{fig:flow}
 \end{figure}
+%\clearpage
 
-As illustrated in the above flow-diagram, application of the above methodology to construct an ROS 
-relies on the choice of an \textit{appropriate} model output. Since the parameters are screened
-using DGSMs, the model output should exhibit a smooth dependence on the
-individual uncertain parameters to enable a reasonable approximation of the derivatives in Eq.~\ref{eq:mu}.
-Thus, for a given problem involving multiple outputs or model predictions, it is likely that a reduced-order 
-surrogate might be possible only for selected outputs. Hence, where possible, it is recommended to a priori assess the
-nature of dependence of a given model output on the parameters.
+We begin by setting aside computational resources for constructing a 
+validation test suite to be used for assessing the accuracy of the resulting
+surrogate. Obviously, the resources allocated for this purpose
+depend upon the application as well as total amount of available resource. The applicability
+of the proposed framework depends upon the choice of the model output. Since the screening metric
+involves computation of partial derivatives in the full parameter space, the output must exhibit
+a smooth dependence on each parameter for the approximation to be reasonable. It is therefore likely
+that for a given application involving multiple outputs, the ROS can only be constructed for a 
+selected few. Hence, where possible, it is prudent to assess the nature of the input-output
+relationship for a given model prior to implementing the present framework. The set of required inputs
+for parameter screening are initialized, and model evaluations at $n_0$ random samples in the full-space
+are computed. These evaluations are used to construct a surrogate in the full-space (FSS) using regression-based
+techniques. If the surrogate is found to be sufficiently accurate for the given application, the process
+is terminated. However, it is highly unlikely that a full-space surrogate, constructed using a reasonably 
+small number of model evaluations would result in a faithful representation of the input-output relationship. 
+The available set of model evaluations are utlized and further enhanced during parameter screening as
+discussed earlier. At the end of screening, the set of active indices, $\mathcal{I}_\text{active}$ is used
+to evaluate $\alpha$ in the following equation: 
+
+\be
+\alpha = \frac{|\mathcal{I}_\text{active}|}{N_p}
+\label{eq:alpha}
+\ee
+
+\noindent where $|\mathcal{I}_\text{active}|$ denotes the cardinality of $\mathcal{I}_\text{active}$.
+Scope for dimension-reduction increases as $\alpha$ decreases. Hence, if $\alpha$ is
+considered to be small and computational gains are expected owing to dimension reduction, the ROS
+is constructed and verified for accuracy using a combination of model evaluations used for screening
+and those associated with the validation test suite. On the other hand, if $\alpha$ is considerably
+large, the set of inputs required for screening are updated as needed, and a new set of $n_0$ samples
+and corresponding model evaluations are generated. The FSS is re-constructed using the enriched set
+of evaluations and the aforementioned analysis is repeated as illustrated in the flow-diagram. 
 
 The amount of computational effort associated with the presented methodology can be mainly attributed to
 two steps: I. Parameter Screening, and II. Constructing a converged ROS. Computational gains are realized
 in situations where constructing the surrogate in the full parameter space is more expensive than the combined cost
 associated with these steps. Determining the optimal allocation of computational resources for these steps, however, 
-is not possible a priori. Hence, we suggest estimating the DGSMs on a small set of samples (say, $n_1$ = 5) 
-initially, and screening with a relatively large value of tolerance, $\tau$ while keeping a track of computational expense.
-Tighter tolerances on $\bm{\mu}$ are
-gradually imposed until the screening process yields conclusive results pertaining to the possibility of dimension-reduction
-or a reasonably converged surrogate is constructed using the available set of model evaluations in the full parameter space. 
-Hence, the combined computational cost associated with steps I and II could be less, equal to, or greater than that needed
-to construct the surrogate in the full parameter space. To avoid the case of greater computational effort, we suggest 
-that the decision to construct the ROS should account for the degree of dimension-reduction predicted at the end of the
-screening step ($\alpha$, defined below in Eq.~\ref{eq:alpha}), and the state of convergence of the full-space surrogate. 
-Enormous computational savings are in fact possible when dealing with complex, 
-compute-intensive models, even if $\alpha$ in the following equation is
-not too large. 
+is not possible a priori. Hence, in the proposed framework, we exploit the set of model evaluations used
+in parameter screening to simultaneously construct the FSS while keeping a track of its accuracy using the
+validation test suite. This would help address situations where significant dimension
+reduction is not possible, and hence, constructing the ROS might result in a computational disadvantage. We
+suggest using a small number of samples in the initial screening step (say, $n_0$ = 5) and a relatively large
+$\tau$ (say, $\mathcal{O}(10^{-1})$) as a starting point with possible reduction in $\tau$ during
+subsequent screenings. 
 
-\be
-\alpha = \frac{\mbox{Dimensionality of ROS}}{\mbox{Dimensionality of the full surrogate}}
-\label{eq:alpha}
-\ee
-
-In order to assess convergence of the ROS, we estimate the leave-one-out cross validation error as
-follows:
+In order to assess convergence of the resulting surrogate, one could estimate the leave-one-out cross 
+validation error as follows:
 
 \be
 \epsilon_{\mbox{\tiny LOO}} = 
@@ -291,16 +256,14 @@ follows:
 \ee
 
 \noindent where $N_l$ is the number of training points, 
-$\widetilde{\mu}~=~\frac{1}{N}\sum\limits_{i=1}^N G(\bm{\theta}_i)$
+$\widetilde{\mu}~=~\frac{1}{N_l}\sum\limits_{i=1}^{N_l} G(\bm{\theta}_i)$
 is the sample mean of the model response, and $ G^{\mbox{\tiny {PC}\textbackslash i}}$
-is the PCE surrogate constructed using all but the $i^{\mbox{\tiny{th}}}$ model realization. 
-From Eq.~\ref{eq:loo}, it appears that $N$ PCEs are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.
+is the PC surrogate constructed using all but the $i^{\mbox{\tiny{th}}}$ model realization. 
+From Eq.~\ref{eq:loo}, it appears that $N_l$ PCEs are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.
 However, in practice a modified formulation for $\epsilon_{\mbox{\tiny LOO}}$~\cite{Blatman:2009},
-independent of $G^{\mbox{\tiny {PC}\textbackslash i}}$ is used.
-
-Finally, as outlined in Figure~\ref{fig:flow}, the converged ROS is verified for predictive accuracy. 
-To this end, we compute a relative L-2 norm of the difference in predictions between the model
-and the ROS ($\epsilon_{\mbox{\tiny{L-2}}}$) as follows:
+independent of $G^{\mbox{\tiny {PC}\textbackslash i}}$ is used. Accuracy of the
+surrogate could be assessed by evaluating the relative L-2 norm of the difference in predictions
+between the model and the surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$), as follows:
 
 \be
 \epsilon_{\mbox{\tiny{L-2}}} = \frac{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i) - 
@@ -310,12 +273,57 @@ G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
 \ee
 
 \noindent where $N_v$ is the number of sampling points in the full parameter space at which model
-evaluations are available. It must be noted that the computational effort associated with estimating
- $\epsilon_{\mbox{\tiny{L-2}}}$
-is negligible since we exploit the available set of model evaluations in the full parameter space, generated
-during the screening step. Additionally, probability density function (PDF) based on these full-space 
-model evaluations are compared with the PDF generated using a large set of evaluations of the same
-output from the ROS. 
+evaluations are available. Accuracy of the surrogate could be further investigated by comparing
+probability density functions (PDFs) of the model output based on model evaluations in the full
+parameter space and surrogate predictions corresponding to a large number of samples.  
 
+%\newpage
+\iffalse
+\begin{breakablealgorithm}
+  \caption{Parameter screening with DGSMs: A generalized approach.}
+  \begin{algorithmic}[1]
+    \Procedure{Screening}{}
+      \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
+       according to the probability density $\bm{f(\theta)}$.
+      \State $N_t = N_t + n_1$
+      \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
+             $k = 1, \ldots, n_1$. 
 
- 
+      \State Compute 
+      $\mu_{1, i} = \frac{1}{N_t} \sum_{k = 1}^{N_t} (g^k_i)^2$
+      \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
+             $i = 1, \ldots, \Np$. 
+      \State Determine initial ranks: 
+            let $\mathcal{R}^{old} = \{ \theta_{\sigma(i)}\}_{i=1}^{N_t}$ such that 
+\[
+   \nu_{\sigma(1)} \geq \nu_{\sigma(2)} \geq \cdot \geq \nu_{\sigma(\Np)}. 
+\]
+      \State Set $s$ = 1.
+      \State Set $\mathrm{done} = \mathrm{false}$.
+      \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
+        \State $s = s + 1$
+        \State $N_t = N_t + n_s$
+        \State Draw $n_s$ new samples 
+                  $\bm{\theta}_k$, $k = 1, \ldots, n_s$
+        \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$
+        \State Compute $\{ \mu_{s,i} \}_{i=1}^\Np$ using the augmented sample 
+               $\{\bm{g}_k \}_{k = 1}^{N_t}$.
+        \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{s,i}}$, $i = 1, \ldots \Np$.
+        \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
+        \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
+               \left(\frac{|\mu_{i,s} - \mu_{i,s-1}|}{ \mu_{i,s-1}}\right)$.
+      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
+         \State $\mathrm{done} = \mathrm{true}$
+      \Else
+          \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
+      \EndIf
+    \EndWhile
+    \State $\mathcal{I}_\text{active} = \{ i \in \{1, \ldots, \Np\} : \nu_i \ni \displaystyle\frac{\nu_i}{\max(\bm{\nu})}> \tau_\text{screen}\}.$
+    
+    \EndProcedure
+  \end{algorithmic}
+  \label{alg:screen}
+\end{breakablealgorithm}
+\fi
+
+%\newpage
