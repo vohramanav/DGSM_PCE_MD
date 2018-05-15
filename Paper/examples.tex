@@ -88,7 +88,8 @@ legend. }
 In Figure~\ref{fig:sense_bore}~(right), we plot estimates of the screening parameter 
 $\widehat{\mathcal{C}_i\mu_i}$ for a wide range of the number of 
 samples used for approximating $\mu_i$ using~\eqref{eq:mu}.
-Estimates for $\widehat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement with $\mathcal{T}(\theta_i)$ even when small number of samples (5--10) are used. 
+Estimates for $\widehat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement
+with $\mathcal{T}(\theta_i)$ even when small number of samples (5--10) are used. 
 Consequently, the relative importance of uncertain 
 parameters in the borehole function is found to be consistent 
 with predictions based on the Sobol' index. 
@@ -100,12 +101,14 @@ discounting the uncertainties in $T_u$, $T_l$, and $K_w$ by fixing
 them at their respective nominal values. 
 
 Our goal as discussed is to gain computational advantage by constructing
-surrogates in a reduced input parameter space. To this end, we construct PCE's
+surrogates in a reduced input parameter space. To this end, we use LAR to 
+construct PCEs
 in 5D and 4D spaces by fixing $\{T_u,T_l\}$ in the former and additionally
 fixing $K_w$ in the latter at their respective mean values. In
-Figure~\ref{fig:conv_bore}(left), we compare convergence of PCE's constructed in the
+Figure~\ref{fig:conv_bore}(left), we compare convergence of PCEs constructed in the
 full space (7D) with those constructed in the two reduced spaces (4D and 5D)
 using $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
+
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.48\textwidth]{./Figures/err_samples_borehole}
@@ -123,8 +126,11 @@ As expected, it is observed that the PCE constructed in the 4D space converges
 at a much faster rate. For instance, if a PCE with $\mathcal{O}(10^{-4})$
 accuracy is sought, we need function evaluations at only about 50 sample points
 in the 4D parameter space whereas the number of samples needed in the full 7D
-space seems much higher.~\alennote{How are these samples used? Are we doing 
-Latin Hypercube sample, or some other QMC approach?} 
+space seems much higher. Latin hypercube sampling (LHS) was used in
+each case. It must be pointed out that the error in Figure~\ref{fig:conv_bore}(left)
+is not expected to decrease monotonically with the increase in sample size
+owing to the penalty term in the regularized optimization problem in Eq.~\ref{eq:reg}. 
+
 
 As discussed earlier in this section, the reduced order PCE's are verified for
 predictive accuracy in a least-squares sense and a probabilistic sense.
@@ -152,16 +158,6 @@ of the
 discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ random
 samples through the 7D PCE in the original input parameter domain as well as
 the reduced order PCEs constructed in 4 and 5 dimensions. 
-%\begin{figure}[htbp]
-% \begin{center}
-%  \includegraphics[width=0.6\textwidth]{./Figures/pdf_comp_borehole}
-%\caption{A comparison of PDF's of the discharge, $\mathcal{Q}$ as obtained
-%by propagating
-%parametric uncertainties through the 4D, 5D, and 7D PCE's.These PDF's 
-%were obtained using 10$^{6}$ MC samples in the input parameter domain.} 
-%\label{fig:pdfcomp_bore}
-%\end{center}
-%\end{figure}
 It is evident from this plot, that the PDFs agree quite favorably with each
 other with respect to the modal estimate as well as the uncertainty associated with 
 $\mathcal{Q}$. 
