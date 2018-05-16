@@ -168,7 +168,7 @@ observable is reliably captured and predicted by the reduced order PCE.
 \subsection{Non-linear Oscillator}
 
 In this test problem, we consider an undamped non-linear oscillator with only one degree of
-freedom. Figure~\ref{fig:osc} below, provides a schematic illustration of the system. 
+freedom as illustrated below in Figure~\ref{fig:osc}. 
 
 \begin{figure}[htbp]
  \begin{center}
@@ -177,6 +177,14 @@ freedom. Figure~\ref{fig:osc} below, provides a schematic illustration of the sy
 \label{fig:osc}
 \end{center}
 \end{figure}
+
+The above system has been studied extensively for its reliability using the following state function~\cite{Bucher:1989, 
+Bucher:1990,Rajashekhar:1993,Schueremans:2005,Gayton:2003}:
+
+\be
+g(\bm{X}) = 3r - \left|z_\text{max}\right| = 3r - \left|\frac{2F}{m\omega_0^2}\sin\left(\frac{\omega_0t_1}{2}\right)\right|
+\ee
+
 
 
 \subsection{Semilinear elliptic PDE with random source term}
