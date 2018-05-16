@@ -221,7 +221,7 @@ Converged estimates of $\mathcal{T}(\theta_i)$ are once again obtained easily by
 evaluating $g(\bm{X})$ for a large set of samples in $\mathbb{R}^{|\bm{X}|}$ as
 shown in Figure~\ref{fig:sense_osc}~(left). Estimates of the screening metric, 
 $\widehat{\mathcal{C}_i\mu_i}$ are plotted against the number of samples in 
-Figure~\ref{fig:sense_osc}~(right).
+Figure~\ref{fig:sense_osc}~(right). 
 
 \begin{figure}[htbp]
  \begin{center}
@@ -236,6 +236,31 @@ in each case in the legend.}
 \label{fig:sense_osc}
 \end{center}
 \end{figure}
+
+From the above figure, it can be said that the Sobol sensitivity indices are in excellent
+agreement with the screening metric estimates. Consequently, the parameter ranks are
+found to be consistent in the two plots. It is observed that the limit state function is
+predominantly sensitive towards three parameters: $r$, $F$, and $t_1$. Hence, it seems
+likely that an ROS in three dimensions is able to capture the uncertainty
+in $g(\bm{X})$ due to uncertainty in the six parameters. To illustrate computational gains
+as a result of dimension-reduction, we construct PCEs in 3D, 4D (accounts for the uncertainty
+in $k_1$ as well), and the original 6D parameter domain. In Figure~\ref{fig:conv_osc}~(left), we
+compare the rate of convergence of the PCEs. As expected, the third-order PCE converges much faster
+than the other two. Consequently, the number of model evaluations required for a converged
+PCE is expected to be relatively much smaller in this case.  
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_oscillator}
+  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_oscillator}
+\caption{Left: Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is against sample size for 
+PCEs constructed in 3, 5, and 6 dimensions to compare their convergence characteristics. 
+Right: PDF of the limit state function is plotted using the actual function in~\eqref{eq:limit}
+and the third-order PCE.}
+\label{fig:conv_osc}
+\end{center}
+\end{figure}
+
 
 
 
