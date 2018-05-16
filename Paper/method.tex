@@ -26,6 +26,7 @@ In the context of PC surrogates used in this work, it implies
 that the dimensionality of the polynomial basis functions is effectively
 reduced. 
 
+\textbf{Parameter screening.}
 Dimension reduction is guided by global sensitivity analysis (GSA).  A typical
 approach to GSA involves estimating the Sobol sensitivity
 indices~\cite{Sobol:2001} in the case of non-linear mathematical models.
@@ -119,22 +120,31 @@ $\widehat{\mathcal{C}_i\mu_i}$ is enriched until consistency in ranks between
 successive iterations as well as a certain degree of convergence in estimates
 of the screening metric for each uncertain parameter is accomplished. However,
 the amount of computational effort associated the screening process is limited
-by the choice of maximum number of iterations, $s_\text{max}$. Key inputs
-include a limiting value of the maximum relative change in the sensitivity
-measure between succesive iterations $\tau$, a limiting ratio
-$\tau_\text{screen}$ of the sensitivity metric relative to its maximum value,
-a fraction $\beta$ to guide the number of new samples $ \lceil \beta n_1
-\rceil$ denotes an integer $\leq~\beta n_1$ at each iteration, a set of
-samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ for the initial screening step in
-the algorithm, and the set of available gradient evaluations $\{
-\bm{g}^k \}_{k=1}^{n_0}$. The outputs include the set of active
+by the choice of maximum number of iterations, $s_\text{max}$. 
+Key inputs
+are as follows: (1) 
+a limiting value $\tau$ of the maximum relative change in the sensitivity
+measure between succesive iterations; (2) 
+a limiting ratio $\tau_\text{screen}$ of the sensitivity metric 
+relative to its maximum value;
+(3) a real number $\beta \in (0, 1)$ to 
+guide the number of new samples $\lceil \beta n_1 \rceil$ 
+at each iteration ($\lceil \beta n_1
+\rceil$ 
+is the smallest integer greater than or equal to $\beta n_1$); 
+(4) a set of samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ 
+for the initial screening step in
+the algorithm and the corresponding gradient evaluations 
+$\{ \bm{g}^k \}_{k=1}^{n_0}$, where
+$\bm{g}^k = \nabla_{\bm{\theta}} G(\bm{\theta}_k)$. 
+The outputs are the set of active
 indices $\mathcal{I}_\text{active}$ corresponding to the 
 \emph{important parameters}, the total number of available model 
 evaluations $N_\text{total}$, and the enriched set of gradient evaluations 
-$\{ \bm{g}^k
-\}_{k=1}^{N_\text{total}}$. Parameter screening is an integral part of the
-overall framework, illustrated using a flow-diagram in Figure~\ref{fig:flow}.
-
+$\{ \bm{g}^k\}_{k=1}^{N_\text{total}}$. 
+Parameter screening is an integral part of the
+overall surrogate model construction framework 
+detailed below.
  
 \begin{figure}[htbp]
 \tikzset{
@@ -221,22 +231,12 @@ $\&$ the validation test suite};
 \end{figure}
 %\clearpage
 
+\textbf{Adaptive surrogate model construction.}
 We begin by setting aside computational resources for constructing a validation
 test suite to be used for assessing the accuracy of the resulting surrogate.
 Naturally, the resources allocated for this purpose depend upon the application
 as well as total amount of available resources. 
-%
-%The applicability of the
-%proposed framework depends upon the choice of the model output. 
-%
-Since the
-screening metric involves computation of partial derivatives in the full
-parameter space, the output must exhibit differentiable 
-dependence on each parameter. It is therefore likely that for a given
-application involving multiple outputs, the ROS can only be constructed for a
-selected few. Hence, where possible, it is important to assess the nature of the
-input-output relationship for a given model prior to implementing the present
-framework. The set of required inputs for parameter screening are initialized,
+The set of required inputs for parameter screening are initialized,
 and model evaluations at $n_0$ random samples in the full-space are computed.
 These evaluations are used to construct a surrogate in the full-space (FSS)
 using regression-based techniques. If the surrogate is found to be sufficiently
@@ -265,24 +265,13 @@ other hand, if $\alpha$ is considerably large (~\alennote{You mean close to
 one?}), the set of inputs required for screening are updated as needed, and a
 new set of $n_0$ samples and corresponding model evaluations are generated. The
 FSS is re-constructed using the enriched set of evaluations and the
-aforementioned analysis is repeated as illustrated in the flow-diagram. 
+aforementioned analysis is repeated as illustrated in the flow-diagram
+in Figure~\ref{fig:flow} that shows the overall 
+parameter screening and surrogate model construction method.
 
-The amount of computational effort associated with the presented methodology
-can be mainly attributed to two steps: I.~Parameter Screening, and 
-II.~Constructing a converged ROS. Computational gains are realized in situations
-where constructing the surrogate in the full parameter space is more expensive
-than the combined cost associated with these steps. Determining the optimal
-allocation of computational resources for these steps, however, is not possible
-a priori. Hence, in the proposed framework, we exploit the set of model
-evaluations used in parameter screening to simultaneously construct the FSS
-while keeping a track of its accuracy using the validation test suite. This
-would help address situations where significant dimension reduction is not
-possible, and hence, constructing the ROS might result in a computational
-disadvantage. We suggest using a small number of samples in the initial
-screening step (say, $n_0$ = 5) and a relatively large $\tau$ (say,
-$\mathcal{O}(10^{-1})$) as a starting point with possible reduction in $\tau$
-during subsequent screenings. 
 
+
+\textbf{Validation metrics.}
 To assess convergence of the resulting surrogate, one could estimate the
 leave-one-out cross validation error as follows:
 \be
@@ -299,7 +288,8 @@ $i^{\mbox{\tiny{th}}}$ model realization.  From~\eqref{eq:loo}, it appears
 that $N_l$ PCEs are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.  However,
 in practice a modified formulation for $\epsilon_{\mbox{\tiny
 LOO}}$~\cite{Blatman:2009}, independent of $G^{\mbox{\tiny {PC}\textbackslash
-i}}$ is used. Accuracy of the surrogate could be assessed by evaluating the
+i}}$ is used.~\alennote{What is that modified formulation? Need to specify.}
+Accuracy of the surrogate could be assessed by evaluating the
 relative $\ell_2$-norm of the difference in predictions between the model and the
 surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$), as follows:
 \be
@@ -309,10 +299,47 @@ G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
 \label{eq:l2}
 \ee
 where $N_v$ is the number of sampling points in the full parameter space at
-which model evaluations are available. Accuracy of the surrogate could be
+which model evaluations are available. 
+\alennote{You mean to do L2 error study in 
+addition to the leave-one-out error studies?}
+Accuracy of the surrogate could be
 further investigated by comparing probability density functions (PDFs) of the
 model output based on model evaluations in the full parameter space and
 surrogate predictions corresponding to a large number of samples.  
+\alennote{I don't think you can construct the PDF in full parameter 
+space, in real applications, as you need a large number of 
+expensive model evaluations. Maybe we should say that  
+we compare the PDF of the surrogate to a histogram of true model
+evaluations?}
+
+\textbf{Remarks.}
+The amount of computational effort associated with the presented methodology
+can be mainly attributed to two steps: I.~Parameter Screening, and 
+II.~Constructing a converged ROS. Computational gains are realized in situations
+where constructing the surrogate in the full parameter space is more expensive
+than the combined cost associated with these steps. Determining the optimal
+allocation of computational resources for these steps, however, is not possible
+a priori. Hence, in the proposed framework, we exploit the set of model
+evaluations used in parameter screening to simultaneously construct the FSS
+while keeping a track of its accuracy using the validation test suite. This
+would help address situations where significant dimension reduction is not
+possible, and hence, constructing the ROS might result in a computational
+disadvantage. We suggest using a small number of samples in the initial
+screening step (say, $n_0$ = 5) and a relatively large $\tau$ (say,
+$\mathcal{O}(10^{-1})$) as a starting point with possible reduction in $\tau$
+during subsequent screenings. 
+
+
+The applicability of the proposed framework depends upon the choice of the
+model output.  Since the screening metric involves computation of partial
+derivatives in the full parameter space, the output must exhibit differentiable
+dependence on each parameter. It is therefore likely that for a given
+application involving multiple outputs, the ROS can only be constructed for a
+selected few, using the approach presented above.  Hence, it is important to
+assess the nature of the input-output relationship for a given model prior to
+implementing the present framework. 
+
+
 
 %\newpage
 \iffalse
