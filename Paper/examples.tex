@@ -40,25 +40,27 @@ Table~\ref{tab:bore} provides distributions of the uncertain inputparameters.
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
 \begin{center}
-\begin{tabular}{|c|c|}
+\begin{tabular}{|l||l|}
 \hline
-Parameter & Distribution \\ \hline \hline
-$r_w$ (Borehole radius, m) & $\mathcal{N}$(0.1,0.016) \\
-$L$ (Borehole length, m) & $\mathcal{U}$[1120,1680] \\
-$T_u$ (Transmissivity of upper aquifer, m$^2$/yr) & $\mathcal{U}$[63070,115600] \\
-$H_u$ (Potentiometric head of upper aquifer, m) & $\mathcal{U}$[990,1110] \\
-$T_l$ (Transmissivity of lower aquifer, m$^2$/yr) & $\mathcal{U}$[63.1,116] \\
-$H_l$ (Potentiometric head of lower aquifer, m) & $\mathcal{U}$[700,820] \\
-$K_w$ (Borehole hydraulic conductivity, m/yr) & $\mathcal{U}$[9855,12045] \\
+\textbf{Parameter Description} & \textbf{Distribution} \\ \hline \hline
+Borehole radius, $r_w$ (m) & $\mathcal{N}$(0.1,0.016) \\
+Borehole length, $L$ (m) & $\mathcal{U}$[1120,1680] \\
+Transmissivity of upper aquifer, $T_u$ (m$^2$/yr) & $\mathcal{U}$[63070,115600] \\
+Potentiometric head of upper aquifer, $H_u$ (m) & $\mathcal{U}$[990,1110] \\
+Transmissivity of lower aquifer, $T_l$ (m$^2$/yr) & $\mathcal{U}$[63.1,116] \\
+Potentiometric head of lower aquifer, $H_l$ (m) & $\mathcal{U}$[700,820] \\
+Borehole hydraulic conductivity, $K_w$ (m/yr) & $\mathcal{U}$[9855,12045] \\
 \hline
 \end{tabular}
 \end{center}
 
 \caption{Description and distributions of uncertain parameters in the borehole function
-given by~\eqref{eq:bore}.}
+given by~\eqref{eq:bore}. $\mathcal{N}(\mu,\sigma^2)$ denotes a normal distribution with
+mean, $\mu$ and variance, $\sigma^2$. $\mathcal{U}[a,b]$ denotes a uniform distribution
+with limits $a$ and $b$.}
 \label{tab:bore}
 \end{table}
-
+%
 Cheap function evaluations of the discharge $\mathcal{Q}(\vec{\theta})$ using
 enables computing accurate estimates of $\mathcal{T}(\theta_i)$ through
 sampling, with a sufficiently large Monte Carlo sample size.  Shown in
@@ -76,15 +78,15 @@ parameter screening based on the methodology presented in Section~\ref{sec:metho
   \includegraphics[width=0.48\textwidth]{./Figures/sense_borehole}
   \includegraphics[width=0.51\textwidth]{./Figures/ub_conv_borehole}
 \caption{
-Left: Sobol' total sensitivity index for uncertain parameters in the borehole
-function. Right: 
-estimates of the screening parameter ($\widehat{\mathcal{C}_i\mu_i}$) is plotted
-against number of samples considered for evaluating $\mu_i$. Corresponding estimates
-for the converged Sobol' total effect index ($\mathcal{T}(\theta_i)$) in each case is also included in the
-legend. }
+Left:Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the
+borehole discharge function in~\eqref{eq:bore}. Right: 
+Estimates of the screening parameter ($\widehat{\mathcal{C}_i\mu_i}$), plotted
+against number of samples. Also included in the legend are estimates of $\mathcal{T}(\theta_i)$
+in each case in the legend.}
 \label{fig:sense_bore}
 \end{center}
 \end{figure}
+
 In Figure~\ref{fig:sense_bore}~(right), we plot estimates of the screening parameter 
 $\widehat{\mathcal{C}_i\mu_i}$ for a wide range of the number of 
 samples used for approximating $\mu_i$ using~\eqref{eq:mu}.
@@ -105,7 +107,7 @@ surrogates in a reduced input parameter space. To this end, we use LAR to
 construct PCEs
 in 5D and 4D spaces by fixing $\{T_u,T_l\}$ in the former and additionally
 fixing $K_w$ in the latter at their respective mean values. In
-Figure~\ref{fig:conv_bore}(left), we compare convergence of PCEs constructed in the
+Figure~\ref{fig:conv_bore}~(left), we compare convergence of PCEs constructed in the
 full space (7D) with those constructed in the two reduced spaces (4D and 5D)
 using $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
 
@@ -121,13 +123,13 @@ the marginal distributions of the uncertain parameters in each case.}
 \label{fig:conv_bore}
 \end{center}
 \end{figure}
-
+%
 As expected, it is observed that the PCE constructed in the 4D space converges
 at a much faster rate. For instance, if a PCE with $\mathcal{O}(10^{-4})$
 accuracy is sought, we need function evaluations at only about 50 sample points
 in the 4D parameter space whereas the number of samples needed in the full 7D
 space seems much higher. Latin hypercube sampling (LHS) was used in
-each case. It must be pointed out that the error in Figure~\ref{fig:conv_bore}(left)
+each case. It must be pointed out that the error in Figure~\ref{fig:conv_bore}~(left)
 is not expected to decrease monotonically with the increase in sample size
 owing to the penalty term in the regularized optimization problem in Eq.~\ref{eq:reg}. 
 
@@ -153,7 +155,7 @@ reduced order surrogates based on the ranking of the parameter sensitivities.
 %a given application, as highlighted earlier in section~\ref{sec:method}. 
 
 
-Figure~\ref{fig:conv_bore}(right) illustrates a comparison of the PDFs
+Figure~\ref{fig:conv_bore}~(right) illustrates a comparison of the PDFs
 of the
 discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ random
 samples through the 7D PCE in the original input parameter domain as well as
@@ -164,7 +166,7 @@ $\mathcal{Q}$.
 Consequently, it can be said that the reduced order PCE is verified in a
 probabilistic sense. In other words, the mode as well as the uncertainty in the
 observable is reliably captured and predicted by the reduced order PCE. 
- 
+% 
 \subsection{Non-linear Oscillator}
 
 In this test problem, we consider an undamped non-linear oscillator with only one degree of
@@ -178,12 +180,62 @@ freedom as illustrated below in Figure~\ref{fig:osc}.
 \end{center}
 \end{figure}
 
-The above system has been studied extensively for its reliability using the following state function~\cite{Bucher:1989, 
-Bucher:1990,Rajashekhar:1993,Schueremans:2005,Gayton:2003}:
-
+The above system has been studied extensively for its reliability using
+the following state function~\cite{Bucher:1989,Bucher:1990,Rajashekhar:1993,Schueremans:2005,Gayton:2003}:
+%
 \be
-g(\bm{X}) = 3r - \left|z_\text{max}\right| = 3r - \left|\frac{2F}{m\omega_0^2}\sin\left(\frac{\omega_0t_1}{2}\right)\right|
+g(\bm{X}) = 3r - \left|z_\text{max}\right| = 3r - 
+\left|\frac{2F}{m\omega_0^2}\sin\left(\frac{\omega_0t_1}{2}\right)\right|
+\label{eq:limit}
 \ee
+
+\noindent where $z_\text{max}$ is the maximum displacement response of the system, $r$ denotes the displacement at
+which either spring yields, $\bm{X}:~\{m,k_1,k_2,r,F,t_1\}$ is a set of uncertain parameters, and   
+$\omega_0~=~\sqrt{\frac{k_1+k_2}{m}}$. The uncertain parameters are considered to be normally distributed with mean
+and variance as provided below in Table~\ref{tab:osc}.
+
+\begin{table}[htbp]
+\renewcommand*{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{|l||l|}
+\hline
+\textbf{Parameter Description} & \textbf{Distribution} \\ \hline \hline
+Mass, $m$ (kg) & $\mathcal{N}$(1,0.05) \\
+Time, $t_1$ (s) & $\mathcal{N}$(1,0.2) \\
+Force, $F$ (N) & $\mathcal{N}$(1,0.2) \\
+Displacement, $r$ (m) & $\mathcal{N}$(0.5,0.05) \\
+Spring Constant, $k_1$ (Nm$^{-1}$) & $\mathcal{N}$(1,0.1) \\
+Spring Constant, $k_2$ (Nm$^{-1}$) & $\mathcal{N}$(0.1,0.01) \\
+\hline
+\end{tabular}
+\end{center}
+
+\caption{Description and distributions of uncertain parameters in the limit state function
+given by~\eqref{eq:limit}. $\mathcal{N}(\mu,\sigma^2)$ denotes a normal distribution with
+mean, $\mu$ and variance, $\sigma^2$. $\mathcal{U}[a,b]$ denotes a uniform distribution
+with limits $a$ and $b$.}
+\label{tab:osc}
+\end{table}
+
+Converged estimates of $\mathcal{T}(\theta_i)$ are once again obtained easily by
+evaluating $g(\bm{X})$ for a large set of samples in $\mathbb{R}^{|\bm{X}|}$ as
+shown in Figure~\ref{fig:sense_osc}~(left). Estimates of the screening metric, 
+$\widehat{\mathcal{C}_i\mu_i}$ are plotted against the number of samples in 
+Figure~\ref{fig:sense_osc}~(right).
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.48\textwidth]{./Figures/sense_oscillator}
+  \includegraphics[width=0.48\textwidth]{./Figures/ub_conv_oscillator}
+\caption{
+Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the limit 
+state function in~\eqref{eq:limit}. Right: 
+Estimates of the screening parameter ($\widehat{\mathcal{C}_i\mu_i}$), plotted
+against number of samples. Also included in the legend are estimates of $\mathcal{T}(\theta_i)$
+in each case in the legend.}
+\label{fig:sense_osc}
+\end{center}
+\end{figure}
 
 
 
