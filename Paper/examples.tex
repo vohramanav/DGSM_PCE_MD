@@ -261,8 +261,16 @@ and the third-order PCE.}
 \end{center}
 \end{figure}
 
-
-
+In order to verify the accuracy of the third-order PCE, we estimate the relative L-2 norm of the
+difference between predictions of  $g(\bm{X})$, obtained using the actual function in ~\eqref{eq:limit}
+and the PCE using~\eqref{eq:l2}.  The value of $\epsilon_{\mbox{\tiny{L-2}}}$ using evaluations at
+100 points was found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$. Furthermore, 
+the accuracy is assessed in a probabilistic sense by comparing PDFs
+of $g(\bm{X})$, obtained using the function and the 3D PCE as illustrated in Figure~\ref{fig:conv_osc}~(right).
+Clearly, the two PDFs are in excellent agreement with each other. Hence, the ROS constructed 
+using the methodology presented in section~\ref{sec:method} could be used reliably to characterize
+as well as quantify the uncertainty in $g(\bm{X})$ due to parametric uncertainty associated with
+its functional description in~\eqref{eq:limit}, efficiently. 
 
 \subsection{Semilinear elliptic PDE with random source term}
 
