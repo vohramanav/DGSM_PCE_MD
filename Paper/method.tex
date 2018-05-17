@@ -18,13 +18,13 @@ proposed methodology is described as adaptive since the ROS is constructed only
 in situations where it is expected to yield computational dividend as discussed
 further below.  The term reduced-order implies that the surrogate is
 constructed in a subspace that sufficiently captures the uncertainty in the
-model output.~\alennote{The next sentence seems unneeded, and 
-might be confusing; consider removing it, or clarify that in 
-the case of PCE, we construct PC bases as multivariate polynomials
-on a parameter space with reduced dimension.}
-In the context of PC surrogates used in this work, it implies
-that the dimensionality of the polynomial basis functions is effectively
-reduced. 
+model output. We begin by outlining an algorithm for parameter screening
+to assess the importance of individual parameters for potential dimension
+reduction and construction of an ROS. The overall adaptive framework 
+which incorporates parameter screening as an integral step is thereafter
+presented. Finally, we present validation metrics used for assessing the
+convergence and accuracy of the ROS followed by a brief discussion on
+salient features of the proposed framework. 
 
 \textbf{Parameter screening.}
 Dimension reduction is guided by global sensitivity analysis (GSA).  A typical
@@ -101,8 +101,7 @@ $s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \
 
 In situations where $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically,
 we could use finite-difference to approximate its value as shown in
-Eq.~\ref{eq:partial}. However, as discussed earlier in section 2.1,
-~\alennote{Don't hard code section numbers, use labels, and refer to them.}
+Eq.~\ref{eq:partial}. However, as discussed earlier in~\ref{sub:dgsm},
 estimating $\bm{\mu}$  using $M$ samples in the full parameter space requires
 model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in case
 the derivative is available analytically. Hence, computational effort when
@@ -261,8 +260,8 @@ $\alpha$ decreases.  Hence, if $\alpha$ is considered to be small and
 computational gains are expected owing to dimension reduction, the ROS is
 constructed and verified for accuracy using a combination of model evaluations
 used for screening and those associated with the validation test suite.  On the
-other hand, if $\alpha$ is considerably large (~\alennote{You mean close to
-one?}), the set of inputs required for screening are updated as needed, and a
+other hand, if $\alpha$ is close to 1, the set of inputs required for screening are
+ updated as needed, and a
 new set of $n_0$ samples and corresponding model evaluations are generated. The
 FSS is re-constructed using the enriched set of evaluations and the
 aforementioned analysis is repeated as illustrated in the flow-diagram
@@ -305,12 +304,12 @@ addition to the leave-one-out error studies?}
 Accuracy of the surrogate could be
 further investigated by comparing probability density functions (PDFs) of the
 model output based on model evaluations in the full parameter space and
-surrogate predictions corresponding to a large number of samples.  
-\alennote{I don't think you can construct the PDF in full parameter 
-space, in real applications, as you need a large number of 
-expensive model evaluations. Maybe we should say that  
-we compare the PDF of the surrogate to a histogram of true model
-evaluations?}
+the ROS predictions corresponding to a large number of samples (say, 10$^6$). 
+However, in realistic problems involving complex, compute-intensive 
+simulations, the PDF based on model evaluations would be intractable.
+A practical alternative would be to compare a histogram
+based on sparse model evaluations with the surrogate-based PDF
+in order to gain some insight into the quality of the comparison. 
 
 \textbf{Remarks.}
 The amount of computational effort associated with the presented methodology
