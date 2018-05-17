@@ -50,7 +50,7 @@ Algorithm~\ref{alg:screen}.
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
 \Require $\tau > 0$, $\tau_\text{screen} > 0$,
-$s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
+$s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
 \Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$, $N_\text{total}$. 
     \Procedure{Screening}{}
     %  \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
@@ -58,7 +58,13 @@ $s_\text{max}$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \
      %   \State $N_\text{total} = N_\text{total} + n_1$.
       \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
              $k = 1, \ldots, n_1$. 
-
+\alennote{Should we have $n_1 = n_0$? Also, there is an issue with this 
+algorithm: when you call this first time according to the flow diagram, you will
+not actually have the gradients $\bm{g}^k$, $k = 1, \ldots, N_\text{total}$;
+moreover, we need to explicitly augment the gradient samples with the ones 
+passed to the method. Moreover, I think the step $N_\text{total} = N_\text{total} + n_0$
+should be in the body of this algorithm, as opposed to where it is in the flow 
+diagram.}
       \State Compute 
       $\mu_{1, i} = \frac{1}{N_\text{total}} \sum_{k = 1}^{N_\text{total}} (g^k_i)^2$
       \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
