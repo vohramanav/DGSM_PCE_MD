@@ -3,6 +3,7 @@ all:
 	bibtex DGSM_surrogate_paper
 	pdflatex DGSM_surrogate_paper
 	pdflatex DGSM_surrogate_paper
+	pdflatex DGSM_surrogate_paper
 
 clean:
 
