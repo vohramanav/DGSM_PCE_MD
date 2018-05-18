@@ -285,18 +285,17 @@ leave-one-out cross validation error as follows:
 {\sum\limits_{i=1}^{N_l}\left(G(\bm{\theta}_i) - \widetilde{\mu}\right)^2}
 \label{eq:loo}
 \ee
-where $N_l$ is the number of training points, 
-$\widetilde{\mu}~=~\frac{1}{N_l}\sum\limits_{i=1}^{N_l} G(\bm{\theta}_i)$
-is the sample mean of the model response, and $ G^{\mbox{\tiny
-{PC}\textbackslash i}}$ is the PC surrogate constructed using all but the
-$i^{\mbox{\tiny{th}}}$ model realization.  From~\eqref{eq:loo}, it appears
-that $N_l$ PCEs are needed to evaluate $\epsilon_{\mbox{\tiny LOO}}$.  However,
-in practice a modified formulation for $\epsilon_{\mbox{\tiny
-LOO}}$~\cite{Blatman:2009}, independent of $G^{\mbox{\tiny {PC}\textbackslash
-i}}$ is used.~\alennote{What is that modified formulation? Need to specify.}
-Accuracy of the surrogate could be assessed by evaluating the
-relative $\ell_2$-norm of the difference in predictions between the model and the
-surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$), as follows:
+where $N_l$ is the number of training points,
+$\widetilde{\mu}~=~\frac{1}{N_l}\sum\limits_{i=1}^{N_l} G(\bm{\theta}_i)$ is
+the sample mean of the model response, and $ G^{\mbox{\tiny {PC}\textbackslash
+i}}$ is the PC surrogate constructed using all but the $i^{\mbox{\tiny{th}}}$
+model realization.  From~\eqref{eq:loo}, it appears that $N_l$ PCEs are needed
+to evaluate $\epsilon_{\mbox{\tiny LOO}}$.  However, in practice a modified
+formulation for $\epsilon_{\mbox{\tiny LOO}}$~\cite{Blatman:2009}, independent
+of $G^{\mbox{\tiny {PC}\textbackslash i}}$ is used; for an easy reference,
+see~\cite[Eq.~(1.27)]{Marelli:2014}.  Accuracy of the surrogate could also 
+be assessed by evaluating the relative $\ell_2$-norm of the difference in
+predictions between the model and the surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$), as follows:
 \be
 \epsilon_{\mbox{\tiny{L-2}}} = \frac{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i) - 
 G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
@@ -305,17 +304,15 @@ G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
 \ee
 where $N_v$ is the number of sampling points in the full parameter space at
 which model evaluations are available. 
-\alennote{You mean to do L2 error study in 
-addition to the leave-one-out error studies?}
-Accuracy of the surrogate could be
-further investigated by comparing probability density functions (PDFs) of the
-model output based on model evaluations in the full parameter space and
-the ROS predictions corresponding to a large number of samples (say, 10$^6$). 
-However, in realistic problems involving complex, compute-intensive 
-simulations, the PDF based on model evaluations would be intractable.
-A practical alternative would be to compare a histogram
-based on sparse model evaluations with the surrogate-based PDF
-in order to gain some insight into the quality of the comparison. 
+%
+Accuracy of the surrogate could be further investigated by comparing
+probability density functions (PDFs) of the model output based on model
+evaluations in the full parameter space and the ROS predictions corresponding
+to a large number of samples (say, 10$^6$).  However, in realistic problems
+involving complex, compute-intensive simulations, the PDF based on model
+evaluations would be intractable.  A practical alternative would be to compare
+a histogram based on sparse model evaluations with the surrogate-based PDF in
+order to gain some insight into the quality of the comparison. 
 
 \textbf{Remarks.}
 The amount of computational effort associated with the presented methodology
