@@ -57,14 +57,8 @@ $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm
      %  according to the probability density $\bm{f(\theta)}$.
      %   \State $N_\text{total} = N_\text{total} + n_1$.
       \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$, 
-             $k = 1, \ldots, n_1$. 
-\alennote{Should we have $n_1 = n_0$? Also, there is an issue with this 
-algorithm: when you call this first time according to the flow diagram, you will
-not actually have the gradients $\bm{g}^k$, $k = 1, \ldots, N_\text{total}$;
-moreover, we need to explicitly augment the gradient samples with the ones 
-passed to the method. Moreover, I think the step $N_\text{total} = N_\text{total} + n_0$
-should be in the body of this algorithm, as opposed to where it is in the flow 
-diagram.}
+             $k~=~N_\text{total}+1, \ldots, N_\text{total}+n_1$. 
+      \State $N_\text{total} = N_\text{total} + n_1$
       \State Compute 
       $\mu_{1, i} = \frac{1}{N_\text{total}} \sum_{k = 1}^{N_\text{total}} (g^k_i)^2$
       \State Compute $\nu_i = \widehat{\mathcal{C}_i\mu_{1,i}}$, for each $\theta_i$, 
@@ -174,19 +168,19 @@ $s_\text{max}$, $\beta$, $N_\text{total}$ = 0};
 
 \draw [arro] (qoi) -- (tol);
 
-\node (sam0) [process, below of=tol, text width=12.5em, yshift=-0.3cm] {Draw $n_0$ samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ 
+\node (sam0) [process, below of=tol, text width=12.5em, yshift=-0.3cm] {Draw $n_1$ samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
      according to $\bm{f(\theta)}$};
      
 \draw [arro] (tol) -- (sam0);     
 
-\node (counter) [process, below of=sam0, text width=9.5em, yshift=-0.21cm] {\vspace{-6mm}\be N_\text{total} = N_\text{total} + n_0 \nonumber\ee};
+%\node (counter) [process, below of=sam0, text width=9.5em, yshift=-0.21cm] {\vspace{-6mm}\be N_\text{total} = N_\text{total} + n_0 \nonumber\ee};
 
-\draw [arro] (sam0) -- (counter);     
+%\draw [arro] (sam0) -- (counter);     
 
-\node (fss) [process, below of=counter, text width=14.5em, yshift=-0.28cm] {Construct regression-based 
-surrogate in full-space (FSS) uing $N_\text{total}$ model evaluations};
+\node (fss) [process, below of=sam0, text width=14.5em, yshift=-0.5cm] {Construct regression-based 
+surrogate in full-space (FSS) uing ($N_\text{total}$+$n_1$) model evaluations};
 
-\draw [arro] (counter) -- (fss);   
+\draw [arro] (sam0) -- (fss);   
 
 \node (chk) [process, below of=fss, text width=12.5em, yshift=-0.5cm] {Assess accuracy of FSS using the
 validation test suite};
@@ -218,8 +212,8 @@ $\tau_\text{screen}$, $s_\text{max}$, $\beta$; Input: $\{ \bm{g}^k \}_{k=1}^{N_\
 
 \draw [arro] (dr) -- node[anchor=east,yshift=0.1cm] {Y} (ros);
 
-\node (ver) [process, left of=ros, text width=14.5em, xshift=-5cm] {Verify ROS using evaluations at $N_\text{total}$
-$\&$ the validation test suite};
+\node (ver) [process, left of=ros, text width=13.0em, xshift=-5cm] {Test ROS accuracy using
+ evaluations at $N_\text{total}$ $\&$ the validation test suite};
 
 \draw [arro] (ros) -- (ver); 
 
@@ -254,13 +248,13 @@ The available set of model evaluations are utlized and further enhanced during
 parameter screening as discussed earlier.  At the end of screening, the set of
 active indices, $\mathcal{I}_\text{active}$, is used to evaluate $\alpha$ in the
 following equation: 
+%
 \be
 \alpha = \frac{|\mathcal{I}_\text{active}|}{N_p},
 \label{eq:alpha}
 \ee
-\alennote{I noticed in the latex code the use of the \textbf{noindent} command;
-please remove those, we will use latext setting to formation paragraphs.} where
-$|\mathcal{I}_\text{active}|$ denotes the cardinality of
+%
+where $|\mathcal{I}_\text{active}|$ denotes the cardinality of
 $\mathcal{I}_\text{active}$.  Scope for dimension-reduction increases as
 $\alpha$ decreases.  Hence, if $\alpha$ is considered to be small and
 computational gains are expected owing to dimension reduction, the ROS is
@@ -303,7 +297,8 @@ G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
 \label{eq:l2}
 \ee
 where $N_v$ is the number of sampling points in the full parameter space at
-which model evaluations are available. 
+which model evaluations are available. In the case of an ROS, it is the
+augmented set of model evaluations used for validation and screening.  
 %
 Accuracy of the surrogate could be further investigated by comparing
 probability density functions (PDFs) of the model output based on model
@@ -339,8 +334,16 @@ dependence on each parameter. It is therefore likely that for a given
 application involving multiple outputs, the ROS can only be constructed for a
 selected few, using the approach presented above.  Hence, it is important to
 assess the nature of the input-output relationship for a given model prior to
-implementing the present framework. 
+implementing the present framework.
 
+Using the framework proposed in this section, we aim to construct a reliable
+surrogate in the most efficient manner within the constraints of the computational
+budget. However, it is likely that for a given application, the ROS is not
+found to be sufficiently accurate. In such a scenario, we suggest enriching the
+set of important parameters by incorporating the least unimportant parameter
+as determined after a series of screening steps, and re-constructing the ROS. 
+This process could be repeated depending upon the availability of resources
+and the desired accuracy of the surrogate.  
 
 
 %\newpage
