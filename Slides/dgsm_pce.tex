@@ -924,34 +924,40 @@ $\bm{X}~=~\{m,k_1,k_2,r,F,t_1\}$ \hspace{3mm} $\omega_0~=~\sqrt{\frac{c_1+c_2}{m
 %
 \section{\scshape Elliptic PDE}
 \subsection{elliptic}
-\begin{frame}{Elliptic PDE}
+\begin{frame}{Semi-linear Elliptic PDE}
 
 \begin{columns}
 
 \begin{column}{0.5\textwidth}
 
 
+\begin{align}
+-\kappa \Delta u + cu^3 &= q,~\text{in}~\Omega \nonumber \\
+u &= 0~\text{on}~\partial\Omega \nonumber
+\end{align}
+
+where, 
+\scriptsize
 \be
--\kappa \Delta u + cu^3 = q \nonumber
-\ee
-\tiny
-\be
-q = (-2\pi^2)(a\cos(2\pi x)\sin^2(\pi y) + b\cos(2\pi y)\sin^2(\pi x)) \nonumber
+q = 8\sum\limits_{i=1}^{N=8}a_i\sin\left(\frac{i\pi x}{8}\right)\cos\left(\frac{i\pi y}{8}\right)
+\nonumber
 \ee
 
+\begin{table}[htbp]
+\renewcommand*{\arraystretch}{1.2}
 \begin{center}
-
-{\renewcommand{\arraystretch}{1.5}
-\begin{tabular}{|p{0.15cm}|p{1.8cm}|}
- \hline
-\scriptsize {$\kappa$} & \scriptsize {$\mathcal{U}$[0.09, 0.11]} \\
-\scriptsize {$c$} & \scriptsize {$\mathcal{U}$[0.9, 1.1]} \\
-\scriptsize {$a$} & \scriptsize {$\mathcal{U}$[0.9, 1.1]} \\
-\scriptsize {$b$} & \scriptsize {$\mathcal{U}$[0.9, 1.1]} \\
+\begin{tabular}{|c||c|}
+\hline
+\textbf{Parameter} & \textbf{Distribution} \\ \hline \hline
+\scriptsize
+$\kappa$ & $\mathcal{U}$[0.05,0.1] \\
+$c$ & $\mathcal{U}$[1.0,2.0] \\
+$a_i$ & $\mathcal{U}$[0.0,0.5] \\
 \hline
 \end{tabular}
-}
 \end{center}
+\end{table}
+
 
 \end{column}
 
