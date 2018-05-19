@@ -967,11 +967,6 @@ $a_i$ & $\mathcal{U}$[0.0,0.5] \\
         \includegraphics[width=1.0\textwidth]{./Figures/u_soln}
 \end{figure}
 
-\vspace{-9mm}
-
-\begin{figure}[htbp]
-        \includegraphics[width=0.85\textwidth]{./Figures/sens_elliptic}
-\end{figure}
 
 \end{column}
 \end{columns}
@@ -989,10 +984,13 @@ $a_i$ & $\mathcal{U}$[0.0,0.5] \\
 \begin{column}{0.5\textwidth}
 
 \begin{center}
-\tiny{Parameter Screening}
+\tiny{Sobol total-effect index}
 \vspace{-2mm}
  \begin{figure}[htbp]
-   \includegraphics[width=0.75\textwidth]{./Figures/ub_conv_elliptic}
+ \vspace{-2mm}
+   \includegraphics[width=0.75\textwidth]{./Figures/sens_elliptic}
+   \\ \vspace{2mm} \tiny{Convergence characteristics} \\ 
+   \includegraphics[width=0.75\textwidth]{./Figures/err_samples_elliptic}
 \end{figure}
 \end{center}
 
@@ -1001,25 +999,20 @@ $a_i$ & $\mathcal{U}$[0.0,0.5] \\
 \begin{column}{0.5\textwidth}
 
 \begin{center}
-\tiny{Convergence}
+\tiny{Screening Metric}
 \vspace{-2mm}
  \begin{figure}[htbp]
-   \includegraphics[width=0.75\textwidth]{./Figures/err_samples_elliptic}
+ \vspace{-2mm}
+   \includegraphics[width=0.75\textwidth]{./Figures/ub_conv_elliptic}
+   \\ \vspace{2mm} \tiny{PDF Comparison} \\ 
+    \includegraphics[width=0.75\textwidth]{./Figures/err_samples_elliptic}
+   
 \end{figure}
 \end{center}
 
 \end{column}
 
 \end{columns}
-
-\begin{center}
-\tiny{Verification}
-\vspace{-2mm}
- \begin{figure}[htbp]
-   \includegraphics[width=0.35\textwidth]{./Figures/pdf_comp4Dv3D_elliptic}
-\end{figure}
-\end{center}
-
 \end{frame}
 %
 
