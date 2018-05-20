@@ -20,16 +20,18 @@ the purpose of verification.
 
 \subsection{Borehole function}
 
-The borehole function is a benchmark reference problem in sensitivity analysis. It models the discharge
-of water ($\mathcal{Q}$) through a borehole in terms of geometrical and physical parameters:
-
+The borehole function is a benchmark reference problem in sensitivity analysis.
+It models the discharge of water ($\mathcal{Q}$) through a borehole in terms of
+geometrical and physical parameters:
 \be
-\mathcal{Q} = \frac{2\pi T_u(H_u - H_l)}{\ln\left(\frac{r}{r_w}\right)\left(1 +
-\frac{2LT_u}{\ln\left(\frac{r}{r_w}\right)r_w^2K_w} + \frac{T_u}{T_l}\right)}
+\mathcal{Q} = \frac{\displaystyle
+2\pi T_u(H_u - H_l)}{\displaystyle
+\ln({r}/{r_w})\Big[1 +
+\frac{2LT_u}{
+\ln({r}/{r_w})r_w^2K_w} + \frac{T_u}{T_l}\Big]}
 \label{eq:bore}
 \ee
-
-\noindent The radius of influence, $r$ is fixed at 3698.30 m whereas all other parameters
+The radius of influence, $r$ is fixed at 3698.30 m whereas all other parameters
 in the right hand side of~\eqref{eq:bore} are considered 
 as uncertain. Thus, $\mathcal{Q} = \mathcal{Q}(\vec{\theta})$ with 
 \[
