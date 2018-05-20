@@ -93,28 +93,33 @@ $\widehat{\mathcal{C}_i\mu_i}$ to ensure that it lies between 0 and 1:
 \widehat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
 \label{eq:cmu}
 \ee
+The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability
+distribution of $\theta_i$. For $\theta_i \sim \mathcal{U}[a, b]$,
+$\mathcal{C}_i = (b-a)^{2}/\pi^2$, and for  
+$\theta_i \sim \mathcal{N}(\mu,\sigma^2)$, we have $\mathcal{C}_i = \sigma^2$. 
+Here $\mathcal{N}(\mu,\sigma^2)$ denotes a normal distribution with mean $\mu$
+and variance $\sigma^2$, and $\mathcal{U}[a,b]$ denotes a uniform distribution
+on the interval $[a, b]$.
 
-\noindent The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability distribution of $\theta_i$.
-Table~\ref{tab:poincare} provides its value in the case of uniform and normal
-distributions.
-\bigskip
-
-\begin{table}[htbp]
-\renewcommand*{\arraystretch}{1.2}
-\begin{center}
-\begin{tabular}{|c|c|}
-\hline
-Distribution & $\mathcal{C}_i$ \\ \hline \hline 
-Uniform, $\mathcal{U}[a, b]$ & $(b-a)^{2}/\pi^2$ \\ 
-Normal, $\mathcal{N}(\mu,\sigma^2)$ & $\sigma^2$ \\ 
-\hline
-\end{tabular}
-\end{center}
-
-\caption{Poincare constant for the case of uniformly and normally distributed random
-parameters~\cite{Roustant:2014}.}
-\label{tab:poincare}
-\end{table}
+%Table~\ref{tab:poincare} provides its value in the
+%case of uniform and normal distributions.
+%
+%\begin{table}[htbp]
+%\renewcommand*{\arraystretch}{1.2}
+%\begin{center}
+%\begin{tabular}{|c|c|}
+%\hline
+%Distribution & $\mathcal{C}_i$ \\ \hline \hline 
+%Uniform, $\mathcal{U}[a, b]$ & $(b-a)^{2}/\pi^2$ \\ 
+%Normal, $\mathcal{N}(\mu,\sigma^2)$ & $\sigma^2$ \\ 
+%\hline
+%\end{tabular}
+%\end{center}
+%\caption{Poincare constant for the case of 
+%uniformly and normally distributed random
+%parameters~\cite{Roustant:2014}.}
+%\label{tab:poincare}
+%\end{table}
 
 \subsection{Polynomial chaos expansion}
 

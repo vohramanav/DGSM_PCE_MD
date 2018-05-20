@@ -40,9 +40,10 @@ Table~\ref{tab:bore} provides distributions of the uncertain inputparameters.
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
 \begin{center}
-\begin{tabular}{|l||l|}
-\hline
-\textbf{Parameter Description} & \textbf{Distribution} \\ \hline \hline
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Distribution} \\ 
+\bottomrule
 Borehole radius, $r_w$ (m) & $\mathcal{N}$(0.1,0.016) \\
 Borehole length, $L$ (m) & $\mathcal{U}$[1120,1680] \\
 Transmissivity of upper aquifer, $T_u$ (m$^2$/yr) & $\mathcal{U}$[63070,115600] \\
@@ -50,14 +51,12 @@ Potentiometric head of upper aquifer, $H_u$ (m) & $\mathcal{U}$[990,1110] \\
 Transmissivity of lower aquifer, $T_l$ (m$^2$/yr) & $\mathcal{U}$[63.1,116] \\
 Potentiometric head of lower aquifer, $H_l$ (m) & $\mathcal{U}$[700,820] \\
 Borehole hydraulic conductivity, $K_w$ (m/yr) & $\mathcal{U}$[9855,12045] \\
-\hline
+\bottomrule
 \end{tabular}
 \end{center}
 
 \caption{Description and distributions of uncertain parameters in the borehole function
-given by~\eqref{eq:bore}. $\mathcal{N}(\mu,\sigma^2)$ denotes a normal distribution with
-mean, $\mu$ and variance, $\sigma^2$. $\mathcal{U}[a,b]$ denotes a uniform distribution
-with limits $a$ and $b$.}
+given by~\eqref{eq:bore}.}
 \label{tab:bore}
 \end{table}
 %
@@ -167,61 +166,56 @@ Consequently, it can be said that the reduced order PCE is verified in a
 probabilistic sense. In other words, the mode as well as the uncertainty in the
 observable is reliably captured and predicted by the reduced order PCE. 
 % 
-\subsection{Non-linear Oscillator}
-
-In this test problem, we consider an undamped non-linear oscillator with only one degree of
-freedom as illustrated below in Figure~\ref{fig:osc}. 
-
+\subsection{Nonlinear Oscillator}
+We consider an undamped nonlinear oscillator with only one degree of
+freedom as illustrated in Figure~\ref{fig:osc}. 
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.6\textwidth]{./Figures/oscillator}
+  \includegraphics[width=0.5\textwidth]{./Figures/oscillator}
 \caption{Schematic illustration of an undamped non-linear oscillator system with one degree of freedom.}
 \label{fig:osc}
 \end{center}
 \end{figure}
-
-The above system has been studied extensively for its reliability using
+This system has been studied extensively for its reliability using
 the following state function~\cite{Bucher:1989,Bucher:1990,Rajashekhar:1993,Schueremans:2005,Gayton:2003}:
 %
 \be
 g(\bm{X}) = 3r - \left|z_\text{max}\right| = 3r - 
-\left|\frac{2F}{m\omega_0^2}\sin\left(\frac{\omega_0t_1}{2}\right)\right|
+\left|\frac{2F}{m\omega_0^2}\sin\left(\frac{\omega_0t_1}{2}\right)\right|,
 \label{eq:limit}
 \ee
-
 \noindent where $z_\text{max}$ is the maximum displacement response of the system, $r$ denotes the displacement at
-which either spring yields, $\bm{X}:~\{m,k_1,k_2,r,F,t_1\}$ is a set of uncertain parameters, and   
-$\omega_0~=~\sqrt{\frac{k_1+k_2}{m}}$. The uncertain parameters are considered to be normally distributed with mean
+which either spring yields, $\bm{X}=(m,k_1,k_2,r,F,t_1)^T$ is the vector 
+of uncertain parameters, and   
+$\omega_0~=~\sqrt{(k_1+k_2)/m}$. The uncertain parameters are considered to be normally distributed with mean
 and variance as provided below in Table~\ref{tab:osc}.
 
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
 \begin{center}
-\begin{tabular}{|l||l|}
-\hline
-\textbf{Parameter Description} & \textbf{Distribution} \\ \hline \hline
+\begin{tabular}{ll}
+\toprule
+\textbf{Parameter} & \textbf{Distribution} \\ 
+\bottomrule
 Mass, $m$ (kg) & $\mathcal{N}$(1,0.05) \\
 Time, $t_1$ (s) & $\mathcal{N}$(1,0.2) \\
 Force, $F$ (N) & $\mathcal{N}$(1,0.2) \\
 Displacement, $r$ (m) & $\mathcal{N}$(0.5,0.05) \\
 Spring Constant, $k_1$ (Nm$^{-1}$) & $\mathcal{N}$(1,0.1) \\
 Spring Constant, $k_2$ (Nm$^{-1}$) & $\mathcal{N}$(0.1,0.01) \\
-\hline
+\bottomrule
 \end{tabular}
 \end{center}
 
-\caption{Description and distributions of uncertain parameters in the limit state function
-given by~\eqref{eq:limit}. $\mathcal{N}(\mu,\sigma^2)$ denotes a normal distribution with
-mean, $\mu$ and variance, $\sigma^2$.}
+\caption{Description and distributions of uncertain parameters in the limit state function~\eqref{eq:limit}.}
 \label{tab:osc}
 \end{table}
 
 Converged estimates of $\mathcal{T}(\theta_i)$ are once again obtained easily by
-evaluating $g(\bm{X})$ for a large set of samples in $\mathbb{R}^{|\bm{X}|}$ as
-shown in Figure~\ref{fig:sense_osc}~(left). Estimates of the screening metric, 
+evaluating $g(\bm{X})$ for a large set of samples in the uncertain 
+parameter space; see Figure~\ref{fig:sense_osc}~(left). Estimates of the screening metric, 
 $\widehat{\mathcal{C}_i\mu_i}$ are plotted against the number of samples in 
 Figure~\ref{fig:sense_osc}~(right). 
-
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.48\textwidth]{./Figures/sense_oscillator}
@@ -235,19 +229,22 @@ in each case in the legend.}
 \label{fig:sense_osc}
 \end{center}
 \end{figure}
-
-From the above figure, it can be said that the Sobol sensitivity indices are in excellent
-agreement with the screening metric estimates. Consequently, the parameter ranks are
-found to be consistent in the two plots. It is observed that the limit state function is
-predominantly sensitive towards three parameters: $r$, $F$, and $t_1$. Hence, it seems
-likely that an ROS in three dimensions is able to capture the uncertainty
-in $g(\bm{X})$ due to uncertainty in the six parameters. To illustrate computational gains
-as a result of dimension-reduction, we construct PCEs in 3D, 4D (accounts for the uncertainty
-in $k_1$ as well), and the original 6D parameter domain. In Figure~\ref{fig:conv_osc}~(left), we
-compare the rate of convergence of the PCEs. As expected, the third-order PCE converges much faster
-than the other two. Consequently, the number of model evaluations required for a converged
-PCE is expected to be relatively much smaller in this case.  
-
+We note that the total Sobol sensitivity indices are in excellent agreement
+with the screening metric estimates. 
+Consequently, the parameter ranks are found to be consistent in the
+two plots in  
+Figure~\ref{fig:sense_osc}.
+It is observed that the limit state function is predominantly sensitive 
+to $r$, $F$, and $t_1$. Hence, it seems likely that an ROS in
+three dimensions is able to capture the overall uncertainty in $g(\bm{X})$.
+% due to uncertainty in the six parameters. 
+To illustrate computational gains as a
+result of dimension-reduction, we construct PCEs in 3D, 4D (accounts for the
+uncertainty in $k_1$ as well), and the original 6D parameter domain. In
+Figure~\ref{fig:conv_osc}~(left), we compare the convergence of the
+PCEs. As expected, the third-order PCE converges much faster than the other
+two. Consequently, the number of model evaluations required for a converged PCE
+is expected to be relatively much smaller in this case.  
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.48\textwidth]{./Figures/err_samples_oscillator}
@@ -260,16 +257,22 @@ and the third-order PCE.}
 \end{center}
 \end{figure}
 
-In order to verify the accuracy of the third-order PCE, we estimate the relative L-2 norm of the
-difference between predictions of  $g(\bm{X})$, obtained using the actual function in ~\eqref{eq:limit}
-and the PCE using~\eqref{eq:l2}.  The value of $\epsilon_{\mbox{\tiny{L-2}}}$ using evaluations at
-100 points was found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$. Furthermore, 
-the accuracy is assessed in a probabilistic sense by comparing PDFs
-of $g(\bm{X})$, obtained using the function and the 3D PCE as illustrated in Figure~\ref{fig:conv_osc}~(right).
-Clearly, the two PDFs are in excellent agreement with each other. Hence, the ROS constructed 
-using the methodology presented in section~\ref{sec:method} could be used reliably to characterize
-as well as quantify the uncertainty in $g(\bm{X})$ due to parametric uncertainty associated with
-its functional description in~\eqref{eq:limit}, efficiently. 
+To verify the accuracy of the third-order PCE, we estimate the relative L-2
+norm of the difference between predictions of  $g(\bm{X})$, obtained using the
+actual function in ~\eqref{eq:limit} and the 
+PCE using~\eqref{eq:l2}~\alennote{Do we use a validation set?}  The
+value of $\epsilon_{\mbox{\tiny{L-2}}}$ using evaluations 
+at 100 points~\alennote{How are these points generated? Monte Carlo? QMC?}
+was
+found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$.
+Furthermore, the accuracy is assessed in a probabilistic sense by comparing
+PDFs of $g(\bm{X})$, obtained using the function and the 3D PCE as illustrated
+in Figure~\ref{fig:conv_osc}~(right).  Clearly, the two PDFs are in excellent
+agreement with each other. Hence, the ROS constructed using the methodology
+presented in section~\ref{sec:method} could be used reliably to 
+quantify the uncertainty in $g(\bm{X})$.
+% due to parametric uncertainty
+%associated with its functional description in~\eqref{eq:limit}, efficiently. 
 
 \subsection{Semilinear elliptic PDE with random source term}
 
