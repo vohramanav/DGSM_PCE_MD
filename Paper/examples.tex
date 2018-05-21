@@ -261,12 +261,11 @@ and the third-order PCE.}
 
 To verify the accuracy of the third-order PCE, we estimate the relative L-2
 norm of the difference between predictions of  $g(\bm{X})$, obtained using the
-actual function in ~\eqref{eq:limit} and the 
-PCE using~\eqref{eq:l2}~\alennote{Do we use a validation set?}  The
-value of $\epsilon_{\mbox{\tiny{L-2}}}$ using evaluations 
-at 100 points~\alennote{How are these points generated? Monte Carlo? QMC?}
-was
-found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$.
+actual function in \eqref{eq:limit} and the 
+PCE using \eqref{eq:l2}, and a validation test suite. The test suite comprised
+model evaluations at 100 independent Monte-Carlo samples in the full 
+parameter space. The value of $\epsilon_{\mbox{\tiny{L-2}}}$ 
+was found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$.
 Furthermore, the accuracy is assessed in a probabilistic sense by comparing
 PDFs of $g(\bm{X})$, obtained using the function and the 3D PCE as illustrated
 in Figure~\ref{fig:conv_osc}~(right).  Clearly, the two PDFs are in excellent
