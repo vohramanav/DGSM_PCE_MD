@@ -5,7 +5,8 @@ In section~\ref{sec:method}, we presented a framework for constructing
 an ROS (if deemed advantageous) by identifying unimportant parameters based on 
 estimates of the screening metric, $\widehat{\mathcal{C}_i\mu_i}$
 for individual parameters.
-In this section, we motivate the underlying methodology by applying it to three test problems,
+In this section, we motivate the underlying methodology by applying it to three
+test problems,
 namely, the borehole function, a non-linear oscillator, and a semi-linear elliptic PDE.
 Since model evaluations in all these test
 problems are inexpensive, we compare relative importance of model parameters based
@@ -78,11 +79,12 @@ parameter screening based on the methodology presented in Section~\ref{sec:metho
   \includegraphics[width=0.48\textwidth]{./Figures/sense_borehole}
   \includegraphics[width=0.51\textwidth]{./Figures/ub_conv_borehole}
 \caption{
-Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the
+Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain
+parameters in the
 borehole discharge function in~\eqref{eq:bore}. Right: 
 Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$), plotted
-against number of samples. Also included in the legend are estimates of $\mathcal{T}(\theta_i)$
-in each case in the legend.}
+against number of samples. Also included in the legend are estimates of
+$\mathcal{T}(\theta_i)$ in each case in the legend.}
 \label{fig:sense_bore}
 \end{center}
 \end{figure}
@@ -276,7 +278,8 @@ quantify the uncertainty in $g(\bm{X})$.
 
 \subsection{Semi-linear elliptic PDE with random source term}
 
-We consider the following semi-linear elliptic PDE on a 2D square domain ([0,1]$\times$[0,1]):
+We consider the following semi-linear elliptic PDE on a 2D square domain ([0,1]$\times$[0,1])
+with Dirichlet boundary conditions:
 
 \begin{equation}\label{eq:semilinear}
 \begin{aligned}
@@ -287,43 +290,69 @@ We consider the following semi-linear elliptic PDE on a 2D square domain ([0,1]$
 %
 where $u$ is referred to as the velocity, $\kappa$ and $c$ are coefficients of the diffusion term
 and the non-linear term in the above equation respectively. The velocity, $u$ is random since the
-source term, $q$ in RHS is modelled as a truncated summation with random coefficients:
+source term, $q$ in the RHS is modelled as a truncated summation with random coefficients:
 
 \be
 q = \sum\limits_{i=1}^{N=8}\alpha_i\sin\left(\frac{i\pi x}{8}\right)\cos\left(\frac{i\pi y}{8}\right)
 \label{eq:source}
 \ee
 %
-Hence, $u~=~u(\vec{\theta})$ with $\vec{\theta} = (\kappa,c,\alpha_1,\alpha_2,\ldots,\alpha_{8})^T$, a vector
-of uncertain parameters. Table~\ref{tab:elliptic} provides distributions of the uncertain
-input parameters. The solution of~\eqref{eq:semilinear} for
-a particular set of values of the uncertain parameters is illustrated below in Figure~\ref{fig:usoln}. 
+Hence, $u~=~u(\vec{\theta})$ with $\vec{\theta} = 
+(\kappa,c,\alpha_1,\alpha_2,\ldots,\alpha_{8})^T$, a vector
+of uncertain parameters. Distributions of the uncertain
+input parameters are tabulated below in Figure~\ref{fig:elliptic}~(left).
+The solution of~\eqref{eq:semilinear} for
+a fixed set of values of the uncertain parameters is also 
+illustrated.
 
-\begin{table}[htbp]\label{tab:elliptic}
-\renewcommand*{\arraystretch}{1.2}
+\begin{figure}[htbp]
 \begin{center}
+\begin{minipage}[htbp]{.25\linewidth}
+\vspace{0pt}
+%\centering
+\hspace{-25mm}
 \begin{tabular}{cl}
 \toprule
-\textbf{Parameter} & \textbf{Distribution} \\ 
+$\theta_i$ & \textbf{Distribution} \\ 
 \bottomrule
 $\kappa$ & $\mathcal{U}$[0.05,0.1] \\
 $c$ & $\mathcal{U}$[1.0,2.0] \\
 $\alpha_i$ & $\mathcal{U}$[0.0,4.0] \\
 \bottomrule
 \end{tabular}
-\end{center}
-\caption{Description and distributions of uncertain parameters in the 
-semi-linear elliptic PDE in~\eqref{eq:semilinear}.}
-\end{table}
-
-\begin{figure}[htbp]
- \begin{center}
-  \includegraphics[width=0.6\textwidth]{./Figures/u_soln}
-  \caption{Plotted above is the solution, $u(x,y)$ of~\eqref{eq:semilinear} at 
-  of $\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0.}
-\label{fig:usoln}
-\end{center}
+\end{minipage}
+\hspace{-20mm}
+\begin{minipage}[htbp]{.25\linewidth}
+\vspace{0pt}
+%\centering
+\includegraphics[width=3.0in]{./Figures/u_soln.png}
+\end{minipage}%
+\end{center} 
+\caption{Left: Table providing distributions of the individual
+uncertain parameters in~\eqref{eq:semilinear}. Right: Solution
+of the 2D semi-linear elliptic PDE~\eqref{eq:semilinear} using
+$\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0}
+\label{fig:elliptic}
 \end{figure}
+
+
+%\begin{table}[htbp]
+%\begin{tabular}{cc}
+%
+%  \includegraphics[width=0.45\textwidth]{./Figures/u_soln.png} &
+%\begin{tabular}{cl}
+%\toprule
+%$\theta_i$ & \textbf{Distribution} \\ 
+%\bottomrule
+%$\kappa$ & $\mathcal{U}$[0.05,0.1] \\
+%$c$ & $\mathcal{U}$[1.0,2.0] \\
+%$\alpha_i$ & $\mathcal{U}$[0.0,4.0] \\
+%\bottomrule
+%\end{tabular}
+%\\
+%\end{tabular}
+%\end{table}
+
 
 We aim to construct a reduced-order surrogate for the following quantity of interest (QoI):
 
@@ -332,9 +361,11 @@ We aim to construct a reduced-order surrogate for the following quantity of inte
 \label{eq:qoi}
 \ee
 %
-where $D$ is the region: $[2/5, 3/5] \times [2/5, 3/5]$. Once again, the availability of
+where $D$ is the region: $[2/5, 3/5] \times [2/5, 3/5]$ in $\mathbb{R}^{x\times y}$. 
+The availability of
 cheap model evaluations allow us to obtain converged estimates of the Sobol
-total-effect index ($\mathcal{T}(\theta_i)$), plotted in Figure~\ref{fig:sense_elliptic}.
+total-effect index ($\mathcal{T}(\theta_i)$), plotted in Figure~\ref{fig:sense_elliptic}~(left),
+with reasonable effort.
 
 \begin{figure}[htbp]
  \begin{center}
@@ -349,9 +380,12 @@ obtained using $N$ = 5, 10, 15, and 20 samples in the full parameter space.}
 \end{center}
 \end{figure}
 %
-Sensitivity predictions based on the screening metric, $\widehat{\mathcal{C}_i\mu_i}$ are found to
-be in close agreement with $\mathcal{T}(\theta_i)$, even for the case when $N$ = 5. Moreover, 
-the uncertainty in the QoI in \eqref{eq:qoi} is observed to be largely dependent on $c$, 
+Sensitivity predictions based on the screening metric, $\widehat{\mathcal{C}_i\mu_i}$,
+plotted in Figure~\ref{fig:sense_elliptic}~(right), are found to
+be in close agreement with $\mathcal{T}(\theta_i)$, even for the case when $N$ = 5. As $N$
+is increased from 5 to 20, estimates of the screening metric are observed to converge.
+Based on the trends observed in Figure~\ref{fig:sense_elliptic}, it can be said that
+the uncertainty in the QoI in \eqref{eq:qoi} is largely dependent on $c$, 
 $\alpha_2$, $\alpha_3$, $\alpha_4$, and $\alpha_5$. These observations underscore the
 potential for computational gains by constructing an ROS in the 5D parameter space. We 
 illustrate the comparison of convergence characteristics of the PCEs constructed in the
@@ -373,6 +407,16 @@ plotted using the full-surrogate and the reduced-order PC surrogate.}
 \label{fig:conv_elliptic}
 \end{center}
 \end{figure}
+
+Once again, we verify the accuracy of the ROS by estimating $\epsilon_{\mbox{\tiny{L-2}}}$
+using model evaluations at 100 independent Monte-Carlo samples in the 10D parameter
+space. The L-2 norm was estimated to be 0.05 i.e. the ROS was found to be accurate
+within 5$\%$. Additionally, we compare PDFs of the QoI, $\mathcal{F}(\kappa,c,\theta)$,
+generated using the full-space and the reduced-space surrogates in 
+Figure~\ref{fig:conv_elliptic}~(right). The two PDFs are observed to be in excellent 
+agrement with each other. Hence, the ROS is successfully verified and could be
+used in lieu of the full-space surrogate to reduce computational effort. 
+
 
 
 
