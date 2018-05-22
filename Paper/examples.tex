@@ -33,11 +33,10 @@ geometrical and physical parameters:
 \ee
 The radius of influence, $r$ is fixed at 3698.30 m whereas all other parameters
 in the right hand side of~\eqref{eq:bore} are considered 
-as uncertain. Thus, $\mathcal{Q} = \mathcal{Q}(\vec{\theta})$ with 
-\[
-   \vec{\theta} = (r_w, L, T_u, H_u, T_l, H_l, K_w)^T.
-\] 
-Table~\ref{tab:bore} provides distributions of the uncertain inputparameters. 
+as uncertain. Hence, $\mathcal{Q} = \mathcal{Q}(\vec{\theta})$ with 
+ $\vec{\theta} = (r_w, L, T_u, H_u, T_l, H_l, K_w)^T$, a vector of
+ uncertain parameters. Table~\ref{tab:bore} provides distributions of the
+ uncertain input parameters. 
 
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
@@ -275,28 +274,79 @@ quantify the uncertainty in $g(\bm{X})$.
 % due to parametric uncertainty
 %associated with its functional description in~\eqref{eq:limit}, efficiently. 
 
-\subsection{Semilinear elliptic PDE with random source term}
+\subsection{Semi-linear elliptic PDE with random source term}
 
-We consider the semilinear elliptic PDE,
-\begin{equation}\label{equ:semilinear}
+We consider the following semi-linear elliptic PDE on a 2D square domain ([0,1]$\times$[0,1]):
+
+\begin{equation}\label{eq:semilinear}
 \begin{aligned}
 -\kappa \Delta u + c u^3 &= q, \quad \text{in } \Omega\\
  u &= 0. \quad \text{on } \partial \Omega
 \end{aligned}
 \end{equation}
-We model the source term as 
-\begin{equation}
-q(x, y, \theta) = \sum_{i = 1}^N \theta_i \sin(i \pi x)
-\cos(i \pi y),
-\quad N = 8.
-\end{equation}
-Here $\kappa \sim U(0.08, 0.12)$, $c \sim U(0.8, 1.2)$, 
-and $\theta_i$ are uniformly distributed in interval $[0, 1]$. We consider
-the following QoI,
-\[
-     f(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
-\]
-where $D$ is the region, $[1/2, 3/4] \times [1/2, 3/4]$.
+%
+where $u$ is referred to as the velocity, $\kappa$ and $c$ are coefficients of the diffusion term
+and the non-linear term in the above equation respectively. The velocity, $u$ is random since the
+source term, $q$ in RHS is modelled as a truncated summation with random coefficients:
+
+\be
+q = \sum\limits_{i=1}^{N=8}\alpha_i\sin\left(\frac{i\pi x}{8}\right)\cos\left(\frac{i\pi y}{8}\right)
+\label{eq:source}
+\ee
+%
+Hence, $u~=~u(\vec{\theta})$ with $\vec{\theta} = (\kappa,c,\alpha_1,\alpha_2,\ldots,\alpha_{8})^T$, a vector
+of uncertain parameters. Table~\ref{tab:elliptic} provides distributions of the uncertain
+input parameters. The solution of~\eqref{eq:semilinear} for
+a particular set of values of the uncertain parameters is illustrated below in Figure~\ref{fig:usoln}. 
+
+\begin{table}[htbp]\label{tab:elliptic}
+\renewcommand*{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{cl}
+\toprule
+\textbf{Parameter} & \textbf{Distribution} \\ 
+\bottomrule
+$\kappa$ & $\mathcal{U}$[0.05,0.1] \\
+$c$ & $\mathcal{U}$[1.0,2.0] \\
+$\alpha_i$ & $\mathcal{U}$[0.0,4.0] \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Description and distributions of uncertain parameters in the 
+semi-linear elliptic PDE in~\eqref{eq:semilinear}.}
+\end{table}
+
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.6\textwidth]{./Figures/u_soln}
+  \caption{Plotted above is the solution, $u(x,y)$ of~\eqref{eq:semilinear} at fixed values
+  of $\kappa$, $c$, and $\alpha_i$ as provided. The color-bar indicates the range of $u$.}
+\label{fig:usoln}
+\end{center}
+\end{figure}
+
+
+%We consider the semilinear elliptic PDE,
+%\begin{equation}\label{equ:semilinear}
+%\begin{aligned}
+%-\kappa \Delta u + c u^3 &= q, \quad \text{in } \Omega\\
+% u &= 0. \quad \text{on } \partial \Omega
+%\end{aligned}
+%\end{equation}
+%We model the source term as 
+%\begin{equation}
+%q(x, y, \theta) = \sum_{i = 1}^N \theta_i \sin(i \pi x)
+%\cos(i \pi y),
+%\quad N = 8.
+%\end{equation}
+%Here $\kappa \sim U(0.08, 0.12)$, $c \sim U(0.8, 1.2)$, 
+%and $\theta_i$ are uniformly distributed in interval $[0, 1]$. We consider
+%the following QoI,
+%\[
+%     f(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
+%\]
+%where $D$ is the region, $[1/2, 3/4] \times [1/2, 3/4]$.
 
 
 
