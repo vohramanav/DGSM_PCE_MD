@@ -80,7 +80,7 @@ parameter screening based on the methodology presented in Section~\ref{sec:metho
 \caption{
 Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the
 borehole discharge function in~\eqref{eq:bore}. Right: 
-Estimates of the screening parameter ($\widehat{\mathcal{C}_i\mu_i}$), plotted
+Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$), plotted
 against number of samples. Also included in the legend are estimates of $\mathcal{T}(\theta_i)$
 in each case in the legend.}
 \label{fig:sense_bore}
@@ -224,7 +224,7 @@ Figure~\ref{fig:sense_osc}~(right).
 \caption{
 Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the limit 
 state function in~\eqref{eq:limit}. Right: 
-Estimates of the screening parameter ($\widehat{\mathcal{C}_i\mu_i}$), plotted
+Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$), plotted
 against number of samples. Also included in the legend are estimates of $\mathcal{T}(\theta_i)$
 in each case in the legend.}
 \label{fig:sense_osc}
@@ -250,7 +250,7 @@ is expected to be relatively much smaller in this case.
  \begin{center}
   \includegraphics[width=0.48\textwidth]{./Figures/err_samples_oscillator}
   \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_oscillator}
-\caption{Left: Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is against sample size for 
+\caption{Left: Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is plotted against sample size for 
 PCEs constructed in 3, 5, and 6 dimensions to compare their convergence characteristics. 
 Right: PDF of the limit state function is plotted using the actual function in~\eqref{eq:limit}
 and the third-order PCE.}
@@ -316,38 +316,63 @@ $\alpha_i$ & $\mathcal{U}$[0.0,4.0] \\
 semi-linear elliptic PDE in~\eqref{eq:semilinear}.}
 \end{table}
 
-
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.6\textwidth]{./Figures/u_soln}
-  \caption{Plotted above is the solution, $u(x,y)$ of~\eqref{eq:semilinear} at fixed values
-  of $\kappa$, $c$, and $\alpha_i$ as provided. The color-bar indicates the range of $u$.}
+  \caption{Plotted above is the solution, $u(x,y)$ of~\eqref{eq:semilinear} at 
+  of $\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0.}
 \label{fig:usoln}
 \end{center}
 \end{figure}
 
+We aim to construct a reduced-order surrogate for the following quantity of interest (QoI):
 
-%We consider the semilinear elliptic PDE,
-%\begin{equation}\label{equ:semilinear}
-%\begin{aligned}
-%-\kappa \Delta u + c u^3 &= q, \quad \text{in } \Omega\\
-% u &= 0. \quad \text{on } \partial \Omega
-%\end{aligned}
-%\end{equation}
-%We model the source term as 
-%\begin{equation}
-%q(x, y, \theta) = \sum_{i = 1}^N \theta_i \sin(i \pi x)
-%\cos(i \pi y),
-%\quad N = 8.
-%\end{equation}
-%Here $\kappa \sim U(0.08, 0.12)$, $c \sim U(0.8, 1.2)$, 
-%and $\theta_i$ are uniformly distributed in interval $[0, 1]$. We consider
-%the following QoI,
-%\[
-%     f(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
-%\]
-%where $D$ is the region, $[1/2, 3/4] \times [1/2, 3/4]$.
+\be
+\mathcal{F}(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
+\label{eq:qoi}
+\ee
+%
+where $D$ is the region: $[2/5, 3/5] \times [2/5, 3/5]$. Once again, the availability of
+cheap model evaluations allow us to obtain converged estimates of the Sobol
+total-effect index ($\mathcal{T}(\theta_i)$), plotted in Figure~\ref{fig:sense_elliptic}.
 
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.46\textwidth]{./Figures/sense_elliptic}
+  \includegraphics[width=0.48\textwidth]{./Figures/ub_conv_elliptic}
+\caption{
+Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the 
+semi-linear elliptic PDE~\eqref{eq:semilinear}. Right: 
+Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) for each uncertain parameter,
+obtained using $N$ = 5, 10, 15, and 20 samples in the full parameter space.}
+\label{fig:sense_elliptic}
+\end{center}
+\end{figure}
+%
+Sensitivity predictions based on the screening metric, $\widehat{\mathcal{C}_i\mu_i}$ are found to
+be in close agreement with $\mathcal{T}(\theta_i)$, even for the case when $N$ = 5. Moreover, 
+the uncertainty in the QoI in \eqref{eq:qoi} is observed to be largely dependent on $c$, 
+$\alpha_2$, $\alpha_3$, $\alpha_4$, and $\alpha_5$. These observations underscore the
+potential for computational gains by constructing an ROS in the 5D parameter space. We 
+illustrate the comparison of convergence characteristics of the PCEs constructed in the
+full parameter space (10D) and the reduced space (5D) in Figure~\ref{fig:conv_elliptic} (left). 
+As expected, the ROS converges at a much faster rate. Using model evaluations at 90
+sample points, $\epsilon_{\mbox{\tiny{LOO}}}$ is found to be two orders of magnitude
+smaller than that in the case of full-surrogate ($\mathcal{O}(10^{-4}$) vs. $\mathcal{O}(10^{-2}$)). 
+Consequently, the computational effort for constructing the ROS in the present test problem
+is expected to be much smaller. 
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_elliptic}
+  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_elliptic}
+\caption{Left: Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is plotted against sample size for 
+PCEs constructed in 10 and 5 dimensions to compare their convergence characteristics. 
+Right: PDF of the QoI, $\mathcal{F}(\kappa, c, \theta)$ in~\eqref{eq:semilinear} is
+plotted using the full-surrogate and the reduced-order PC surrogate.}
+\label{fig:conv_elliptic}
+\end{center}
+\end{figure}
 
 
 
