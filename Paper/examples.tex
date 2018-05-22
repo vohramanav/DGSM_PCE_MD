@@ -7,7 +7,7 @@ estimates of the screening metric, $\widehat{\mathcal{C}_i\mu_i}$
 for individual parameters.
 In this section, we motivate the underlying methodology by applying it to three
 test problems,
-namely, the borehole function, a non-linear oscillator, and a semi-linear elliptic PDE.
+namely, the borehole function, a non-linear oscillator, and a semilinear elliptic PDE.
 Since model evaluations in all these test
 problems are inexpensive, we compare relative importance of model parameters based
 on the screening metric, obtained using model evaluations with 
@@ -276,31 +276,32 @@ quantify the uncertainty in $g(\bm{X})$.
 % due to parametric uncertainty
 %associated with its functional description in~\eqref{eq:limit}, efficiently. 
 
-\subsection{Semi-linear elliptic PDE with random source term}
+\subsection{Semilinear elliptic PDE with random source term}
 
-We consider the following semi-linear elliptic PDE on a 2D square domain ([0,1]$\times$[0,1])
-with Dirichlet boundary conditions:
-
+We consider the following semilinear elliptic PDE: 
 \begin{equation}\label{eq:semilinear}
 \begin{aligned}
--\kappa \Delta u + c u^3 &= q, \quad \text{in } \Omega\\
- u &= 0. \quad \text{on } \partial \Omega
+-\kappa \Delta u + c u^3 &= q \quad \text{in } \Omega,\\
+ u &= 0 \quad \text{on } \partial \Omega.
 \end{aligned}
 \end{equation}
-%
-where $u$ is referred to as the velocity, $\kappa$ and $c$ are coefficients of the diffusion term
-and the non-linear term in the above equation respectively. The velocity, $u$ is random since the
-source term, $q$ in the RHS is modelled as a truncated summation with random coefficients:
-
+Here $\Omega = (0, 1)\times(0,1)$, 
+$u$ is the state variable, and $\kappa$ and $c$ are coefficients of the diffusion term
+and the nonlinear term in the above equation respectively. 
+We consider uncertainties in $\kappa$, $c$, and the source term. 
+The right hand side function $q$ is defined by 
 \be
-q = \sum\limits_{i=1}^{N=8}\alpha_i\sin\left(\frac{i\pi x}{8}\right)\cos\left(\frac{i\pi y}{8}\right)
+q(x, y) = 
+\sum\limits_{i=1}^{N=8}\alpha_i\sin\left(\frac{i\pi x}{8}\right)
+                               \cos\left(\frac{i\pi y}{8}\right),
 \label{eq:source}
 \ee
+where $\alpha_i$, $i = 1, \ldots, 8$ are random coefficients.
 %
-Hence, $u~=~u(\vec{\theta})$ with $\vec{\theta} = 
-(\kappa,c,\alpha_1,\alpha_2,\ldots,\alpha_{8})^T$, a vector
+Hence, $u~=~u(\vec{\theta})$, where $\vec{\theta} = 
+(\kappa,c,\alpha_1,\alpha_2,\ldots,\alpha_{8})^T$ is the vector
 of uncertain parameters. Distributions of the uncertain
-input parameters are tabulated below in Figure~\ref{fig:elliptic}~(left).
+input parameters are tabulated in Figure~\ref{fig:elliptic}~(left).
 The solution of~\eqref{eq:semilinear} for
 a fixed set of values of the uncertain parameters is also 
 illustrated.
@@ -330,7 +331,7 @@ $\alpha_i$ & $\mathcal{U}$[0.0,4.0] \\
 \end{center} 
 \caption{Left: Table providing distributions of the individual
 uncertain parameters in~\eqref{eq:semilinear}. Right: Solution
-of the 2D semi-linear elliptic PDE~\eqref{eq:semilinear} using
+of the 2D semilinear elliptic PDE~\eqref{eq:semilinear} using
 $\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0}
 \label{fig:elliptic}
 \end{figure}
@@ -354,26 +355,30 @@ $\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0}
 %\end{table}
 
 
-We aim to construct a reduced-order surrogate for the following quantity of interest (QoI):
-
+We aim to construct a reduced-order surrogate for the following QoI:
 \be
 \mathcal{F}(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
 \label{eq:qoi}
 \ee
 %
-where $D$ is the region: $[2/5, 3/5] \times [2/5, 3/5]$ in $\mathbb{R}^{x\times y}$. 
-The availability of
-cheap model evaluations allow us to obtain converged estimates of the Sobol
-total-effect index ($\mathcal{T}(\theta_i)$), plotted in Figure~\ref{fig:sense_elliptic}~(left),
-with reasonable effort.
-
+where $D$ is the region $[2/5, 3/5] \times [2/5, 3/5] \subset \Omega$, 
+and $|D|$ denotes the area of $D$. 
+While this model is considerably more complex than the previous numerical
+examples, it can still be solved efficiently.
+The equation was discretized using finite-differences and Newton's method
+was used to solve the resulting nonlinear system.~\alennote{Give the
+number of degrees of freedom.} 
+We computed converged estimates of the Sobol
+total-effect index $\mathcal{T}(\theta_i)$, reported 
+in Figure~\ref{fig:sense_elliptic}~(left).~\alennote{Say how many PDE solves
+were used.}
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.46\textwidth]{./Figures/sense_elliptic}
   \includegraphics[width=0.48\textwidth]{./Figures/ub_conv_elliptic}
 \caption{
 Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the 
-semi-linear elliptic PDE~\eqref{eq:semilinear}. Right: 
+semilinear elliptic PDE~\eqref{eq:semilinear}. Right: 
 Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) for each uncertain parameter,
 obtained using $N$ = 5, 10, 15, and 20 samples in the full parameter space.}
 \label{fig:sense_elliptic}
@@ -390,12 +395,13 @@ $\alpha_2$, $\alpha_3$, $\alpha_4$, and $\alpha_5$. These observations underscor
 potential for computational gains by constructing an ROS in the 5D parameter space. We 
 illustrate the comparison of convergence characteristics of the PCEs constructed in the
 full parameter space (10D) and the reduced space (5D) in Figure~\ref{fig:conv_elliptic} (left). 
-As expected, the ROS converges at a much faster rate. Using model evaluations at 90
+As expected, the ROS converges considerably faster. Using model evaluations at 90
 sample points, $\epsilon_{\mbox{\tiny{LOO}}}$ is found to be two orders of magnitude
-smaller than that in the case of full-surrogate ($\mathcal{O}(10^{-4}$) vs. $\mathcal{O}(10^{-2}$)). 
+smaller than that in the case of full-surrogate ($\mathcal{O}(10^{-4}$) versus
+$\mathcal{O}(10^{-2}$)). 
 Consequently, the computational effort for constructing the ROS in the present test problem
 is expected to be much smaller. 
-
+%
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.48\textwidth]{./Figures/err_samples_elliptic}
@@ -410,13 +416,22 @@ plotted using the full-surrogate and the reduced-order PC surrogate.}
 
 Once again, we verify the accuracy of the ROS by estimating $\epsilon_{\mbox{\tiny{L-2}}}$
 using model evaluations at 100 independent Monte-Carlo samples in the 10D parameter
-space. The L-2 norm was estimated to be 0.05 i.e. the ROS was found to be accurate
-within 5$\%$. Additionally, we compare PDFs of the QoI, $\mathcal{F}(\kappa,c,\theta)$,
-generated using the full-space and the reduced-space surrogates in 
-Figure~\ref{fig:conv_elliptic}~(right). The two PDFs are observed to be in excellent 
-agrement with each other. Hence, the ROS is successfully verified and could be
-used in lieu of the full-space surrogate to reduce computational effort. 
-
+space, and the ROS was found to be accurate
+within 5$\%$. 
+%The L-2 norm was estimated to be 0.05 i.e. 
+Additionally, we compare PDFs of the QoI, $\mathcal{F}(\kappa,c,\theta)$,
+generated using the full-space and the reduced-space surrogates in
+Figure~\ref{fig:conv_elliptic}~(right). The two PDFs are observed to be in
+excellent agrement with each other. Hence, the ROS is successfully verified and
+could be used in lieu of the full-space surrogate to reduce computational
+effort. 
+\alennote{Regarding the PDFs reported in figures 3, 6, 9: I think since we 
+are sampling the model at a large number of points to compute the
+total Sobol indices, we might as well save those sames, and then
+use them to compute a KDE of the ``true'' PDF; that way, each of these
+PDF comparison plots will report: true, FSS, ROS PDFs. I think that will
+make the case 
+for the presented method stronger, given we remain close to the true PDF.}
 
 
 
