@@ -12,4 +12,101 @@
 %Define all the inputs as per the framework and illustrate its
 %implementation to this application for both scenarios
 
+The proposed framework in section~\ref{sec:method} is implemented to 
+the H$_2$/O$_2$ reaction mechanism provided in~\cite{Yetter:1991}.
+The mechanism comprises of 19 reactions including chain reactions,
+dissociation/recombination reactions, and formation and consumption
+of intermediate species: HO$_2$ and H$_2$O$_2$, as provided below
+in Table~\ref{tab:kinetics}.
+
+\begin{table}[htbp]
+\renewcommand*{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{ll}
+\toprule
+$\mathcal{R}_1$ & H + O$_2$ $\Longleftrightarrow$ O + OH \\
+$\mathcal{R}_2$ & O + H$_2$ $\Longleftrightarrow$ H + OH \\
+$\mathcal{R}_3$ & H$_2$ + OH $\Longleftrightarrow$ H$_2$O + H \\
+$\mathcal{R}_4$ & OH + OH $\Longleftrightarrow$ O + H$_2$O \\
+$\mathcal{R}_5$ & H$_2$ + M $\Longleftrightarrow$ H + H + M \\
+$\mathcal{R}_6$ & O + O + M $\Longleftrightarrow$ O$_2$ + M \\
+$\mathcal{R}_7$ & O + H + M $\Longleftrightarrow$ OH + M \\
+$\mathcal{R}_8$ & H + OH +M $\Longleftrightarrow$ H$_2$O + M \\
+$\mathcal{R}_9$ & H + O$_2$ + M $\Longleftrightarrow$ HO$_2$ + M \\
+$\mathcal{R}_{10}$ & HO$_2$ + H $\Longleftrightarrow$ H$_2$ + O$_2$ \\
+$\mathcal{R}_{11}$ & HO$_2$ + H $\Longleftrightarrow$ OH + OH \\
+$\mathcal{R}_{12}$ & HO$_2$ + O $\Longleftrightarrow$ O$_2$ + OH \\
+$\mathcal{R}_{13}$ & HO$_2$ + OH $\Longleftrightarrow$ H$_2$O + O$_2$ \\
+$\mathcal{R}_{14}$ & HO$_2$ + HO$_2$ $\Longleftrightarrow$ H$_2$O$_2$ + O$_2$ \\
+$\mathcal{R}_{15}$ & H$_2$O$_2$ + M $\Longleftrightarrow$ OH + OH + M \\
+$\mathcal{R}_{16}$ & H$_2$O$_2$ + H $\Longleftrightarrow$ H$_2$O + OH \\
+$\mathcal{R}_{17}$ & H$_2$O$_2$ + H $\Longleftrightarrow$ HO$_2$ + H$_2$ \\
+$\mathcal{R}_{18}$ & H$_2$O$_2$ + O $\Longleftrightarrow$ OH + HO$_2$ \\
+$\mathcal{R}_{19}$ & H$_2$O$_2$ + OH $\Longleftrightarrow$ HO$_2$ + H$_2$O \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\caption{Reaction mechanism for H$_2$/O$_2$~\cite{Yetter:1991}.}
+\label{tab:kinetics}
+\end{table}
+
+The reaction rate for the $i^{th}$ reaction as a function of temperature
+is given as follows:
+
+\be
+k_i(T) = A_iT^{n_i}\exp(-E_{a,i}/RT) 
+\label{eq:rate}
+\ee
+%
+where $A_i$ is the pre-exponent, $n_i$ is the index of $T$, $E_{a,i}$
+is the activation energy corresponding to the $i^{th}$ reaction, and
+$R$ is the universal gas constant. We focus our attention on 
+quantifying the uncertainty in the `ignition delay' due to uncertainty
+associated with the pre-exponent, $A_i$ for each reaction. Hence, the
+total number of uncertain parameters in the present case is 19. 
+While the dimensionality of the problem is relatively moderate,
+constructing a surrogate in the 19D parameter space could still be
+expensive. Hence, we explore the possibility of constructing a
+reduce-order surrogate (ROS) using the framework presented earlier
+in section~\ref{sec:method}. To this end, the $A_i$'s are considered
+to be uniformly distributed in the interval: $[0.9A_i^\ast, 1.1A_i^\ast]$;
+$A_i^\ast$ being the nominal estimate corresponding to the $i^{th}$
+reaction. TChem~\cite{Safta:2011}, an open source C package was used
+for simulating temperature and concentration evolution during the
+progress of reactions ($\mathcal{R}_1$ -- $\mathcal{R}_{19}$), and determining
+the ignition delay. The set of nominal values used in the computations,
+for parameters in~\eqref{eq:rate} are provided in~\cite{Yetter:1991}. 
+
+In this study, we focus on two scenarios: fuel(H$_2$) rich, and fuel(H$_2$)
+lean. Consider the global reaction:
+
+\be
+2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2O
+\label{eq:global}
+\ee 
+%
+The equivalence ratio ($\phi$) is defined as follows:
+%
+\be
+\phi = \frac{(M_{\text{H}_2}/M_{\text{O}_2})_\text{obs}}{(M_{\text{H}_2}/M_{\text{O}_2})_\text{st}}
+\ee
+%
+The numerator in the RHS represents the fuel-oxygen mass ratio at a given condition
+and the denominator represents the stoichiometric ratio of the same quantity. Hence,
+$\phi$ = 1 at stoichiometric conditions. The equivalence ratio can be altered
+by changing the amount of O$_2$ in the mixture. Essentially, $\phi>1$ corresponds to
+a rich mixture, and $\phi<1$ corresponds to a lean mixture. The above
+reaction~\eqref{eq:global} could thus be generalized as follows:
+
+\be
+2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\min(1,\alpha)\text{H}_2\text{O} + 
+\max(\alpha-1,0)\text{O}_2 + \max(0,2-2\alpha)\text{H}_2
+\label{eq:gen}
+\ee 
+
+
+
+
+
 
