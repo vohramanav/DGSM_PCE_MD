@@ -138,8 +138,8 @@ owing to the penalty term in the regularized optimization problem in Eq.~\ref{eq
 
 As discussed earlier in this section, the reduced order PCE's are verified for
 predictive accuracy in a least-squares sense and a probabilistic sense.
-Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ based on 50 samples and
-corresponding function evaluations in the original 7D parameter space were
+Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ based on 50 samples in the
+validation test suite were
 found to be 0.0551 and 0.0112 for the 4D and 5D PCE's respectively. In other
 words, the 4D PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within
 1.12$\%$ of predictions based on the borehole function. We note  that although
@@ -161,10 +161,11 @@ Figure~\ref{fig:conv_bore}~(right) illustrates a comparison of the PDFs
 of the
 discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ random
 samples through the 7D PCE in the original input parameter domain as well as
-the reduced order PCEs constructed in 4 and 5 dimensions. 
+the reduced order PCEs constructed in 4 and 5 dimensions. A normalized histogram
+plot using model evaluations in the validation test suite is also included.
 It is evident from this plot, that the PDFs agree quite favorably with each
-other with respect to the modal estimate as well as the uncertainty associated with 
-$\mathcal{Q}$. 
+other as well as the model-based histogram with respect to the modal estimate
+as well as the uncertainty associated with $\mathcal{Q}$. 
 Consequently, it can be said that the reduced order PCE is verified in a
 probabilistic sense. In other words, the mode as well as the uncertainty in the
 observable is reliably captured and predicted by the reduced order PCE. 
@@ -268,13 +269,14 @@ model evaluations at 100 independent Monte-Carlo samples in the full
 parameter space. The value of $\epsilon_{\mbox{\tiny{L-2}}}$ 
 was found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$.
 Furthermore, the accuracy is assessed in a probabilistic sense by comparing
-PDFs of $g(\bm{X})$, obtained using the function and the 3D PCE as illustrated
-in Figure~\ref{fig:conv_osc}~(right).  Clearly, the two PDFs are in excellent
-agreement with each other. Hence, the ROS constructed using the methodology
+in Figure~\ref{fig:conv_osc}~(right),
+PDFs of $g(\bm{X})$, obtained using the full-surrogate, reduced-order 
+surrogates constructed 3 and 4 dimensions, and a normalized histogram based
+on model evaluation in the validation test suite. The three PDFs are observed
+to be in excellent agreement with each other as well as the model-based
+histogram. Hence, the ROS constructed using the methodology
 presented in section~\ref{sec:method} could be used reliably to 
-quantify the uncertainty in $g(\bm{X})$.
-% due to parametric uncertainty
-%associated with its functional description in~\eqref{eq:limit}, efficiently. 
+quantify the uncertainty in $g(\bm{X})$ with reduced effort.
 
 \subsection{Semilinear elliptic PDE with random source term}
 
@@ -336,25 +338,6 @@ $\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0}
 \label{fig:elliptic}
 \end{figure}
 
-
-%\begin{table}[htbp]
-%\begin{tabular}{cc}
-%
-%  \includegraphics[width=0.45\textwidth]{./Figures/u_soln.png} &
-%\begin{tabular}{cl}
-%\toprule
-%$\theta_i$ & \textbf{Distribution} \\ 
-%\bottomrule
-%$\kappa$ & $\mathcal{U}$[0.05,0.1] \\
-%$c$ & $\mathcal{U}$[1.0,2.0] \\
-%$\alpha_i$ & $\mathcal{U}$[0.0,4.0] \\
-%\bottomrule
-%\end{tabular}
-%\\
-%\end{tabular}
-%\end{table}
-
-
 We aim to construct a reduced-order surrogate for the following QoI:
 \be
 \mathcal{F}(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
@@ -366,12 +349,14 @@ and $|D|$ denotes the area of $D$.
 While this model is considerably more complex than the previous numerical
 examples, it can still be solved efficiently.
 The equation was discretized using finite-differences, and Newton's method
-was used to solve the resulting nonlinear system.~\alennote{Give the
+was used to solve the resulting nonlinear system on a (100$\times$100) 2D
+cartesian grid.~\alennote{Give the
 number of degrees of freedom.} 
 We computed converged estimates of the Sobol
 total-effect index $\mathcal{T}(\theta_i)$, reported 
-in Figure~\ref{fig:sense_elliptic}~(left).~\alennote{Say how many PDE solves
-were used.}
+in Figure~\ref{fig:sense_elliptic}~(left) by solving the above non-linear
+system at 500 samples in the 10D parameter space. 
+%
 \begin{figure}[htbp]
  \begin{center}
   \includegraphics[width=0.46\textwidth]{./Figures/sense_elliptic}
@@ -416,23 +401,15 @@ plotted using the full-surrogate and the reduced-order PC surrogate.}
 
 Once again, we verify the accuracy of the ROS by estimating $\epsilon_{\mbox{\tiny{L-2}}}$
 using model evaluations at 100 independent Monte-Carlo samples in the 10D parameter
-space, and the ROS was found to be accurate
-within 5$\%$. 
-%The L-2 norm was estimated to be 0.05 i.e. 
-Additionally, we compare PDFs of the QoI, $\mathcal{F}(\kappa,c,\theta)$,
-generated using the full-space and the reduced-space surrogates in
-Figure~\ref{fig:conv_elliptic}~(right). The two PDFs are observed to be in
-excellent agrement with each other. Hence, the ROS is successfully verified and
-could be used in lieu of the full-space surrogate to reduce computational
-effort. 
-\alennote{Regarding the PDFs reported in figures 3, 6, 9: I think since we 
-are sampling the model at a large number of points to compute the
-total Sobol indices, we might as well save those sames, and then
-use them to compute a KDE of the ``true'' PDF; that way, each of these
-PDF comparison plots will report: true, FSS, ROS PDFs. I think that will
-make the case 
-for the presented method stronger, given we remain close to the true PDF.}
-
+space. The ROS was found to be accurate
+within 5$\%$. In order to bolster confidence in the ROS, we compare PDFs of the QoI
+as well as a normalized histogram plot based on sparse model evaluations in the  
+validation test-suite, in 
+Figure~\ref{fig:conv_elliptic}~(right). While the two PDFs are in favorable agreement,
+the modal estimate and the spread in the QoI based on the histogram is also captured
+by them. Hence, the ROS could be used with a reasonable degree of confidence to
+quantify the uncertainty in $\mathcal{F}(\kappa, c, \theta)$ thereby leading to
+a computational advantage in this case.
 
 
 
