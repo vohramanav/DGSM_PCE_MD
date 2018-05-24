@@ -80,9 +80,9 @@ for parameters in~\eqref{eq:rate} are provided in~\cite{Yetter:1991}.
 
 In this study, we focus on two scenarios: fuel(H$_2$) rich, and fuel(H$_2$)
 lean. Consider the global reaction:
-
+%
 \be
-2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2O
+2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}
 \label{eq:global}
 \ee 
 %
@@ -96,20 +96,37 @@ The equivalence ratio ($\phi$) is defined as follows:
 The numerator in the RHS represents the fuel-oxygen mass ratio at a given condition
 and the denominator represents the stoichiometric ratio of the same quantity. Hence,
 $\phi$ = 1 at stoichiometric conditions. The equivalence ratio can be altered
-by changing the amount of O$_2$ in the mixture. Essentially, $\phi>1$ corresponds to
-a rich mixture, and $\phi<1$ corresponds to a lean mixture. The above
-reaction~\eqref{eq:global} could thus be generalized as follows:
-
+by changing the amount of O$_2$ in the mixture. In the case of a lean
+mixture,~\eqref{eq:global} can be written as follows:
+%
+\be
+2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\text{H}_2\text{O} + (\alpha-1)\text{O}_2 
+\hspace{3mm} (\alpha>1)
+\label{eq:lean}
+\ee 
+%
+Similarly, for the case when the mixture if fuel rich,~\eqref{eq:global} is modified
+as follows:
+%
+\be
+2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\alpha\text{H}_2\text{O} + 2(1-\alpha)\text{H}_2
+\hspace{3mm} (\alpha<1)
+\label{eq:rich}
+\ee 
+%
+Eqs.~\eqref{eq:lean} and~\eqref{eq:rich} can be generalized as follows:
+%
 \be
 2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\min(1,\alpha)\text{H}_2\text{O} + 
 \max(\alpha-1,0)\text{O}_2 + \max(0,2-2\alpha)\text{H}_2
 \label{eq:gen}
 \ee 
 %
-Using~\eqref{eq:phi}~and~\eqref{eq:gen}, the relationship between $\phi$
+From the above set of chemical equations, the relationship between $\phi$
 and $\alpha$ can be easily obtained as $\left(\phi~=~\frac{1}{\alpha}\right)$.
-
-
+Since $\phi>1$ corresponds to a rich mixture, and $\phi<1$ corresponds to a
+lean mixture, we consider $\phi$ = 2.0 and 0.5 to investigate the two scenarios
+respectively. 
 
 
 
