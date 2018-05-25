@@ -7,7 +7,7 @@ estimates of the screening metric, $\widehat{\mathcal{C}_i\mu_i}$
 for individual parameters.
 In this section, we motivate the underlying methodology by applying it to three
 test problems,
-namely, the borehole function, a non-linear oscillator, and a semilinear elliptic PDE.
+namely, the borehole function, a non-linear oscillator, and a semi-linear elliptic PDE.
 Since model evaluations in all these test
 problems are inexpensive, we compare relative importance of model parameters based
 on the screening metric, obtained using model evaluations with 
@@ -145,7 +145,7 @@ words, the 4D PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within
 1.12$\%$ of predictions based on the borehole function. We note  that although
 the convergence in the case of a 5D PCE is slower (Figure~\ref{fig:conv_bore}),
 its predictive accuracy is higher than the 4D PCE. This illustrates the
-tradeoff between accuracy and computational efficiency for the present 
+trade-off between accuracy and computational efficiency for the present 
 problem. Generally, the required level of accuracy is problem dependent. 
 The present framework allows for moving towards higher fidelity 
 reduced order surrogates based on the ranking of the parameter sensitivities. 
@@ -162,7 +162,7 @@ of the
 discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ random
 samples through the 7D PCE in the original input parameter domain as well as
 the reduced order PCEs constructed in 4 and 5 dimensions. A normalized histogram
-plot using model evaluations in the validation test suite is also included.
+plot using 1000 model evaluations in the validation test suite is also included.
 It is evident from this plot, that the PDFs agree quite favorably with each
 other as well as the model-based histogram with respect to the modal estimate
 as well as the uncertainty associated with $\mathcal{Q}$. 
@@ -265,7 +265,7 @@ To verify the accuracy of the third-order PCE, we estimate the relative L-2
 norm of the difference between predictions of  $g(\bm{X})$, obtained using the
 actual function in \eqref{eq:limit} and the 
 PCE using \eqref{eq:l2}, and a validation test suite. The test suite comprised
-model evaluations at 100 independent Monte-Carlo samples in the full 
+model evaluations at 1000 independent Monte-Carlo samples in the full 
 parameter space. The value of $\epsilon_{\mbox{\tiny{L-2}}}$ 
 was found to be 0.0835 i.e. the third-order PCE is accurate within 8.36$\%$.
 Furthermore, the accuracy is assessed in a probabilistic sense by comparing
@@ -278,9 +278,9 @@ histogram. Hence, the ROS constructed using the methodology
 presented in section~\ref{sec:method} could be used reliably to 
 quantify the uncertainty in $g(\bm{X})$ with reduced effort.
 
-\subsection{Semilinear elliptic PDE with random source term}
+\subsection{Semi-linear elliptic PDE with random source term}
 
-We consider the following semilinear elliptic PDE: 
+We consider the following semi-linear elliptic PDE: 
 \begin{equation}\label{eq:semilinear}
 \begin{aligned}
 -\kappa \Delta u + c u^3 &= q \quad \text{in } \Omega,\\
@@ -400,7 +400,7 @@ plotted using the full-surrogate and the reduced-order PC surrogate.}
 \end{figure}
 
 Once again, we verify the accuracy of the ROS by estimating $\epsilon_{\mbox{\tiny{L-2}}}$
-using model evaluations at 100 independent Monte-Carlo samples in the 10D parameter
+using model evaluations at 1000 independent Monte-Carlo samples in the 10D parameter
 space. The ROS was found to be accurate
 within 5$\%$. In order to bolster confidence in the ROS, we compare PDFs of the QoI
 as well as a normalized histogram plot based on sparse model evaluations in the  

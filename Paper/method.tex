@@ -50,7 +50,7 @@ Algorithm~\ref{alg:screen}.
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
 \Require $\tau > 0$, $\tau_\text{screen} > 0$,
-$s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
+$s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
 \Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$, $N_\text{total}$. 
     \Procedure{Screening}{}
     %  \State Draw samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
@@ -123,7 +123,7 @@ by the choice of maximum number of iterations, $s_\text{max}$.
 Key inputs
 are as follows: (1) 
 a limiting value $\tau$ of the maximum relative change in the sensitivity
-measure between succesive iterations; (2) 
+measure between successive iterations; (2) 
 a limiting ratio $\tau_\text{screen}$ of the sensitivity metric 
 relative to its maximum value;
 (3) a real number $\beta \in (0, 1)$ to 
@@ -178,7 +178,7 @@ $s_\text{max}$, $\beta$, $N_\text{total}$ = 0};
 %\draw [arro] (sam0) -- (counter);     
 
 \node (fss) [process, below of=sam0, text width=14.5em, yshift=-0.5cm] {Construct regression-based 
-surrogate in full-space (FSS) uing ($N_\text{total}$+$n_1$) model evaluations};
+surrogate in full-space (FSS) using ($N_\text{total}$+$n_1$) model evaluations};
 
 \draw [arro] (sam0) -- (fss);   
 
@@ -244,7 +244,7 @@ likely that a full-space surrogate constructed using a
 small number of model evaluations would not provide a 
 faithful representation of the input-output relationship.  
 
-The available set of model evaluations are utlized and further enhanced during
+The available set of model evaluations are utilized and further enhanced during
 parameter screening as discussed earlier.  At the end of screening, the set of
 active indices, $\mathcal{I}_\text{active}$, is used to evaluate $\alpha$ in the
 following equation: 
