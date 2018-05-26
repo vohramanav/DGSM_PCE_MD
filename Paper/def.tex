@@ -195,6 +195,21 @@
 \newcommand{\Npc}{{N_\text{PC}}}
 \newcommand{\alennote}[1]{{\color{blue}Alen: {#1}}}
 
+\def\longrightharpoonup{\relbar\joinrel\rightharpoonup}
+\def\longleftharpoondown{\leftharpoondown\joinrel\relbar}
+\def\longrightleftharpoons{
+  \mathop{
+    \vcenter{
+      \hbox{
+      \ooalign{
+        \raise1pt\hbox{$\longrightharpoonup\joinrel$}\crcr
+          \lower1pt\hbox{$\longleftharpoondown\joinrel$}
+          }
+      }
+    }
+  }
+}
+
 
 \newcommand{\GG}{G}
 % ----------------- end macros
