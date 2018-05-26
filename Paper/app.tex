@@ -131,26 +131,23 @@ lean mixture, we consider $\phi$ = 2.0 and 0.5 to investigate the two scenarios
 respectively. 
 
 We apply the parameter screening algorithm with the following
-parameters: $\tau_\text{screen}$,
-$s_\text{max}$, $\beta$ are fixed at 0.2, 10, and 1.0 respectively for both cases.
+parameters: $\tau_\text{screen}$, $s_\text{min}$,
+$s_\text{max}$, $\beta$ are fixed at 0.2, 3, 10, and 1.0 respectively for both cases.
 Additionally, the value of $\tau$ is considered to be 1.0$\times 10^{-17}$ and
-5.0$\times 10^{-17}$ in the rich and lean case respectively.
-~\alennote{What is the rationale behind such small numbers? These are smaller
-than the unit round-off.} 
+5.0$\times 10^{-17}$ in the rich and lean case respectively. Such a small value
+of $\tau$ for this application is a consequence of the nature of convergence exhibited
+by the sensitivity measures. Moreover, the screening procedure is carried out
+for atleast $s_\text{min}$ number of iterations in order to bolster our confidence
+in the estimates. 
 
-A full-space surrogate based on the initial set of model evaluations at 5 samples
-did not result in an accurate representation of the input-output relationship. 
-\alennote{This is hardly surprising, five samples in a 19D parameter space
-is going to get us so far; I suggest removing or rewording this statement, 
-as a careful referee will jump on this.}
-Hence, unlike the test problems presented in section~\ref{sec:examples},we do not
-have converged estimates of the Sobol total-effect index in this case. 
-\alennote{I don't understand; did we not sample the system to death to get 
-total Sobol' indices, or we are saying that's too difficult, and 
-we just use DGSMs and our screening approach?}
-However,
-the screening procedure in Algorithm~\ref{alg:screen} is implemented to evaluate
-the screening metric for the uncertain pre-exponents $A_i$'s as plotted below
+Following the steps outlined in the flow-diagram in Figure~\ref{fig:flow}, model
+evaluations are initially generated at $n_1$ = 5 samples. The evaluations are
+used to construct a regression-based surrogate in the full-space. As
+expected, the surrogate is found to be highly inaccurate. Moreover, unlike the
+test problems in section~\ref{sec:examples}, we do not estimate the Sobol
+total-effect sensitivity indices in the interest of following the overall framework
+closely. Hence, we proceed to the screening step to estimate the screening metric
+for the uncertain pre-exponents, $A_i$'s. Results are plotted below
 in Figure~\ref{fig:sense_kinetics}~(top row) for both cases. Furthermore, we illustrate
 the decay in the value of $\Delta\mu_s$ with iterations in 
 Figure~\ref{fig:sense_kinetics}~(bottom row).

@@ -14,7 +14,7 @@
 %\end{enumerate}
 
 In this work, we have presented a systematic approach for constructing a reduced-order
-surrogate for scientific and engineering applications. dimension reduction is accomplished
+surrogate for scientific and engineering applications. Dimension reduction is accomplished
 by identifying uncertain parameters that contribute relatively less towards the uncertainty
 in the quantity of interest. These parameters deemed as \textit{unimportant} are determined
 using a screening metric, defined in~\eqref{eq:cmu}. Initially, the metric is estimated
@@ -39,20 +39,20 @@ dimensional application involving kinetics of the H$_2$/O$_2$ reaction mechanism
 Significant dimension reduction was accomplished for two different scenarios involving
 a fuel-rich and a fuel-lean mixture. In both cases, the resulting ROS was able to capture
 the input-output relationship as well as the uncertainty in the quantity of interest with 
-reasonable accuracy. Additional highlights of the proposed framework are as follows:
+reasonable accuracy. Additional highlights and limitations of the proposed framework are as follows:
 
 \begin{enumerate}
-\item Although Polynomial Chaos surrogates were used in this work, the framework is
-agnostic to the choice of the surrogate. 
+\item The proposed framework is agnostic to the choice of the surrogate although PCE's were used
+in this work. 
 \item The scope for dimension reduction and associated computational gains are
 dependent upon the application as well as the quantity of interest. 
 \item The quantity of interest must be differentiable with respect to each uncertain parameter
 to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
 \item Substantial computational gains are expected in situations involving compute-intensive
-simulations even if the scope for dimension reduction is small. Hence, careful judgment 
+simulations even if the scope for dimension reduction is small and vice versa. Hence, careful judgment 
 is required when implementing the framework. 
 \item Exponential gains can be realized in situations where multiple surrogates need to be
-constructed as illustrated in the kinetics application. Other possible scenarios include
+constructed as illustrated in the kinetics application. Other possible scenarios 
 include inverse problems involving parameter estimation in a Bayesian setting. 
 \end{enumerate}
 
