@@ -40,14 +40,22 @@ Significant dimension reduction was accomplished for two different scenarios inv
 a fuel-rich and a fuel-lean mixture. In both cases, the resulting ROS was able to capture
 the input-output relationship as well as the uncertainty in the quantity of interest with 
 reasonable accuracy. Additional highlights and limitations of the proposed framework are as follows:
-
+\alennote{This is unclear: if we list limitations, we should be specific and
+not mix them with highlights;
+as for limitations, we can mention 
+e.g., we do not account for correlations, and our method applies only to 
+models with differentiable dependence on parameters, etc.; I would not make
+a bulleted list; I would briefly discuss the limitations, and if possible turn 
+them into strengths! e.g., we consider uncorrelated parameters, but that's okay as in 
+many cases correlations are not well understood and assuming independence is reasonable, etc.}
 \begin{enumerate}
 \item The proposed framework is agnostic to the choice of the surrogate although PCE's were used
 in this work. 
 \item The scope for dimension reduction and associated computational gains are
 dependent upon the application as well as the quantity of interest. 
 \item The quantity of interest must be differentiable with respect to each uncertain parameter
-to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
+for the derivative-based sensitivity measures in~\eqref{eq:mu} to be defined. 
+%to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
 \item Substantial computational gains are expected in situations involving compute-intensive
 simulations even if the scope for dimension reduction is small and vice versa. Hence, careful judgment 
 is required when implementing the framework. 
