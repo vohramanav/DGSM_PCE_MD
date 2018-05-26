@@ -49,7 +49,7 @@ Algorithm~\ref{alg:screen}.
 \renewcommand{\algorithmicensure}{\textbf{Output:}}
   \caption{Parameter screening with DGSMs: A generalized approach.}
   \begin{algorithmic}[1]
-\Require $\tau > 0$, $\tau_\text{screen} > 0$,
+\Require $\tau > 0$, $\tau_\text{screen} > 0$, $s_\text{min} \geq 1$,
 $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$. 
 \Ensure $\mathcal{I}_\text{active}$, $\{ \bm{g}^k \}_{k=1}^{N_\text{total}}$, $N_\text{total}$. 
     \Procedure{Screening}{}
