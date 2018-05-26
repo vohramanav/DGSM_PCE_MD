@@ -18,67 +18,71 @@ The mechanism comprises of 19 reactions including chain reactions,
 dissociation/recombination reactions, and formation and consumption
 of intermediate species: HO$_2$ and H$_2$O$_2$, as provided below
 in Table~\ref{tab:kinetics}.
+\alennote{Are all these reactions, reversible? The notation $\Longleftrightarrow$ suggests
+that. Also, 
+for reversible reactions, I prefer the notation $\rightleftharpoons$.}
 
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
 \begin{center}
-\begin{tabular}{ll}
+\begin{tabular}{llll}
 \toprule
-$\mathcal{R}_1$ & H + O$_2$ $\Longleftrightarrow$ O + OH \\
-$\mathcal{R}_2$ & O + H$_2$ $\Longleftrightarrow$ H + OH \\
-$\mathcal{R}_3$ & H$_2$ + OH $\Longleftrightarrow$ H$_2$O + H \\
-$\mathcal{R}_4$ & OH + OH $\Longleftrightarrow$ O + H$_2$O \\
-$\mathcal{R}_5$ & H$_2$ + M $\Longleftrightarrow$ H + H + M \\
-$\mathcal{R}_6$ & O + O + M $\Longleftrightarrow$ O$_2$ + M \\
-$\mathcal{R}_7$ & O + H + M $\Longleftrightarrow$ OH + M \\
-$\mathcal{R}_8$ & H + OH +M $\Longleftrightarrow$ H$_2$O + M \\
-$\mathcal{R}_9$ & H + O$_2$ + M $\Longleftrightarrow$ HO$_2$ + M \\
-$\mathcal{R}_{10}$ & HO$_2$ + H $\Longleftrightarrow$ H$_2$ + O$_2$ \\
-$\mathcal{R}_{11}$ & HO$_2$ + H $\Longleftrightarrow$ OH + OH \\
-$\mathcal{R}_{12}$ & HO$_2$ + O $\Longleftrightarrow$ O$_2$ + OH \\
-$\mathcal{R}_{13}$ & HO$_2$ + OH $\Longleftrightarrow$ H$_2$O + O$_2$ \\
-$\mathcal{R}_{14}$ & HO$_2$ + HO$_2$ $\Longleftrightarrow$ H$_2$O$_2$ + O$_2$ \\
-$\mathcal{R}_{15}$ & H$_2$O$_2$ + M $\Longleftrightarrow$ OH + OH + M \\
-$\mathcal{R}_{16}$ & H$_2$O$_2$ + H $\Longleftrightarrow$ H$_2$O + OH \\
-$\mathcal{R}_{17}$ & H$_2$O$_2$ + H $\Longleftrightarrow$ HO$_2$ + H$_2$ \\
-$\mathcal{R}_{18}$ & H$_2$O$_2$ + O $\Longleftrightarrow$ OH + HO$_2$ \\
-$\mathcal{R}_{19}$ & H$_2$O$_2$ + OH $\Longleftrightarrow$ HO$_2$ + H$_2$O \\
+Reaction \#     & Reaction &&\\
+\bottomrule
+$\mathcal{R}_1$ & H + O$_2$          & $\Longleftrightarrow$ & O + OH \\
+$\mathcal{R}_2$ & O + H$_2$          & $\Longleftrightarrow$ & H + OH \\
+$\mathcal{R}_3$ & H$_2$ + OH         & $\Longleftrightarrow$ & H$_2$O + H \\
+$\mathcal{R}_4$ & OH + OH            & $\Longleftrightarrow$ & O + H$_2$O \\
+$\mathcal{R}_5$ & H$_2$ + M          & $\Longleftrightarrow$ & H + H + M \\
+$\mathcal{R}_6$ & O + O + M          & $\Longleftrightarrow$ & O$_2$ + M \\
+$\mathcal{R}_7$ & O + H + M          & $\Longleftrightarrow$ & OH + M \\
+$\mathcal{R}_8$ & H + OH +M          & $\Longleftrightarrow$ & H$_2$O + M \\
+$\mathcal{R}_9$ & H + O$_2$ + M      & $\Longleftrightarrow$ & HO$_2$ + M \\
+$\mathcal{R}_{10}$ & HO$_2$ + H      & $\Longleftrightarrow$ & H$_2$ + O$_2$ \\
+$\mathcal{R}_{11}$ & HO$_2$ + H      & $\Longleftrightarrow$ & OH + OH \\
+$\mathcal{R}_{12}$ & HO$_2$ + O      & $\Longleftrightarrow$ & O$_2$ + OH \\
+$\mathcal{R}_{13}$ & HO$_2$ + OH     & $\Longleftrightarrow$ & H$_2$O + O$_2$ \\
+$\mathcal{R}_{14}$ & HO$_2$ + HO$_2$ & $\Longleftrightarrow$ & H$_2$O$_2$ + O$_2$ \\
+$\mathcal{R}_{15}$ & H$_2$O$_2$ + M  & $\Longleftrightarrow$ & OH + OH + M \\
+$\mathcal{R}_{16}$ & H$_2$O$_2$ + H  & $\Longleftrightarrow$ & H$_2$O + OH \\
+$\mathcal{R}_{17}$ & H$_2$O$_2$ + H  & $\Longleftrightarrow$ & HO$_2$ + H$_2$ \\
+$\mathcal{R}_{18}$ & H$_2$O$_2$ + O  & $\Longleftrightarrow$ & OH + HO$_2$ \\
+$\mathcal{R}_{19}$ & H$_2$O$_2$ + OH & $\Longleftrightarrow$ & HO$_2$ + H$_2$O \\
 \bottomrule
 \end{tabular}
 \end{center}
-
-\caption{Reaction mechanism for H$_2$/O$_2$~\cite{Yetter:1991}.}
+\caption{Reaction mechanism for H$_2$/O$_2$ from~\cite{Yetter:1991}}.
 \label{tab:kinetics}
 \end{table}
 
+
 The reaction rate for the $i^{th}$ reaction as a function of temperature
 is given as follows:
-
 \be
-k_i(T) = A_iT^{n_i}\exp(-E_{a,i}/RT) 
+k_i(T) = A_iT^{n_i}\exp(-E_{a,i}/RT), 
 \label{eq:rate}
 \ee
 %
-where $A_i$ is the pre-exponent, $n_i$ is the index of $T$, $E_{a,i}$
-is the activation energy corresponding to the $i^{th}$ reaction, and
-$R$ is the universal gas constant. We focus our attention on 
-quantifying the uncertainty in the `ignition delay' due to uncertainty
-associated with the pre-exponent, $A_i$ for each reaction. Hence, the
-total number of uncertain parameters in the present case is 19. 
-While the dimensionality of the problem is relatively moderate,
-constructing a surrogate in the 19D parameter space could still be
-expensive. Hence, we explore the possibility of constructing a
-reduce-order surrogate (ROS) using the framework presented earlier
-in section~\ref{sec:method}. To this end, the $A_i$'s are considered
-to be uniformly distributed in the interval: $[0.9A_i^\ast, 1.1A_i^\ast]$;
-$A_i^\ast$ being the nominal estimate corresponding to the $i^{th}$
-reaction. TChem~\cite{Safta:2011}, an open source C package was used
-for simulating temperature and concentration evolution during the
-progress of reactions ($\mathcal{R}_1$ -- $\mathcal{R}_{19}$), and determining
-the ignition delay. The set of nominal values used in the computations,
-for parameters in~\eqref{eq:rate} are provided in~\cite{Yetter:1991}. 
+where $A_i$ is the pre-exponent, $n_i$ is the index of $T$, $E_{a,i}$ is the
+activation energy corresponding to the $i^{th}$ reaction, and $R$ is the
+universal gas constant. We focus on quantifying the uncertainty in the
+\emph{ignition delay} due to uncertainty associated with the pre-exponent,
+$A_i$ for each reaction. Hence, the total number of uncertain parameters in the
+present case is 19.  The $A_i$'s are considered to be uniformly distributed in
+the interval: $[0.9A_i^\ast, 1.1A_i^\ast]$; $A_i^\ast$ being the nominal
+estimate corresponding to the $i^{th}$ reaction. TChem~\cite{Safta:2011}, an
+open source C package was used for simulating temperature and concentration
+evolution during the progress of reactions $\mathcal{R}_1$--$\mathcal{R}_{19}$,
+and determining the ignition delay. The set of nominal values used in the
+computations, for parameters in~\eqref{eq:rate} are provided
+in~\cite{Yetter:1991}. 
 
-In this study, we focus on two scenarios: fuel(H$_2$) rich, and fuel(H$_2$)
+While the dimensionality of the problem is relatively moderate,
+constructing a surrogate in the 19-dimensional parameter space could still be
+expensive. Hence, we explore the possibility of constructing a
+reduced-order surrogate (ROS) using the framework presented 
+in section~\ref{sec:method}. 
+In the present study, we focus on two scenarios: fuel(H$_2$) rich, and fuel(H$_2$)
 lean. Consider the global reaction:
 %
 \be
@@ -86,14 +90,15 @@ lean. Consider the global reaction:
 \label{eq:global}
 \ee 
 %
-The equivalence ratio ($\phi$) is defined as follows:
+The equivalence ratio $\phi$ is defined as follows:
 %
 \be
 \phi = \frac{(M_{\text{H}_2}/M_{\text{O}_2})_\text{obs}}{(M_{\text{H}_2}/M_{\text{O}_2})_\text{st}}
 \label{eq:phi}
 \ee
 %
-The numerator in the RHS represents the fuel-oxygen mass ratio at a given condition
+The numerator in the right hand side represents the fuel-oxygen mass ratio at a given condition
+(\alennote{What does the subscript \emph{obs} stand for?}) 
 and the denominator represents the stoichiometric ratio of the same quantity. Hence,
 $\phi$ = 1 at stoichiometric conditions. The equivalence ratio can be altered
 by changing the amount of O$_2$ in the mixture. In the case of a lean
@@ -123,20 +128,32 @@ Eqs.~\eqref{eq:lean} and~\eqref{eq:rich} can be generalized as follows:
 \ee 
 %
 From the above set of chemical equations, the relationship between $\phi$
-and $\alpha$ can be easily obtained as $\left(\phi~=~\frac{1}{\alpha}\right)$.
+and $\alpha$ can be easily obtained as $\phi~=~\frac{1}{\alpha}$.
 Since $\phi>1$ corresponds to a rich mixture, and $\phi<1$ corresponds to a
 lean mixture, we consider $\phi$ = 2.0 and 0.5 to investigate the two scenarios
-respectively. The set of inputs for parameter screening: $\tau_\text{screen}$,
+respectively. 
+
+We apply the parameter screening algorithm with the following
+parameters: $\tau_\text{screen}$,
 $s_\text{max}$, $\beta$ are fixed at 0.2, 10, and 1.0 respectively for both cases.
 Additionally, the value of $\tau$ is considered to be 1.0$\times 10^{-17}$ and
-5.0$\times 10^{-17}$ in the rich and lean case respectively. 
+5.0$\times 10^{-17}$ in the rich and lean case respectively.
+~\alennote{What is the rationale behind such small numbers? These are smaller
+than the unit round-off.} 
 
 A full-space surrogate based on the initial set of model evaluations at 5 samples
 did not result in an accurate representation of the input-output relationship. 
+\alennote{This is hardly surprising, five samples in a 19D parameter space
+is going to get us so far; I suggest removing or rewording this statement, 
+as a careful referee will jump on this.}
 Hence, unlike the test problems presented in section~\ref{sec:examples},we do not
-have converged estimates of the Sobol total-effect index in this case. However,
+have converged estimates of the Sobol total-effect index in this case. 
+\alennote{I don't understand; did we not sample the system to death to get 
+total Sobol' indices, or we are saying that's too difficult, and 
+we just use DGSMs and our screening approach?}
+However,
 the screening procedure in Algorithm~\ref{alg:screen} is implemented to evaluate
-the screening metric for the uncertain pre-exponents ($A_i$'s) as plotted below
+the screening metric for the uncertain pre-exponents $A_i$'s as plotted below
 in Figure~\ref{fig:sense_kinetics}~(top row) for both cases. Furthermore, we illustrate
 the decay in the value of $\Delta\mu_s$ with iterations in 
 Figure~\ref{fig:sense_kinetics}~(bottom row).
@@ -157,12 +174,12 @@ the case of fuel-rich mixture~(left) and fuel-lean mixture~(right).}
 \end{figure}
 %
 The screening metric estimates in the above plots are observed to converge with
-only a few samples (5 -- 10). Moreover, out of the 19 uncertain pre-exponents,
+only a few samples (5--10). Moreover, out of the 19 uncertain pre-exponents,
 only $A_1$, $A_9$, $A_{15}$, and $A_{17}$ seem to be important in the fuel-rich
 case, whereas, only $A_1$, $A_9$, and $A_{15}$ seem important in the fuel-lean
 case, based on the value of $\tau_\text{screen}$. These observations are indicative
-of potential for severe reduction in the dimensionality of this problem. A reduced-order
-surrogate, constructed using the proposed framework could thus lead to large computational
+of potential for significant reduction in the dimensionality of this problem. A reduced-order
+surrogate constructed using the proposed framework could thus lead to large computational
 gains. The decay of $\Delta\mu_s$ with iterations is expected and provides a sanity check
 for the screening procedure in both cases.
 
@@ -171,7 +188,7 @@ the fuel-lean case. Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the 
 test suite, the ROS was found to be accurate within 1.8$\%$ in the fuel-rich case, and
 within 3.1$\%$ in the fuel-lean case. Model evaluations at 1000 samples in the test suite
 are further used to plot a normalized histogram of the ignition time in 
-Figure~\ref{fig:pdf_kinetics}. In order to verify the accuracy of the ROS in a 
+Figure~\ref{fig:pdf_kinetics}. To verify the accuracy of the ROS in a 
 probabilistic-sense, we compare the histogram plot with a PDF of ignition time
 using surrogate predictions at 10$^{6}$ samples in the reduced space in both cases. 
 %
@@ -188,10 +205,6 @@ case (right).}
 %
 Clearly, the ROS captures the spread as well as the model estimate of
 the ignition delay in both scenarios. Hence, the proposed framework 
-has enabled severe dimension-reduction and construction of an accurate
+has enabled significant dimension-reduction and construction of an accurate
 ROS for multiple scenarios pertaining to the H$_2$/O$_2$ reaction
 mechanism.    
-
-
-
-
