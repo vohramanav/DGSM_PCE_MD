@@ -1,4 +1,4 @@
-\section{Summary and Discussion}
+\section{Summary and Conclusion}
 \label{sec:disc}
 
 %\begin{enumerate}
@@ -13,44 +13,56 @@
 %since several surrogates are needed. 
 %\end{enumerate}
 
-Constructing model surrogates in a large-dimensional setting can be computationally
-challenging especially if the simulations are compute-intensive. In this study, we
-have presented a framework that aims to exploit parametric sensitivity to identify
-\textit{unimportant} parameters in the model. The uncertainty associated with the
-parameters deemed unimportant is disregarded, and the surrogate is constructed in a
-low-dimensional subspace. Conventional approaches on the contrary, use a surrogate
-to perform global sensitivity analysis in order to reduce computational costs. However, 
-constructing a reliable surrogate in high dimensions could still impose a great
-deal of computational burden. The proposed framework strives to tackle this challenge by
-estimating the derivative-based global sensitivity measures, shown to converge to the
-upper bound on Sobol total-effect index with fewer computations.
-
-A screening metric is defined in~\eqref{eq:cmu} for a quantitative assessment of 
-parameter importance. The metric is estimated for a small set of model evaluations
-initially. Subsequent estimates are obtained as the number of evaluations increase
-with each iteration of the screening procedure in Algorithm~\ref{alg:screen}. 
-Once the stopping criterion is met, the metric values are assessed for the
-possibility of dimension reduction. In a favorable scenario of possible dimension
-reduction, a reduced-order surrogate (ROS) is constructed and modified for accuracy. 
-Otherwise, the inputs to the screening procedure are updated as needed and the
-process is repeated. Concurrently, a surrogate in the full space (FSS) is constructed
-each time a new set of model evaluations is available. Both, ROS and FSS are
+In this work, we have presented a systematic approach for constructed a reduced-order
+surrogate for scientific and engineering applications. dimension reduction is accomplished
+by identifying uncertain parameters that contribute relatively less towards the uncertainty
+in the quantity of interest. These parameters deemed as \textit{unimportant} are determined
+using a screening metric, defined in~\eqref{eq:cmu}. Initially, the metric is estimated
+using model evaluations at a small set of samples in the parameter domain. However, these
+estimates are refined by subsequent enrichment of the sample set during the screening
+procedure presented in Algorithm~\ref{alg:screen}. The outcome of parameter screening is
+assessed for the scope of dimension reduction. In a favourable scenario, a reduced-order
+surrogate (ROS) is constructed. The ROS is tested for accuracy in a least-squares sense
+as well as a probabilistic sense using a validation test suite. In the proposed framework,
+a surrogate in the full-space (FSS) is constructed in tandem with parameter screening using
+the available set of model evaluations. Both, ROS and FSS are
 constructed using regression-based sparse basis methods. Simultaneous construction
-of the FSS ensures that computational effort associated with the proposed framework
-does not overshoot the effort required to construct a converged FSS directly.
-Hence, the ROS is only constructed in situations where computational gains are
+of the FSS ensures that the computational effort associated with the proposed framework
+does not overshoot the effort required to construct the FSS directly.
+Hence, the ROS is constructed only in situations where computational gains are
 expected. 
 
-The proposed framework was implemented to low-to-moderate dimensional test problems
-and a reliable ROS was constructed in each case. Additionally, potential for large
-computational gains were demonstrated for a relatively higher dimensional application
-involving kinetics of the H$_2$/O$_2$ reaction mechanism. Although PC surrogates were
-used in each case, the frameowork is agnostic to the choice of the surrogate. The scope
-for dimension-reduction and associated computational gains are dependent on the
-application as well as the choice of the quantity of interest that must be differentiable
-with respect to each parameter. Substantial gains are possible in situations 
-involving intensive computations even if the scope for dimension reduction is small. 
-Moreover, exponential gains can be realized with the proposed framework when multiple
-surrogates are to be constructed for investigating the uncertainty in the QoI as 
-illustrated in the kinetics application or inverse problems involving parameter
-estimation in a Bayesian setting.  
+Parameter screening methodology was implemented to low-to-moderate dimensional test problems
+and an accurate ROS was constructed to demonstrate potential for computational gains in
+each case. Furthermore, the overall framework was implemented  to a relatively higher 
+dimensional application involving kinetics of the H$_2$/O$_2$ reaction mechanism. 
+Significant dimension reduction was accomplished for two different scenarios involving
+a fuel-rich and a fuel-lean mixture. In both cases, the resulting ROS was able to capture
+the input-output relationship as well as the uncertainty in the quantity of interest with 
+reasonable accuracy. Additional highlights of the proposed framework are as follows:
+
+\begin{enumerate}
+\item Although Polynomial Chaos surrogates were used in this work, the framework is
+agnostic to the choice of the surrogate. 
+\item The scope for dimension reduction and associated computational gains are
+dependent upon the application as well as the quantity of interest. 
+\item The quantity of interest must be differentiable with respect to each uncertain parameter
+to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
+\item Substantial computational gains are expected in situations involving compute-intensive
+simulations even if the scope for dimension reduction is small. Hence, careful judgment 
+is required when implementing the framework. 
+\item Exponential gains can be realized in situations where multiple surrogates need to be
+constructed as illustrated in the kinetics application. Other possible scenarios include
+include inverse problems involving parameter estimation in a Bayesian setting. 
+\end{enumerate}
+
+%Although PC surrogates were
+%used in each case, the frameowork is agnostic to the choice of the surrogate. The scope
+%for dimension-reduction and associated computational gains are dependent on the
+%application as well as the choice of the quantity of interest that must be differentiable
+%with respect to each parameter. Substantial gains are possible in situations 
+%involving intensive computations even if the scope for dimension reduction is small. 
+%Moreover, exponential gains can be realized with the proposed framework when multiple
+%surrogates are to be constructed for investigating the uncertainty in the QoI as 
+%illustrated in the kinetics application or inverse problems involving parameter
+%estimation in a Bayesian setting.  
