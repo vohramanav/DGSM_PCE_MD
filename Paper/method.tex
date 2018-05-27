@@ -107,11 +107,14 @@ model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in case
 the derivative is available analytically. Hence, computational effort when
 using finite differences is expected to increase by a factor of $(N_p+1)$.
 Another possible approach, suitable in certain cases, is the use of
-adjoint-based gradient computation. In such cases, each gradient computation,
-which is more efficient than finite-differences---each gradient
-evaluation requires a forward model solve and adjoint solve---but 
-requires the availability of adjoint solvers.
-\alennote{I will put some references there ...} 
+adjoint-based gradient computation. In particular, for PDE-based
+problems with scalar QoIs, but high-dimensional uncertain parameters, 
+adjoint-based gradient computation is much more efficient than finite-differences.
+In the adjoint approach, each gradient evaluation requires 
+a solution of the state equation (forward solve) and that of the 
+corresponding adjoint equation; 
+see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
+The adjoint method, however, requires the availability of an adjoint solver.
 
 Based on the steps outlined in the above algorithm, it can be said that the set
 of sample points used for estimating the screening metric,
