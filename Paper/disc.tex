@@ -39,38 +39,64 @@ dimensional application involving kinetics of the H$_2$/O$_2$ reaction mechanism
 Significant dimension reduction was accomplished for two different scenarios involving
 a fuel-rich and a fuel-lean mixture. In both cases, the resulting ROS was able to capture
 the input-output relationship as well as the uncertainty in the quantity of interest with 
-reasonable accuracy. Additional highlights and limitations of the proposed framework are as follows:
-\alennote{This is unclear: if we list limitations, we should be specific and
-not mix them with highlights;
-as for limitations, we can mention 
-e.g., we do not account for correlations, and our method applies only to 
-models with differentiable dependence on parameters, etc.; I would not make
-a bulleted list; I would briefly discuss the limitations, and if possible turn 
-them into strengths! e.g., we consider uncorrelated parameters, but that's okay as in 
-many cases correlations are not well understood and assuming independence is reasonable, etc.}
+reasonable accuracy. Additional highlights of the proposed framework are as follows:
+%\alennote{This is unclear: if we list limitations, we should be specific and
+%not mix them with highlights;
+%as for limitations, we can mention 
+%e.g., we do not account for correlations, and our method applies only to 
+%models with differentiable dependence on parameters, etc.; I would not make
+%a bulleted list; I would briefly discuss the limitations, and if possible turn 
+%them into strengths! e.g., we consider uncorrelated parameters, but that's okay as in 
+%many cases correlations are not well understood and assuming independence is reasonable, etc.}
 \begin{enumerate}
 \item The proposed framework is agnostic to the choice of the surrogate although PCE's were used
 in this work. 
 \item The scope for dimension reduction and associated computational gains are
 dependent upon the application as well as the quantity of interest. 
-\item The quantity of interest must be differentiable with respect to each uncertain parameter
-for the derivative-based sensitivity measures in~\eqref{eq:mu} to be defined. 
+%\item The quantity of interest must be differentiable with respect to each uncertain parameter
+%for the derivative-based sensitivity measures in~\eqref{eq:mu} to be defined. 
 %to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
 \item Substantial computational gains are expected in situations involving compute-intensive
-simulations even if the scope for dimension reduction is small and vice versa. Hence, careful judgment 
-is required when implementing the framework. 
+simulations even if the scope for dimension reduction is small. 
+%Hence, careful judgment 
+%pertaining to the construction of a reduced-order surrogate as well as resource allocation is needed. is required when implementing the framework. 
 \item Exponential gains can be realized in situations where multiple surrogates need to be
-constructed as illustrated in the kinetics application. Other possible scenarios 
+constructed as illustrated in the kinetics application. Other possible scenarios may
 include inverse problems involving parameter estimation in a Bayesian setting. 
 \end{enumerate}
 
-%Although PC surrogates were
-%used in each case, the frameowork is agnostic to the choice of the surrogate. The scope
-%for dimension-reduction and associated computational gains are dependent on the
-%application as well as the choice of the quantity of interest that must be differentiable
-%with respect to each parameter. Substantial gains are possible in situations 
-%involving intensive computations even if the scope for dimension reduction is small. 
-%Moreover, exponential gains can be realized with the proposed framework when multiple
-%surrogates are to be constructed for investigating the uncertainty in the QoI as 
-%illustrated in the kinetics application or inverse problems involving parameter
-%estimation in a Bayesian setting.  
+Based on the results presented for a variety of test problems, 
+and a higher-dimensional chemical kinetics application in this work, it can be said that the
+proposed framework seems quite promising in its potential for identifying favourable
+scenarios for constructing a reduced-order surrogate in a computationally efficient manner. 
+However, it is important to remain cognizant about the underlying limitations of the
+framework. For instance, it does not account for the existence of possible correlation 
+between the uncertain parameters of the model, although in many cases, correlations
+between parameters are not well understood, and assuming mutual independence 
+would be reasonable. Similarly, the quantity of interest is required to be differentiable
+with respect to each parameter in the considered domain. This condition, however, must
+anyways be satisfied for the resulting surrogate to be able to represent the input-output
+relationship for a given model with reasonable accuracy. Finally, careful assessment 
+and decision-making is required with regards to proceeding with the
+construction of a reduced-order surrogate based on the outcome of parameter
+screening, and accuracy of the most-recent full-space surrogate as well as 
+allocation of computational resources for parameter screening, and constructing the
+validation test suite. Implementation to more advanced
+applications in the future would enable further development of the proposed framework. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
