@@ -77,10 +77,10 @@ in~\cite{Yetter:1991}.
 While the dimensionality of the problem is relatively moderate,
 constructing a surrogate in the 19-dimensional parameter space could still be
 expensive. Hence, we explore the possibility of constructing a
-reduced-order surrogate (ROS) using the framework presented 
+reduced-space surrogate (RSS) using the framework presented 
 in section~\ref{sec:method}. 
-In the present study, we focus on two scenarios: fuel(H$_2$) rich, and fuel(H$_2$)
-lean. Consider the global reaction:
+In the present study, we focus on two scenarios: fuel(H$_2$)-rich, and
+fuel(H$_2$)-lean. Consider the global reaction:
 %
 \be
 2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}
@@ -94,7 +94,7 @@ The equivalence ratio $\phi$ is defined as follows:
 \label{eq:phi}
 \ee
 %
-The numerator in the right hand side represents the observed (obs) fuel-oxygen
+The numerator in the right-hand-side represents the observed (obs) fuel-oxygen
 mass ratio at a given condition and the denominator represents the
 stoichiometric (st) ratio of the same quantity. Hence, $\phi$ = 1 at
 stoichiometric conditions. The equivalence ratio can be altered by changing the
@@ -172,17 +172,20 @@ only a few samples (5--10). Moreover, out of the 19 uncertain pre-exponents,
 only $A_1$, $A_9$, $A_{15}$, and $A_{17}$ seem to be important in the fuel-rich
 case, whereas, only $A_1$, $A_9$, and $A_{15}$ seem important in the fuel-lean
 case, based on the value of $\tau_\text{screen}$. These observations are indicative
-of potential for significant reduction in the dimensionality of this problem. A reduced-order
+of the potential for significant reduction in the dimensionality of this problem. 
+A reduced-space
 surrogate constructed using the proposed framework could thus lead to large computational
-gains. The decay of $\Delta\mu_s$ with iterations is expected and provides a sanity check
-for the screening procedure in both cases.
+gains. The decay of $\Delta\mu_s$ with iterations is expected and builds our confidence
+in the screening procedure in both cases.
 
-A reduced-order surrogate (ROS) was constructed in 4D for the fuel-rich case, and in 3D for
-the fuel-lean case. Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the validation
-test suite, the ROS was found to be accurate within 1.8$\%$ in the fuel-rich case, and
+A reduced-space surrogate (RSS) was constructed in 4D for the fuel-rich case,
+and in 3D for
+the fuel-lean case. Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the 
+cross-validation set, the RSS was found to be accurate within 1.8$\%$ in the
+fuel-rich case, and
 within 3.1$\%$ in the fuel-lean case. Model evaluations at 1000 samples in the test suite
 are further used to plot a normalized histogram of the ignition time in 
-Figure~\ref{fig:pdf_kinetics}. To verify the accuracy of the ROS in a 
+Figure~\ref{fig:pdf_kinetics}. To verify the accuracy of the RSS in a 
 probabilistic-sense, we compare the histogram plot with a PDF of ignition time
 using surrogate predictions at 10$^{6}$ samples in the reduced space in both cases. 
 %
@@ -197,8 +200,8 @@ case (right).}
 \end{center}
 \end{figure}
 %
-Clearly, the ROS captures the spread as well as the modal estimate of
+Clearly, the RSS captures the spread as well as the modal estimate of
 the ignition delay in both scenarios. Hence, the proposed framework 
-has enabled significant dimension-reduction and construction of an accurate
-ROS for multiple scenarios pertaining to the H$_2$/O$_2$ reaction
+has enabled significant dimension reduction and construction of an accurate
+RSS for multiple scenarios pertaining to the H$_2$/O$_2$ reaction
 mechanism.    

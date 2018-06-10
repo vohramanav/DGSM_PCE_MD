@@ -13,17 +13,17 @@
 %7. Consider the product of Ci and mu_i to screen parameters.i
 
 In this section, we outline the underlying framework for \emph{adaptively}
-constructing a reduced-order surrogate (ROS) using sensitivity analysis.  The
-proposed methodology is described as adaptive since the ROS is constructed only
+constructing a reduced-space surrogate (RSS) using sensitivity analysis.  The
+proposed methodology is described as adaptive since the RSS is constructed only
 in situations where it is expected to yield computational dividend as discussed
-further below.  The term reduced-order implies that the surrogate is
+further below.  The term reduced-space implies that the surrogate is
 constructed in a subspace that sufficiently captures the uncertainty in the
 model output. We begin by outlining an algorithm for parameter screening
 to assess the importance of individual parameters for potential dimension
-reduction and construction of an ROS. The overall adaptive framework 
+reduction and construction of an RSS. The overall adaptive framework 
 which incorporates parameter screening as an integral step is thereafter
-presented. Finally, we present validation metrics used for assessing the
-convergence and accuracy of the ROS followed by a brief discussion on
+presented. Finally, we present metrics used for assessing the
+convergence and accuracy of the RSS followed by a brief discussion on
 salient features of the proposed framework. 
 
 \textbf{Parameter screening.}
@@ -34,13 +34,14 @@ However, as discussed earlier in sections~\ref{sec:intro} and~\ref{sec:bg},
 determining accurate estimates of Sobol sensitivity indices typically requires
 tens of thousands of model evaluations. Consequently, the exercise becomes
 prohibitive for expensive-to-evaluate models.  In the proposed framework, we
-adopt a novel approach for constructing an ROS based on estimating the
+adopt a novel approach for constructing an RSS based on estimating the
 upper-bound $\widehat{\mathcal{C}_i\mu_i}$, given in~\eqref{eq:bound}, on 
 Sobol total effect index ($\mathcal{T}(\theta_i)$) for each 
 parameter, $\theta_i$, and use it as a metric to screen 
 parameters that are relatively unimportant. A general
 methodology for parameter screening is provided below in
 Algorithm~\ref{alg:screen}.
+%\clearpage
 
 %%%%%%%%%%% Revised %%%%%%%%%%%
 \bigskip
@@ -68,8 +69,7 @@ $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm
 \[
    \nu_{i_1} \geq \nu_{i_2} \geq \cdots \geq \nu_{i_\Np}. 
 \]
-      \State Set $s$ = 1.
-      \State Set $\mathrm{done} = \mathrm{false}$.
+      \State Set $s$ = 1 and $\mathrm{done} = \mathrm{false}$.
       \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
         \State $s = s + 1$.
         \State Draw $n_s = \lceil \beta n_1 \rceil$ new samples 
@@ -109,7 +109,7 @@ using finite differences is expected to increase by a factor of $(N_p+1)$.
 Another possible approach, suitable in certain cases, is the use of
 adjoint-based gradient computation. In particular, for PDE-based
 problems with scalar QoIs, but high-dimensional uncertain parameters, 
-adjoint-based gradient computation is much more efficient than finite-differences.
+adjoint-based gradient computation is much more efficient than finite differences.
 In the adjoint approach, each gradient evaluation requires 
 a solution of the state equation (forward solve) and that of the 
 corresponding adjoint equation; 
@@ -117,11 +117,11 @@ see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
 The adjoint method, however, requires the availability of an adjoint solver.
 
 Based on the steps outlined in the above algorithm, it can be said that the set
-of sample points used for estimating the screening metric,
+of sample points used for estimating the screening metricd
 $\widehat{\mathcal{C}_i\mu_i}$ is enriched until consistency in ranks between
 successive iterations as well as a certain degree of convergence in estimates
 of the screening metric for each uncertain parameter is accomplished. However,
-the amount of computational effort associated the screening process is limited
+the amount of computational effort associated with the screening process is limited
 by the choice of maximum number of iterations, $s_\text{max}$. 
 Key inputs
 are as follows: (1) 
@@ -157,8 +157,8 @@ detailed below.
 
 \node (start) [startstop] {Start};
 
-\node (val) [process, below of=start, text width=14.5em] {Create a validation test suite using
-pre-allocated resources.};
+\node (val) [process, below of=start, text width=14.5em] {Create a cross-validation
+test suite using pre-allocated resources.};
 
 \draw [arro] (start) -- (val);
 
@@ -211,11 +211,11 @@ $\tau_\text{screen}$, $s_\text{max}$, $\beta$; Input: $\{ \bm{g}^k \}_{k=1}^{N_\
 
 \draw [arro] (dtol) |- (sam0); 
 
-\node (ros) [process, below of=dr, text width=11.5em, yshift=-1.5cm] {Construct a reduced-order surrogate (ROS)};
+\node (ros) [process, below of=dr, text width=11.5em, yshift=-1.5cm] {Construct a reduced-space surrogate (RSS)};
 
 \draw [arro] (dr) -- node[anchor=east,yshift=0.1cm] {Y} (ros);
 
-\node (ver) [process, left of=ros, text width=13.0em, xshift=-5cm] {Test ROS accuracy using
+\node (ver) [process, left of=ros, text width=13.0em, xshift=-5cm] {Test RSS accuracy using
  evaluations at $N_\text{total}$ $\&$ the validation test suite};
 
 \draw [arro] (ros) -- (ver); 
@@ -228,13 +228,14 @@ $\tau_\text{screen}$, $s_\text{max}$, $\beta$; Input: $\{ \bm{g}^k \}_{k=1}^{N_\
 
 \end{tikzpicture}
 
-\caption{Flow-diagram outlining the adaptive strategy for constructing reduced-order surrogates.}
+\caption{Flow-diagram outlining the adaptive strategy for constructing reduced-space
+ surrogates.}
 \label{fig:flow}
 \end{figure}
 %\clearpage
 
 \textbf{Adaptive surrogate model construction.}
-We begin by setting aside computational resources for constructing a validation
+We begin by setting aside computational resources for constructing a cross-validation
 test suite to be used for assessing the accuracy of the resulting surrogate.
 Naturally, the resources allocated for this purpose depend upon the application
 as well as total amount of available resources. 
@@ -260,7 +261,7 @@ following equation:
 where $|\mathcal{I}_\text{active}|$ denotes the cardinality of
 $\mathcal{I}_\text{active}$.  Scope for dimension-reduction increases as
 $\alpha$ decreases.  Hence, if $\alpha$ is considered to be small and
-computational gains are expected owing to dimension reduction, the ROS is
+computational gains are expected owing to dimension reduction, the RSS is
 constructed and verified for accuracy using a combination of model evaluations
 used for screening and those associated with the validation test suite.  On the
 other hand, if $\alpha$ is close to 1, the set of inputs required for screening are
@@ -273,7 +274,7 @@ parameter screening and surrogate model construction method.
 
 
 
-\textbf{Validation metrics.}
+\textbf{Assessment of the surrogate.}
 To assess convergence of the resulting surrogate, one could estimate the
 leave-one-out cross validation error as follows:
 \be
@@ -300,22 +301,23 @@ G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
 \label{eq:l2}
 \ee
 where $N_v$ is the number of sampling points in the full parameter space at
-which model evaluations are available. In the case of an ROS, it is the
+which model evaluations are available. In the case of an RSS, it is the
 augmented set of model evaluations used for validation and screening.  
 %
 Accuracy of the surrogate could be further investigated by comparing
 probability density functions (PDFs) of the model output based on model
-evaluations in the full parameter space and the ROS predictions corresponding
-to a large number of samples (say, 10$^6$).  However, in realistic problems
-involving complex, compute-intensive simulations, the PDF based on model
-evaluations would be intractable.  A practical alternative would be to compare
+evaluations in the full parameter space and the RSS predictions corresponding
+to a large number of samples (say, 10$^6$ for a high-dimensional input space).
+However, in realistic problems
+involving complex, compute-intensive simulations, constructing the PDF based on model
+evaluations would be infeasible.  A practical alternative would be to compare
 a histogram based on sparse model evaluations with the surrogate-based PDF in
 order to gain some insight into the quality of the comparison. 
 
 \textbf{Remarks.}
 The amount of computational effort associated with the presented methodology
 can be mainly attributed to two steps: I.~Parameter Screening, and 
-II.~Constructing a converged ROS. Computational gains are realized in situations
+II.~Constructing a converged RSS. Computational gains are realized in situations
 where constructing the surrogate in the full parameter space is more expensive
 than the combined cost associated with these steps. Determining the optimal
 allocation of computational resources for these steps, however, is not possible
@@ -323,7 +325,7 @@ a priori. Hence, in the proposed framework, we exploit the set of model
 evaluations used in parameter screening to simultaneously construct the FSS
 while keeping a track of its accuracy using the validation test suite. This
 would help address situations where significant dimension reduction is not
-possible, and hence, constructing the ROS might result in a computational
+possible, and hence, constructing the RSS might result in a computational
 disadvantage. We suggest using a small number of samples in the initial
 screening step (say, $n_0$ = 5) and a relatively large $\tau$ (say,
 $\mathcal{O}(10^{-1})$) as a starting point with possible reduction in $\tau$
@@ -334,17 +336,17 @@ The applicability of the proposed framework depends upon the choice of the
 model output.  Since the screening metric involves computation of partial
 derivatives in the full parameter space, the output must exhibit differentiable
 dependence on each parameter. It is therefore likely that for a given
-application involving multiple outputs, the ROS can only be constructed for a
+application involving multiple outputs, the RSS can only be constructed for a
 selected few, using the approach presented above.  Hence, it is important to
 assess the nature of the input-output relationship for a given model prior to
 implementing the present framework.
 
 Using the framework proposed in this section, we aim to construct a reliable
 surrogate in the most efficient manner within the constraints of the computational
-budget. However, it is likely that for a given application, the ROS is not
+budget. However, it is likely that for a given application, the RSS is not
 found to be sufficiently accurate. In such a scenario, we suggest enriching the
-set of important parameters by incorporating the least unimportant parameter
-as determined after a series of screening steps, and re-constructing the ROS. 
+set of important inputs by incorporating the least unimportant model input
+as determined after a series of screening steps, and re-constructing the RSS. 
 This process could be repeated depending upon the availability of resources
 and the desired accuracy of the surrogate.  
 
