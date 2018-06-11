@@ -1,0 +1,49 @@
+To configure:
+   (0) create the configure file:
+
+       /bin/rm -rf configure
+       autoconf -i configure.in > configure
+       chmod 755 configure
+
+--> you can skip (1) and (2) if you have these libraries installed 
+       already somewhere on your computer
+
+   (1) basic configure:   
+
+       ./configure CC=<path-to-C-compiler/C-compiler>      \
+                   CXX=<path-to-CXX-compiler/CXX-compiler> \
+                   F77=<path-to-F77-compiler/F77-compiler> 
+       
+       For example, with a specific version of gnu compilers:
+       ./configure CC=$HOME/local/gcc-7.2.0/bin/gcc-7.2.0       \
+                   CXX=$HOME/local/gcc-7.2.0/bin/g++-7.2.0      \
+                   F77=$HOME/local/gcc-7.2.0/bin/gfortran-7.2.0           
+
+       Or, with Intel compilers:
+       ./configure CC=icc CXX=icpc F77=ifort                
+
+   (2) make local cvode and dvode:
+
+       cd lib; make; cd ..
+
+   (3) configure:   
+
+       ./configure CC=<path-to-C-compiler/C-compiler>                                 \
+                   CXX=<path-to-CXX-compiler/CXX-compiler>                            \
+                   F77=<path-to-F77-compiler/F77-compiler>                            \
+                   --with-examples=yes                                                \
+                   --with-sundials-dir=<path-to-tchem>/TChem2/lib/cvode-2.7.0-install \
+                   --with-dvode-dir=<path-to-tchem>/TChem2/lib                        \
+                   --with-boost-dir=<path-to-boost>
+
+       For example, with a specific version of gnu compilers:
+       ./configure CC=$HOME/local/gcc-7.2.0/bin/gcc-7.2.0                   \
+                   CXX=$HOME/local/gcc-7.2.0/bin/g++-7.2.0                  \
+                   F77=$HOME/local/gcc-7.2.0/bin/gfortran-7.2.0             \
+                   --with-examples=yes                                      \
+                   --with-sundials-dir=$PWD/lib/cvode-2.7.0-install         \
+                   --with-dvode-dir=$PWD/lib                                \
+                   --with-boost-dir=$HOME/local/boost/1.53-gcc-7.2.0
+
+   (4) make
+

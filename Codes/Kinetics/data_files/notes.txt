@@ -1,0 +1,12 @@
+1. Sample 5 points in the 19D parameter space. We will have 100 points. Generate the data file using
+"gen_samples.m". Name the data file according to the random number used.
+2. Update "run_TChem.bash" for the filename as per step 1. 
+3. Execute "run_TChem.bash".
+4. Update the matlab file: "compute_dgsm.m" to consider the QoI for newly added points in Step 4.
+5. Execute "compute_dgsm.m" to compute the sensitivity meaures.
+6. Save the newly computed metrics in 'ub' and measures in 'mu' as a matlab file with name containing the total number of points used in the computation.
+
+Glossary
+pts20_7D.dat: Points in the 19D parameter space used to estimate dgsm.
+pts_pce2D.txt: points in the 2D space used to construct the PCE.
+pts_pdf.txt: 10000 points in the 19D space used to verify the PCE 

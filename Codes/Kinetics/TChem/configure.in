@@ -1,0 +1,222 @@
+#--------------------------------------------------------------------
+#       Disable caching since it seems to get in the way
+#       more times than it helps us.
+#--------------------------------------------------------------------
+
+## make sure we are in the correct dir
+AC_INIT(MakeIncl.Vars.in)
+
+## There are some configs etc in ./config
+AC_CONFIG_AUX_DIR(config)
+
+m4_include([config/ax_compiler_vendor.m4])
+
+
+## Set what kind of a host and system this is
+AC_CANONICAL_HOST
+AC_CANONICAL_SYSTEM
+AC_HEADER_STDC
+AC_CHECK_HEADERS(fcntl.h strings.h sys/file.h sys/time.h unistd.h)
+
+## Check for C, CPP, and Fortran compilers
+AC_PROG_CC
+AC_PROG_CPP
+AC_PROG_CXX
+AC_PROG_F77
+
+AX_COMPILER_VENDOR(C)
+AC_MSG_RESULT( [$ax_cv_c_compiler_vendor ] )
+
+
+## Specify whether to make examples or not
+AC_ARG_WITH(examples, 
+    [ Will we compile examples:
+      --with-examples=yes/no (default no); e.g. --with-examples=yes],
+    [with_examples="$withval"], [with_examples=no])
+
+case "$with_examples" in
+  no)
+     # The user specified does not want examples compiled
+     AC_MSG_RESULT([ Configured without examples ])
+     example_dir=" "
+     ;;
+  yes) 
+     # The user wants examples
+     with_examples=yes
+     AC_MSG_RESULT([ Configured with examples ])
+     example_dir="ex"
+     ;;
+esac
+
+## Specify whether to make doxygen or not
+AC_ARG_WITH(doxy, 
+    [ Will we make doxygen documentation:
+      --with-doxy=<path-to-doxygen> (default no documentation); e.g. --with-doxy=/usr/local/bin/doxygen],
+    [with_doxy="$withval"], [with_doxy=no])
+
+case "$with_doxy" in
+  no)
+     # The user specified does not want examples compiled
+     AC_MSG_RESULT([ Configured without doxygen documentation ])
+     documentation_dir=" "
+     ;;
+  yes) 
+     # The user wants doxygen, we need to look for it
+     AC_CHECK_PROG(DOXY,doxygen,doxygen,doxygen_not_found)
+     if test "$DOXY" = "doxygen"; then
+       AC_MSG_RESULT( [Found $DOXY ] )
+     else
+       AC_MSG_ERROR( [Did not find doxygen; reconfigure without documentation or specify doxygen with path to it ] )
+     fi
+     documentation_dir="doxy"
+     ;;
+  *)
+     # The user gave me a doxygen, check if exits, if not crap out
+     AC_MSG_CHECKING( [for $with_doxy] )
+     if test -x "$with_doxy"; then
+       AC_MSG_RESULT( [ Found "$with_doxy" ] )
+       DOXY="$with_doxy"
+     else
+       AC_MSG_ERROR( [ Could not find "$with_doxy" ] )
+     fi
+     documentation_dir="doxy"
+     ;;
+esac
+
+## Specify path to sundials
+AC_ARG_WITH(sundials_dir, 
+    [ Where is sundials installed :
+      --with-sundials-dir=<path-to-sundials> (required for examples); e.g. --with-sundials-dir=/home/auser/sundials],
+    [with_sundials_dir="$withval"], [with_sundials_dir=_not_specified_])
+
+case "$with_sundials_dir" in
+  _not_specified_)
+     # The user did not specify sundials. Does he want examples ?
+     if test "$with_examples" = "yes"; then
+       AC_MSG_ERROR([ Need to specify sundials dir if you want examples !])
+     else
+       with_sundials_dir=" "
+     fi
+     ;;
+  *)
+     # The user gave me a doxygen, check if exits, if not crap out
+     AC_MSG_CHECKING( [for $with_sundials_dir] )
+     if test -d "$with_sundials_dir"; then
+       AC_MSG_RESULT( [ Found "$with_sundials_dir" ] )
+     else
+       AC_MSG_ERROR( [ Could not find "$with_sundials_dir" ] )
+     fi
+     ;;
+esac
+
+## Specify path to dvode
+AC_ARG_WITH(dvode_dir, 
+    [ Where is dvode installed :
+      --with-dvode-dir=<path-to-dvode> (required for examples); e.g. --with-dvode-dir=/home/auser/dvode],
+    [with_dvode_dir="$withval"], [with_dvode_dir=_not_specified_])
+
+case "$with_dvode_dir" in
+  _not_specified_)
+     # The user did not specify dvode. Does he want examples ?
+     if test "$with_examples" = "yes"; then
+       AC_MSG_ERROR([ Need to specify dvode dir if you want examples !])
+     else
+       with_dvode_dir=" "
+     fi
+     ;;
+  *)
+     # The user gave me a doxygen, check if exits, if not crap out
+     AC_MSG_CHECKING( [for $with_dvode_dir] )
+     if test -d "$with_dvode_dir"; then
+       AC_MSG_RESULT( [ Found "$with_dvode_dir" ] )
+     else
+       AC_MSG_ERROR( [ Could not find "$with_dvode_dir" ] )
+     fi
+     ;;
+esac
+
+## Specify path to boost
+AC_ARG_WITH(boost_dir, 
+    [ Where is boost installed :
+      --with-boost-dir=<path-to-boost> (required for TChem); e.g. --with-boost-dir=/usr/local/boost/1.55.0_2],
+    [with_boost_dir="$withval"], [with_boost_dir=_not_specified_])
+
+case "$with_boost_dir" in
+  _not_specified_)
+     # The user did not specify boost -> error
+     AC_MSG_RESULT([ Warning: did not specify boost dir !])
+     ;;
+  *)
+     # The user gave the path check if exits, if not error
+     AC_MSG_CHECKING( [for $with_boost_dir] )
+     if test -d "$with_boost_dir"; then
+       AC_MSG_RESULT( [ Found "$with_boost_dir" ] )
+     else
+       AC_MSG_ERROR( [ Could not find "$with_boost_dir" ] )
+     fi
+     ;;
+esac
+
+## We need to also find the OS name since the
+## makefiles are somewhat dependent on the OS 
+os_name=`uname -s`
+
+# Try to determine "good" native compiler flags if none specified via FFLAGS
+if test "$ac_test_FFLAGS" != "set"; then
+  FFLAGS="-O2"
+  AC_MSG_RESULT( [ Found platform "$os_name" ] )
+  case $os_name in
+    Darwin)
+      case $ax_cv_c_compiler_vendor in
+        intel) 
+    	  FFLAGS="-O2"
+          LDFFLAGS="-cxxlib"
+          LDCFLAGS=""
+	  ;;
+        gnu)
+    	  FFLAGS="-O2"
+          LDFFLAGS="-lc++"
+          LDCFLAGS="-lc++"
+          ;;
+        *)
+          AC_MSG_ERROR( [ Unkown compiler type "$ax_cv_c_compiler_vendor" ] )
+       esac
+       ;;
+    Linux)
+      FFLAGS="-O2"
+      LDFFLAGS=""
+      LDCFLAGS=""
+      ;;
+    *)
+      AC_MSG_ERROR( [ Unkown platform type "$os_name" ] )
+  esac
+
+fi
+
+#--------------Substitution starts here-----------------
+cc_compiler=$CC
+cxx_compiler=$CXX
+fort_compiler=$F77
+ld_fflags=$LDFFLAGS
+ld_cflags=$LDCFLAGS
+
+doxygen=$DOXY
+sundials_install_dir=$with_sundials_dir
+dvode_install_dir=$with_dvode_dir
+boost_install_dir=$with_boost_dir
+
+AC_SUBST(cc_compiler)
+AC_SUBST(cxx_compiler)
+AC_SUBST(fort_compiler)
+AC_SUBST(ld_fflags)
+AC_SUBST(ld_cflags)
+AC_SUBST(doxygen)
+AC_SUBST(sundials_install_dir)
+AC_SUBST(dvode_install_dir)
+AC_SUBST(boost_install_dir)
+AC_SUBST(documentation_dir)
+AC_SUBST(example_dir)
+AC_SUBST(os_name)
+
+AC_OUTPUT(MakeIncl.Vars)
+
