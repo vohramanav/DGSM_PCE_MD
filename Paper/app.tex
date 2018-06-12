@@ -150,7 +150,7 @@ closely. Hence, we proceed to the screening step to estimate the screening metri
 for the uncertain pre-exponents, $A_i$'s. Results are plotted below
 in Figure~\ref{fig:sense_kinetics}~(top row) for both cases. Furthermore, we illustrate
 the decay in the value of $\Delta\mu_s$ with iterations in 
-Figure~\ref{fig:sense_kinetics}~(bottom row).
+Figure~\ref{fig:sense_kinetics}~(bottom row). 
 
 \begin{figure}[htbp]
  \begin{center}
@@ -180,7 +180,24 @@ in the screening procedure in both cases.
 
 A reduced-space surrogate (RSS) was constructed in 4D for the fuel-rich case,
 and in 3D for
-the fuel-lean case. Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the 
+the fuel-lean case. Figure~\ref{fig:err_samples_kinetics} illustrates a
+comparison of convergence characteristics for the PCEs constructed in the
+full-space and the reduced-space for the fuel-rich case.
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_kinetics}
+\caption{A semi-log plot of $\epsilon_\text{\tiny LOO}$ as a function of
+number of model evaluations in the full-space (19D) and the reduced-space (4D)
+for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0.}
+\label{fig:err_samples_kinetics}
+\end{center}
+\end{figure}
+%
+
+
+
+Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the 
 cross-validation set, the RSS was found to be accurate within 1.8$\%$ in the
 fuel-rich case, and
 within 3.1$\%$ in the fuel-lean case. Model evaluations at 1000 samples in the test suite
