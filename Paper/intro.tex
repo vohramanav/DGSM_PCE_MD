@@ -69,16 +69,20 @@ While surrogate models provide an efficient way of computing sensitivity
 indices, constructing them in the case of models with high-dimensional inputs
 can be as expensive as computing the Sobol indices via sampling. 
 In this paper, we propose a systematic, practical, and an efficient
-approach to address this commonly observed ``catch-22" situation
+approach to address this commonly observed ``chicken-and-egg" problem
 in surrogate modelling for engineering applications.
 Specifically, we reduce
-the dimensionality of the input space using derivative based global sensitivity
+the dimensionality of the input space using derivative-based global sensitivity
 analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016}
 that enables a more tractable approach for global sensitivity
 analysis~\cite{Kucherenko:2016}. Moreover, the links between derivative based
 global sensitivity measures (DGSMs) and total Sobol
 indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
-basis for their use in identifying unimportant parameters. 
+basis for their use in identifying unimportant parameters. In addition
+to the construction of an efficient surrogate in the reduced space,
+dimension reduction highlights key features of the input-output relationship
+encapsulated by the model, and allows for an efficient approach to calibration
+of the important inputs. 
 
 
 %However, as discussed

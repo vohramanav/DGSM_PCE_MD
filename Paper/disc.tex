@@ -62,7 +62,11 @@ small.
 
 \item Exponential gains can be realized in situations where multiple surrogates need to be
 constructed as illustrated in the kinetics application. Other possible scenarios may
-include inverse problems involving parameter estimation in a Bayesian setting. 
+include inverse problems involving parameter estimation in a Bayesian setting.
+
+\item Dimension reduction based on the proposed methodology could help reduce the
+effort required for model calibration wherein only the important parameters
+are calibrated. 
 \end{enumerate}
 
 Based on the results presented for a variety of test problems, and a
@@ -76,10 +80,9 @@ inputs of the model. However, while the assumption of independent
 inputs is not always justified, in many cases, correlations between
 inputs are not well understood a priori, and assuming mutual independence
 could be reasonable at least in initial screening using DGSMs. On the other
-hand, if approximate correlations are known, the PCE could still be 
-constructed using samples from the correlated space or preferably,
-the input-output relationship in this case could be represented as a Gaussian process
-that provides a means for incorporating the correlation between inputs.  
+hand, if approximate correlations are known, we recommend using a Gaussian 
+process or Kriging-based surrogate since it 
+provides a means for incorporating the correlation between inputs.  
 Additionally, the quantity of interest is required to be differentiable with
 respect to each parameter in the considered domain. This condition, however,
 must anyways be satisfied for the resulting surrogate to be able to represent

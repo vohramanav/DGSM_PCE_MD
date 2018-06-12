@@ -182,7 +182,9 @@ A reduced-space surrogate (RSS) was constructed in 4D for the fuel-rich case,
 and in 3D for
 the fuel-lean case. Figure~\ref{fig:err_samples_kinetics} illustrates a
 comparison of convergence characteristics for the PCEs constructed in the
-full-space and the reduced-space for the fuel-rich case.
+full-space and the reduced-space for the fuel-rich case. Note that the
+plot is generated using the implementation of least angle regression (LAR)
+for sparse PCEs in UQLab.  
 %
 \begin{figure}[htbp]
  \begin{center}
@@ -194,8 +196,12 @@ for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0.}
 \end{center}
 \end{figure}
 %
-
-
+The leave-one-out cross validation error is observed to drop initially
+and plateau with the increase in training points for the 19-dimensional
+PCE. However, in the case of 4-dimensional PCE, the error exhibits a
+monotonic behavior and is found to be smaller than $\mathcal{O}(10^{-5})$
+at 60 training points. Clearly, the RSS shows a much faster rate of convergence.
+Similar trends (not included) were observed in the fuel-lean case. 
 
 Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the 
 cross-validation set, the RSS was found to be accurate within 1.8$\%$ in the
