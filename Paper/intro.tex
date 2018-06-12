@@ -6,7 +6,7 @@ The emerging field of uncertainty quantification (UQ) aims at methodologies for
 incorporating, characterizing, quantifying, propagating, and reducing the
 uncertainties associated with predictive models and simulations.  For
 situations involving complex physical models and computationally intensive
-simulations surrogate modeling often provides orders of magnitude speedups in
+simulations, surrogate modeling often provides orders of magnitude speedups in
 statistical studies. This is done by replacing repeated evaluations of
 computationally expensive models by inexpensive evaluations of a surrogate
 model.  Thus, an efficient approach to construction of surrogate models is of
@@ -67,13 +67,15 @@ to name a few.
 
 While surrogate models provide an efficient way of computing sensitivity
 indices, constructing them in the case of models with high-dimensional inputs
-can be as expensive as computing the Sobol indices via sampling. This is
-clearly a ``catch-22" situation. In this paper, we aim to address this
-problem in a systematic and efficient manner. Specifically, we reduce
+can be as expensive as computing the Sobol indices via sampling. 
+In this paper, we propose a systematic, practical, and an efficient
+approach to address this commonly observed ``catch-22" situation
+in surrogate modelling for engineering applications.
+Specifically, we reduce
 the dimensionality of the input space using derivative based global sensitivity
 analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016}
 that enables a more tractable approach for global sensitivity
-analysis~\cite{Kucherenko:2016}.  Also, the links between derivative based
+analysis~\cite{Kucherenko:2016}. Moreover, the links between derivative based
 global sensitivity measures (DGSMs) and total Sobol
 indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
 basis for their use in identifying unimportant parameters. 
@@ -91,9 +93,9 @@ dimensionality of the problem and enabling the construction of a reduced-space
 surrogate (RSS).  Our approach combines DGSMs and surrogate modeling in an
 iterative manner.  To make optimum use of computational resources, batches of
 model evaluations are performed iteratively, and convergence of our DGSM based
-screening metric is tested successively. Moreover, the verification steps built
-in our method enable monitoring the accuracy of the parameter-screening and the
-constructed surrogate model.  Our approach is agnostic to the choice of
+screening metric is tested successively. Moreover, a series of verification steps
+incorporated in our method enable monitoring the accuracy of the parameter-screening
+and the resulting surrogate model.  Our approach is agnostic to the choice of
 methodology for constructing the surrogate. However, in the present work, we
 rely on sparse PCEs to demonstrate the suitability of the proposed strategy.  
 
@@ -103,7 +105,8 @@ rely on sparse PCEs to demonstrate the suitability of the proposed strategy.
 
 \paragraph{Contributions}
 The contributions of this article are as follows: (i) We establish a robust and
-practical framework for dimension reduction and surrogate modeling.  Our
+practical framework for dimension reduction in surrogate modeling using
+derivate-based global sensitivity measures. Our
 approach is general in that it is applicable to a wide range of applications.
 (ii) We present comprehensive numerical results demonstrating the viability of
 our strategy using motivating applications: the classic borehole

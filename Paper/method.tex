@@ -38,8 +38,61 @@ adopt a novel approach for constructing an RSS based on estimating the
 upper-bound $\widehat{\mathcal{C}_i\mu_i}$, given in~\eqref{eq:bound}, on 
 Sobol total effect index ($\mathcal{T}(\theta_i)$) for each 
 parameter, $\theta_i$, and use it as a metric to screen 
-parameters that are relatively unimportant. A general
-methodology for parameter screening is provided below in
+parameters that are relatively unimportant. 
+
+The metric is initially computed using model evaluations at say, $n_1$ samples
+in the full space. 
+In situations where $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically,
+we could use finite-difference to approximate its value as shown in
+Eq.~\ref{eq:partial}. However, as discussed earlier in~\ref{sub:dgsm},
+estimating $\bm{\mu}$  using $M$ samples in the full parameter space requires
+model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in case
+the derivative is available analytically. Hence, computational effort when
+using finite differences is expected to increase by a factor of $(N_p+1)$.
+Another possible approach, suitable in certain cases, is the use of
+adjoint-based gradient computation. In particular, for PDE-based
+problems with scalar QoIs, but high-dimensional uncertain parameters, 
+adjoint-based gradient computation is much more efficient than finite differences.
+In the adjoint approach, each gradient evaluation requires 
+a solution of the state equation (forward solve) and that of the 
+corresponding adjoint equation; 
+see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
+The adjoint method, however, requires the availability of an adjoint solver.
+
+Based on the associated metric value, an initial
+rank ($\mathcal{R}_i^{old}$) is assigned to each parameter. At each iteration,
+a new set of Latin Hypercube samples is generated and corresponding model
+output at each sample point is computed. The new set of model evaluations
+combined with prior evaluations is used to update parameter ranks. Additionally,
+deviation in the derivative-based sensitivity measure between successive iterations
+normalized by the measure in the previous iteration is recorded for each parameter.
+The iterative process is continued until parameter ranks between successive iterations
+are observed to be consistent as well as the maximum deviation among all parameters
+($\Delta\mu_s$) is below a certain tolerance ($\tau$). The amount of computational
+effort associated with the screening process is limited
+by the choice of maximum number of iterations, $s_\text{max}$. 
+Key inputs to the screening procedure
+are as follows: (1) 
+a limiting value $\tau$ of the maximum relative change in the sensitivity
+measure between successive iterations; (2) 
+a limiting ratio $\tau_\text{screen}$ of the sensitivity metric 
+relative to its maximum value;
+(3) a real number $\beta \in (0, 1)$ to 
+guide the number of new samples $\lceil \beta n_1 \rceil$ 
+at each iteration ($\lceil \beta n_1
+\rceil$ 
+is the smallest integer greater than or equal to $\beta n_1$); 
+(4) a set of samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ 
+for the initial screening step in
+the algorithm and the corresponding gradient evaluations 
+$\{ \bm{g}^k \}_{k=1}^{n_0}$, where
+$\bm{g}^k = \nabla_{\bm{\theta}} G(\bm{\theta}_k)$. 
+The outputs are the set of active
+indices $\mathcal{I}_\text{active}$ corresponding to the 
+\emph{important parameters}, the total number of available model 
+evaluations $N_\text{total}$, and the enriched set of gradient evaluations 
+$\{ \bm{g}^k\}_{k=1}^{N_\text{total}}$. 
+A general methodology for parameter screening is provided below in
 Algorithm~\ref{alg:screen}.
 %\clearpage
 
@@ -84,7 +137,8 @@ $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm
         \State Determine new ranks $\mathcal{R}^{new}$ based on $\{\nu_i\}_{i=1}^\Np$. 
         \State Compute $\displaystyle\Delta\mu_s = \max_{1\leq i \leq \Np}
                \left(\frac{|\mu_{s,i} - \mu_{s-1,i}|}{ \mu_{s-1,i}}\right)$.
-      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$}
+      \If {$\mathcal{R}^{\tiny{new}} = \mathcal{R}^{\tiny{old}}$ {\bf AND}  $\Delta\mu_s \leq \tau$
+                {\bf AND} $s \geq s_\text{min}$}
          \State $\mathrm{done} = \mathrm{true}$
       \Else
           \State Set $\mathcal{R}^{old} = \mathcal{R}^{new}$
@@ -99,54 +153,48 @@ $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm
 \end{breakablealgorithm}
 \bigskip
 
-In situations where $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically,
-we could use finite-difference to approximate its value as shown in
-Eq.~\ref{eq:partial}. However, as discussed earlier in~\ref{sub:dgsm},
-estimating $\bm{\mu}$  using $M$ samples in the full parameter space requires
-model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in case
-the derivative is available analytically. Hence, computational effort when
-using finite differences is expected to increase by a factor of $(N_p+1)$.
-Another possible approach, suitable in certain cases, is the use of
-adjoint-based gradient computation. In particular, for PDE-based
-problems with scalar QoIs, but high-dimensional uncertain parameters, 
-adjoint-based gradient computation is much more efficient than finite differences.
-In the adjoint approach, each gradient evaluation requires 
-a solution of the state equation (forward solve) and that of the 
-corresponding adjoint equation; 
-see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
-The adjoint method, however, requires the availability of an adjoint solver.
+\textbf{Adaptive surrogate model construction.}
+Parameter screening is an integral part of an overall framework for adaptive
+surrogate model construction. Key attributes of the framework are discussed 
+as follows. 
 
-Based on the steps outlined in the above algorithm, it can be said that the set
-of sample points used for estimating the screening metricd
-$\widehat{\mathcal{C}_i\mu_i}$ is enriched until consistency in ranks between
-successive iterations as well as a certain degree of convergence in estimates
-of the screening metric for each uncertain parameter is accomplished. However,
-the amount of computational effort associated with the screening process is limited
-by the choice of maximum number of iterations, $s_\text{max}$. 
-Key inputs
-are as follows: (1) 
-a limiting value $\tau$ of the maximum relative change in the sensitivity
-measure between successive iterations; (2) 
-a limiting ratio $\tau_\text{screen}$ of the sensitivity metric 
-relative to its maximum value;
-(3) a real number $\beta \in (0, 1)$ to 
-guide the number of new samples $\lceil \beta n_1 \rceil$ 
-at each iteration ($\lceil \beta n_1
-\rceil$ 
-is the smallest integer greater than or equal to $\beta n_1$); 
-(4) a set of samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ 
-for the initial screening step in
-the algorithm and the corresponding gradient evaluations 
-$\{ \bm{g}^k \}_{k=1}^{n_0}$, where
-$\bm{g}^k = \nabla_{\bm{\theta}} G(\bm{\theta}_k)$. 
-The outputs are the set of active
-indices $\mathcal{I}_\text{active}$ corresponding to the 
-\emph{important parameters}, the total number of available model 
-evaluations $N_\text{total}$, and the enriched set of gradient evaluations 
-$\{ \bm{g}^k\}_{k=1}^{N_\text{total}}$. 
-Parameter screening is an integral part of the
-overall surrogate model construction framework 
-detailed below.
+We begin by setting aside computational resources for constructing a cross-validation
+test suite to be used for assessing the accuracy of the resulting surrogate.
+Naturally, the resources allocated for this purpose depend upon the application
+as well as total amount of available resources. 
+The set of required inputs for parameter screening are initialized,
+and model evaluations at $n_1$ random samples in the full-space are computed.
+These evaluations are used to construct a surrogate in the full-space (FSS)
+using regression-based techniques. If the surrogate is found to be sufficiently
+accurate for the given application, the process is terminated. However, it is
+likely that a full-space surrogate constructed using a 
+small number of model evaluations would not provide a 
+faithful representation of the input-output relationship.  
+
+The available set of model evaluations are utilized and further enhanced during
+parameter screening as discussed earlier.  At the end of screening, the set of
+active indices, $\mathcal{I}_\text{active}$, is used to evaluate $\alpha$, referred
+to as the degree of dimension reduction:
+%
+\be
+\alpha = \frac{|\mathcal{I}_\text{active}|}{N_p},
+\label{eq:alpha}
+\ee
+%
+where $|\mathcal{I}_\text{active}|$ denotes the cardinality of
+$\mathcal{I}_\text{active}$.  Scope for dimension-reduction increases as
+$\alpha$ decreases.  Hence, if $\alpha$ is considered to be small and
+computational gains are expected owing to dimension reduction, the RSS is
+constructed and verified for accuracy using a combination of model evaluations
+used for screening and those associated with the cross-validation test suite.  On the
+other hand, if $\alpha$ is close to 1, the set of inputs required for screening are
+ updated as needed, and a
+new set of $n_1$ samples and corresponding model evaluations are generated. The
+FSS is re-constructed using the enriched set of evaluations and the
+aforementioned analysis is repeated as illustrated in the flow-diagram
+in Figure~\ref{fig:flow} that shows the overall 
+parameter screening and surrogate model construction method.
+
  
 \begin{figure}[htbp]
 \tikzset{
@@ -234,44 +282,6 @@ $\tau_\text{screen}$, $s_\text{max}$, $\beta$; Input: $\{ \bm{g}^k \}_{k=1}^{N_\
 \end{figure}
 %\clearpage
 
-\textbf{Adaptive surrogate model construction.}
-We begin by setting aside computational resources for constructing a cross-validation
-test suite to be used for assessing the accuracy of the resulting surrogate.
-Naturally, the resources allocated for this purpose depend upon the application
-as well as total amount of available resources. 
-The set of required inputs for parameter screening are initialized,
-and model evaluations at $n_0$ random samples in the full-space are computed.
-These evaluations are used to construct a surrogate in the full-space (FSS)
-using regression-based techniques. If the surrogate is found to be sufficiently
-accurate for the given application, the process is terminated. However, it is
-likely that a full-space surrogate constructed using a 
-small number of model evaluations would not provide a 
-faithful representation of the input-output relationship.  
-
-The available set of model evaluations are utilized and further enhanced during
-parameter screening as discussed earlier.  At the end of screening, the set of
-active indices, $\mathcal{I}_\text{active}$, is used to evaluate $\alpha$ in the
-following equation: 
-%
-\be
-\alpha = \frac{|\mathcal{I}_\text{active}|}{N_p},
-\label{eq:alpha}
-\ee
-%
-where $|\mathcal{I}_\text{active}|$ denotes the cardinality of
-$\mathcal{I}_\text{active}$.  Scope for dimension-reduction increases as
-$\alpha$ decreases.  Hence, if $\alpha$ is considered to be small and
-computational gains are expected owing to dimension reduction, the RSS is
-constructed and verified for accuracy using a combination of model evaluations
-used for screening and those associated with the validation test suite.  On the
-other hand, if $\alpha$ is close to 1, the set of inputs required for screening are
- updated as needed, and a
-new set of $n_0$ samples and corresponding model evaluations are generated. The
-FSS is re-constructed using the enriched set of evaluations and the
-aforementioned analysis is repeated as illustrated in the flow-diagram
-in Figure~\ref{fig:flow} that shows the overall 
-parameter screening and surrogate model construction method.
-
 
 
 \textbf{Assessment of the surrogate.}
@@ -327,7 +337,7 @@ while keeping a track of its accuracy using the validation test suite. This
 would help address situations where significant dimension reduction is not
 possible, and hence, constructing the RSS might result in a computational
 disadvantage. We suggest using a small number of samples in the initial
-screening step (say, $n_0$ = 5) and a relatively large $\tau$ (say,
+screening step (say, $n_1$ = 5) and a relatively large $\tau$ (say,
 $\mathcal{O}(10^{-1})$) as a starting point with possible reduction in $\tau$
 during subsequent screenings. 
 

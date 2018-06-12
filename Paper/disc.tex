@@ -13,7 +13,8 @@
 %since several surrogates are needed. 
 %\end{enumerate}
 
-In this work, we have presented a systematic approach for constructing a reduced-space
+In this work, we have presented a systematic and efficient approach for constructing
+a reduced-space
 surrogate for scientific and engineering applications. Dimension reduction is accomplished
 by identifying uncertain parameters that contribute relatively less towards the uncertainty
 in the quantity of interest. These parameters deemed as \textit{unimportant} are determined
@@ -24,7 +25,7 @@ estimates are refined by subsequent enrichment of the sample set during the scre
 procedure presented in Algorithm~\ref{alg:screen}. The outcome of parameter screening is
 assessed for the scope of dimension reduction. In a favorable scenario, a reduced-space
 surrogate (RSS) is constructed. The RSS is tested for accuracy in a least-squares sense
-as well as a probabilistic sense using a validation test suite. In the proposed framework,
+as well as a probabilistic sense using a cross-validation test suite. In the proposed framework,
 a surrogate in the full-space (FSS) is constructed in tandem with parameter screening using
 the available set of model evaluations. Both, RSS and FSS are
 constructed using regression-based sparse basis methods. Simultaneous construction
@@ -37,7 +38,8 @@ Parameter screening methodology was implemented to low-to-moderate dimensional
 test problems and an accurate RSS was constructed to demonstrate potential for
 computational gains in each case. Furthermore, the overall framework was
 implemented  to a relatively higher dimensional application involving kinetics
-of the H$_2$/O$_2$ reaction mechanism.  Significant dimension reduction was
+of the H$_2$/O$_2$ reaction mechanism.  Significant dimension reduction (19 
+dimensions to 3 or 4 dimensions) was
 accomplished for two different scenarios involving a fuel-rich and a fuel-lean
 mixture. In both cases, the resulting RSS was able to capture the input-output
 relationship as well as the uncertainty in the quantity of interest with
@@ -76,7 +78,7 @@ inputs are not well understood a priori, and assuming mutual independence
 could be reasonable at least in initial screening using DGSMs. On the other
 hand, if approximate correlations are known, the PCE could still be 
 constructed using samples from the correlated space or preferably,
-the input-output relationship could be represented using a Gaussian process
+the input-output relationship in this case could be represented as a Gaussian process
 that provides a means for incorporating the correlation between inputs.  
 Additionally, the quantity of interest is required to be differentiable with
 respect to each parameter in the considered domain. This condition, however,
