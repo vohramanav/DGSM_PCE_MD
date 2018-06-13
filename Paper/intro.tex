@@ -11,7 +11,7 @@ statistical studies. This is done by replacing repeated evaluations of
 computationally expensive models by inexpensive evaluations of a surrogate
 model.  Thus, an efficient approach to construction of surrogate models is of
 central importance in enabling efficient uncertainty quantification for
-systems with computationally intensive models. 
+computationally intensive models. 
 
 
 Commonly used surrogate modeling approaches use polynomial chaos expansions
@@ -23,7 +23,7 @@ the construction of surrogate models difficult or impossible in some cases.
 However, in many situations, the variability in model observables of interest
 is sensitive to only a small subset of the uncertain inputs.  Hence,
 identifying model inputs that are inessential to variability in model output is
-a key step that can help reduce the dimension and hence, the effort
+a key step that can help reduce the input parameter dimension and hence the effort
 associated with surrogate model construction. 
 
 %However, both approaches
@@ -62,19 +62,19 @@ of Sobol indices~\cite{Sudret08,CrestauxLeMaitreMartinez09,BlatmanSudret10,HartA
 on a wide range of applications including in ocean 
 modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
 geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
-and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014},
+and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014}
 to name a few.
 
 While surrogate models provide an efficient way of computing sensitivity
 indices, constructing them in the case of models with high-dimensional inputs
 can be as expensive as computing the Sobol indices via sampling. 
-In this paper, we propose a systematic, practical, and an efficient
-approach to address this commonly observed ``chicken-and-egg" problem
+In this article, we propose a practical and efficient
+approach to address this commonly observed ``chicken-and-egg'' problem
 in surrogate modelling for engineering applications.
 Specifically, we reduce
 the dimensionality of the input space using derivative-based global sensitivity
-analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016}
-that enables a more tractable approach for global sensitivity
+analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016},
+which enables a tractable approach for global sensitivity
 analysis~\cite{Kucherenko:2016}. Moreover, the links between derivative based
 global sensitivity measures (DGSMs) and total Sobol
 indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
@@ -101,7 +101,8 @@ screening metric is tested successively. Moreover, a series of verification step
 incorporated in our method enable monitoring the accuracy of the parameter-screening
 and the resulting surrogate model.  Our approach is agnostic to the choice of
 methodology for constructing the surrogate. However, in the present work, we
-rely on sparse PCEs to demonstrate the suitability of the proposed strategy.  
+rely on sparse polynomial chaos expansions (PCEs) 
+to demonstrate the suitability of the proposed strategy.  
 
 %Moreover, the availability of adjoint solvers for
 %efficient gradient computation can enhance the performance of our approach.  
@@ -114,19 +115,19 @@ derivate-based global sensitivity measures. Our
 approach is general in that it is applicable to a wide range of applications.
 (ii) We present comprehensive numerical results demonstrating the viability of
 our strategy using motivating applications: the classic borehole
-function, and a semilinear elliptic PDE.  (iii) We further
+function, and a semilinear elliptic PDE.  (iii) We 
 deploy our strategy in an application problem from chemical kinetics with 19
-uncertain parameters. The application problem is studied in multiple regimes.
+uncertain parameters. The problem is studied in multiple regimes.
 It is shown that the 19-parameter problem can be efficiently reduced to a 3- 
 or 4-dimensional problem.
 
 \paragraph{Paper outline}
 This article is structured as follows. In section~\ref{sec:bg}, we provide a
 brief introduction to DGSMs as well as the polynomial chaos methodology used in
-the present work.  In Section~\ref{sec:method} we present our proposed
+the present work.  In section~\ref{sec:method}, we present our proposed
 approach. There we also provide a detailed numerical algorithm and a flow
 diagram to aid practitioners in implementing the presented framework.
-Section~\ref{sec:examples} is devoted to a number of numerical examples
+Section~\ref{sec:examples} is devoted to numerical examples
 examining various aspects of our approach. This is followed by implementation
 of our framework in a H$_2$/O$_2$ chemical kinetics problem, in section~\ref{sec:app}.
 Finally, concluding remarks are provided in section~\ref{sec:disc}.

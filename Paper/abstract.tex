@@ -1,20 +1,22 @@
 \section*{Abstract}
-
-In this effort, we develop a systematic approach to constructing a surrogate
-in a reduced input space using derivative-based global sensitivity
-measures~(DGSMs)~\cite{Sobol:2010}. A sparse set of model evaluations in
-the original input space is used for an approximate evaluation of DGSMs
-for individual uncertain inputs of the model. An iterative screening
-procedure is developed to exploit DGSM estimates in order to identify
-the `unimportant' inputs. The screening procedure forms an integral part
-of an overall framework for adaptive construction of a surrogate in the
-reduced-space. The framework is tested for computational efficiency through
-an initial implementation in simple test cases such as the classic Borehole
-function, and a semilinear elliptic PDE with a random source term. 
-Motivated by these experiences, the framework is further implemented to
-a 19-dimensional problem with uncertain rate constants associated with
-the H$_2$/O$_2$ reaction mechanism~\cite{Yetter:1991}. It is observed
-that significant computational gains can be accomplished by constructing
-reliable and accurate low-dimensional surrogates using the proposed 
-framework for practical problems. 
+We develop a systematic approach for surrogate model
+construction in reduced input parameter spaces.
+%using derivative-based global sensitivity measures~(DGSMs)~\cite{Sobol:2010}. 
+%
+A sparse set of model evaluations in the original input space is used to  
+approximate derivative based global sensitivity measures (DGSMs) 
+for individual uncertain inputs of the model.
+An iterative screening procedure is developed that exploits DGSM estimates in
+order to identify the \emph{unimportant} inputs. The screening procedure forms
+an integral part of an overall framework for adaptive construction of a
+surrogate in the reduced space. The framework is tested for computational
+efficiency through an initial implementation in simple test cases such as the
+classic Borehole function, and a semilinear elliptic PDE with a random source
+term. 
+%Motivated by these experiences, the framework is fully implemented to
+The framework is then deployed for a realistic application from chemical
+kinetics, where we study the ignition delay time in an H$_2$/O$_2$ reaction
+mechanism with 19 uncertain rate constants.  It is observed that significant
+computational gains can be attained by constructing accurate low-dimensional
+surrogates using the proposed framework.
  
