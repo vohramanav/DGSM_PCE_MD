@@ -12,11 +12,12 @@ using polynomial chaos expansion.
 Let $\GG$ be a mathematical model that is a function of $\Np$ uncertain 
 inputs, $\theta_1, \theta_2, \ldots, \theta_\Np$. The goal of sensitivity analysis
 is measuring the influence of each component of the input vector 
-$\bm{\theta}$ on the model output. 
+$\bm{\theta} = \begin{bmatrix}\theta_1 & \theta_2 & 
+\ldots & \theta_\Np\end{bmatrix}^T$ on the model output. 
 In the present work, we consider the case where the inputs are statistically 
 independent. 
 
-Derivative-based global sensitivity analysis (DGSA) is performed by 
+Derivative-based global sensitivity analysis is performed by 
 computing derivative based global sensitivity measures (DGSMs)~\cite{Sobol:2009} 
 for each uncertain parameter in the model. 
 Specifically, we consider the following DGSMs, 
@@ -30,13 +31,13 @@ Notice that this formulation assumes that the function $\GG$ is differentiable
 with respect to $\theta_i$, $i = 1, \ldots, \Np$.
 
 If an analytic expression for $\GG$ is available the derivative in the above
-expression can be computed directly. In many applications, however, $\GG$ is often
-defined in terms of a solution of a mathematical model. In some cases, 
+expression can be computed directly. In many applications, however, $\GG$ is
+often defined in terms of a solution of a mathematical model.  In some cases,
 one has access to appropriate adjoint solvers that enable efficient
-adjoint-based gradient computations. In the present work, we consider
-a generic computational model and only assume that the model
-output depends differentiably on the parameter $\bm{\theta}$. Thus, 
-we consider finite-difference gradient computation: 
+adjoint-based gradient computations. This is discussed further below.  In the
+present work, we consider a generic computational model and only assume that
+the model output depends differentiably on the parameter $\bm{\theta}$. A
+simple approach to computing the gradient is to use finite-differences: 
 \be
 \frac{\partial \GG(\bm{\theta})}{\partial \theta_i} 
 \approx
@@ -59,10 +60,10 @@ therefore, $N\times(\Np+1)$.
 %compared to the uncertainty in $\theta_i$ which leads to a significant improvement
 %over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
 %using large increments.  
-It is noted by many authors~[REFS], and also observed
-in the numerical experiments in the present work, that a modest Monte Carlo
-sample size is often sufficient for computing~\eqref{eq:mu} with reasonable
-accuracy.
+It is noted by many authors~\alennote{Need to give some references}, and also
+observed in the numerical experiments in the present work, that a modest Monte
+Carlo sample size is often sufficient for computing~\eqref{eq:mu} with
+sufficient accuracy to indentify the unimportant inputs.
 
 Consider the total 
 Sobol' sensitivity index~\cite{Sobol:2001},
@@ -78,17 +79,20 @@ total Sobol' index can be considered inessential and can be fixed at nominal val
 computing the total Sobol' index is a computationally expensive task for expensive-to-evaluate 
 models with large number of uncertain parameters. Fortunately, 
 for parameters with continuous distributions, an upper bound on $\mathcal{T}_i$  
-can be expressed in terms of $\mu_i$, the Poincar\'e constant ($\mathcal{C}_i$) and the total 
-variance of the model output ($\mathbb{V}(\GG)$)~\cite{Lamboni:2013}:
+can be expressed in terms of $\mu_i$ as follows: 
 \be
-\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{\mathbb{V}(\GG)}~(\propto \widehat{\mathcal{C}_i\mu_i})
+\mathcal{T}(\theta_i) \leq \frac{\mathcal{C}_i\mu_i}{\mathbb{V}(\GG)},
+%~(\propto \widehat{\mathcal{C}_i\mu_i})
 \label{eq:bound}
 \ee
-The upper bound in the above inequality is proportional to the product of
-$\mathcal{C}_i$ and $\mu_i$. However, for the purpose of parameter screening as
-discussed later in Section~\ref{sec:method}, we consider a normalized product,
-$\widehat{\mathcal{C}_i\mu_i}$ to ensure that it lies between 0 and 1:
-
+where $\mathcal{C}_i$ is the corresponding ``Poincar\'e constant''
+and
+$\mathbb{V}(\GG)$ is the total variance of the model
+output~\cite{Lamboni:2013}.  The upper bound in the above inequality is
+proportional to the product of $\mathcal{C}_i$ and $\mu_i$.  For the purpose of
+parameter screening as discussed later in Section~\ref{sec:method}, we consider
+a normalized product, $\widehat{\mathcal{C}_i\mu_i}$ to ensure that it lies
+between 0 and 1:
 \be
 \widehat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
 \label{eq:cmu}
@@ -137,15 +141,14 @@ Let
    \bm{f}(\bm{x}) = \prod_{i=1}^\Np f_i(x_i), \quad \bm{x} \in \mathbb{R}^\Np
 \]
 where $f_i$ are probability density functions of $\xi_i$, $i = 1, \ldots, \Np$.
-We consider a square integrable random variable $\GG:\R^\Np \to \R$; 
-that is,
-\[
-\int_{\mathcal{D}} \GG(\bm{\xi})^2 \, \bm{f}(\bm{\xi})d\bm{\xi} < \infty,
-\]
-where $\mathcal{D}$ is the support of the distribution law of the random vector
-$\bm{\xi}$. 
 
-
+Consider a square integrable random variable $\GG:\R^\Np \to \R$. 
+%that is,
+%\[
+%\int_{\mathcal{D}} \GG(\bm{\xi})^2 \, \bm{f}(\bm{\xi})d\bm{\xi} < \infty,
+%\]
+%where $\mathcal{D}$ is the support of the distribution law of the random vector
+%$\bm{\xi}$. 
 % for representing the
 %dependence of a random observable ($\GG$) on independent uncertain or
 %stochastic model parameters ($\bm{\theta}$).  Considering a joint probability
@@ -156,9 +159,8 @@ $\bm{\xi}$.
 %\mathbb{E}[\GG^2] = \int_{\mathcal{D}_{\bm{\theta}}} \GG^2 \mathbb{P}(\bm{\theta}) 
 %d\bm{\theta} < \infty
 %\ee
-
 %\noindent where $\mathcal{D}_{\bm{\theta}}$ is the domain of the input parameter space. 
-
+%
 As mentioned in Section~\ref{sec:intro}, the 
 polynomial chaos expansion
 (PCE) is a commonly used tool for surrogate modeling. 
