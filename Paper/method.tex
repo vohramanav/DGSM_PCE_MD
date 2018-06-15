@@ -21,47 +21,44 @@ constructed in a reduced parameter space that sufficiently captures the uncertai
 model output. We begin by outlining an algorithm for parameter screening
 to assess the importance of individual parameters for potential dimension
 reduction and construction of an RSS. The overall adaptive framework 
-which incorporates parameter screening as an integral step is thereafter
+that incorporates parameter screening as an integral step is thereafter
 presented. Finally, we present metrics used for assessing the
 convergence and accuracy of the RSS followed by a brief discussion on
 salient features of the proposed framework. 
 
 \textbf{Parameter screening.}
-Dimension reduction is guided by global sensitivity analysis (GSA).  A typical
-approach to GSA involves estimating the Sobol sensitivity
-indices~\cite{Sobol:2001} in the case of non-linear mathematical models.
-However, as discussed earlier in sections~\ref{sec:intro} and~\ref{sec:bg},
-determining accurate estimates of Sobol sensitivity indices typically requires
-tens of thousands of model evaluations. Consequently, the exercise becomes
-prohibitive for expensive-to-evaluate models.  In the proposed framework, we
+In the proposed framework, we
 adopt a novel approach for constructing an RSS based on estimating the
 upper-bound $\widehat{\mathcal{C}_i\mu_i}$, given in~\eqref{eq:bound}, on 
 Sobol total effect index ($\mathcal{T}(\theta_i)$) for each 
 parameter, $\theta_i$, and use it as a metric to screen 
 parameters that are relatively unimportant. 
 
-The metric is initially computed using model evaluations at say, $n_1$ samples
-in the full space. 
-In situations where $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically,
-we could use finite-difference to approximate its value as shown in
-Eq.~\ref{eq:partial}. However, as discussed earlier in~\ref{sub:dgsm},
-estimating $\bm{\mu}$  using $M$ samples in the full parameter space requires
-model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in case
-the derivative is available analytically. Hence, computational effort when
-using finite differences is expected to increase by a factor of $(N_p+1)$.
-Another possible approach, suitable in certain cases, is the use of
-adjoint-based gradient computation. In particular, for PDE-based
-problems with scalar QoIs, but high-dimensional uncertain parameters, 
-adjoint-based gradient computation is much more efficient than finite differences.
-In the adjoint approach, each gradient evaluation requires 
-a solution of the state equation (forward solve) and that of the 
-corresponding adjoint equation; 
-see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
-The adjoint method, however, requires the availability of an adjoint solver.
+%The metric is initially computed using model evaluations at say, $n_1$ samples
+%in the full space. 
+%In situations where $\nabla_{\bm{\theta}}G_k$ cannot be evaluated analytically,
+%we could use finite-difference to approximate its value as shown in
+%Eq.~\ref{eq:partial}. However, as discussed earlier in~\ref{sub:dgsm},
+%estimating $\bm{\mu}$  using $M$ samples in the full parameter space requires
+%model evaluations at $(N_p+1)M$ samples, compared to only $M$ samples in case
+%the derivative is available analytically. Hence, computational effort when
+%using finite differences is expected to increase by a factor of $(N_p+1)$.
+%Another possible approach, suitable in certain cases, is the use of
+%adjoint-based gradient computation. In particular, for PDE-based
+%problems with scalar QoIs, but high-dimensional uncertain parameters, 
+%adjoint-based gradient computation is much more efficient than finite differences~\cite{Griewank:2008}.
+%In the adjoint approach, each gradient evaluation requires 
+%a solution of the state equation (forward solve) and that of the 
+%corresponding adjoint equation; 
+%see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
+%The adjoint method, however, requires the availability of an adjoint solver.
 
+An initial set of say, $n_1$ samples is used to obtain a rough estimate
+of the metric.  
 Based on the associated metric value, an initial
 rank ($\mathcal{R}_i^{old}$) is assigned to each parameter. At each iteration,
-a new set of Latin Hypercube samples is generated and corresponding model
+a new set of samples is generated based on the joint probability distribution
+of $\bm{\theta}$ and corresponding model
 output at each sample point is computed. The new set of model evaluations
 combined with prior evaluations is used to update parameter ranks. Additionally,
 deviation in the derivative-based sensitivity measure between successive iterations
@@ -71,6 +68,7 @@ are observed to be consistent as well as the maximum deviation among all paramet
 ($\Delta\mu_s$) is below a certain tolerance ($\tau$). The amount of computational
 effort associated with the screening process is limited
 by the choice of maximum number of iterations, $s_\text{max}$. 
+
 Key inputs to the screening procedure
 are as follows: (1) 
 a limiting value $\tau$ of the maximum relative change in the sensitivity
@@ -158,7 +156,7 @@ Parameter screening is an integral part of an overall framework for adaptive
 surrogate model construction. Key attributes of the framework are discussed 
 as follows. 
 
-We begin by setting aside computational resources for constructing a cross-validation
+We begin by allocating computational resources for constructing a cross-validation
 test suite to be used for assessing the accuracy of the resulting surrogate.
 Naturally, the resources allocated for this purpose depend upon the application
 as well as total amount of available resources. 
@@ -290,7 +288,7 @@ leave-one-out cross validation error as follows:
 \be
 \epsilon_{\mbox{\tiny LOO}} = 
 \frac{\sum\limits_{i=1}^{N_l}\left(G(\bm{\theta}_i) - G^{\mbox{\tiny {PC}\textbackslash i}}(\bm{\xi(\theta}_i))\right)^2}
-{\sum\limits_{i=1}^{N_l}\left(G(\bm{\theta}_i) - \widetilde{\mu}\right)^2}
+{\sum\limits_{i=1}^{N_l}\left(G(\bm{\theta}_i) - \widetilde{\mu}\right)^2},
 \label{eq:loo}
 \ee
 where $N_l$ is the number of training points,
@@ -307,7 +305,7 @@ predictions between the model and the surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$)
 \be
 \epsilon_{\mbox{\tiny{L-2}}} = \frac{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i) - 
 G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
-{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i)\right)^2\right]^{\frac{1}{2}}}
+{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i)\right)^2\right]^{\frac{1}{2}}},
 \label{eq:l2}
 \ee
 where $N_v$ is the number of sampling points in the full parameter space at
@@ -324,7 +322,7 @@ evaluations would be infeasible.  A practical alternative would be to compare
 a histogram based on sparse model evaluations with the surrogate-based PDF in
 order to gain some insight into the quality of the comparison. 
 
-\textbf{Remarks.}
+\textbf{Discussion on the proposed methodology.}
 The amount of computational effort associated with the presented methodology
 can be mainly attributed to two steps: I.~Parameter Screening, and 
 II.~Constructing a converged RSS. Computational gains are realized in situations
@@ -333,14 +331,22 @@ than the combined cost associated with these steps. Determining the optimal
 allocation of computational resources for these steps, however, is not possible
 a priori. Hence, in the proposed framework, we exploit the set of model
 evaluations used in parameter screening to simultaneously construct the FSS
-while keeping a track of its accuracy using the validation test suite. This
-would help address situations where significant dimension reduction is not
-possible, and hence, constructing the RSS might result in a computational
+while keeping a track of its accuracy using the cross-validation test suite.
+This would help address situations where significant dimension reduction 
+is not possible, and hence, constructing the RSS might result in a 
+computational
 disadvantage. We suggest using a small number of samples in the initial
 screening step (say, $n_1$ = 5) and a relatively large $\tau$ (say,
 $\mathcal{O}(10^{-1})$) as a starting point with possible reduction in $\tau$
-during subsequent screenings. 
+during subsequent screenings. Pseudo-random sampling approaches such as
+Latin hypercube sampling (LHS) and quasi Monte Carlo (QMC) could be used to
+generate samples in the input space.
 
+Careful assessment and decision-making is required on whether or not to
+proceed with the construction of the RSS at the end of each screening step.
+The user should account for factors such as the possible degree of 
+dimension reduction, accuracy of the concurrent FSS, and availability of
+computational resources. 
 
 The applicability of the proposed framework depends upon the choice of the
 model output.  Since the screening metric involves computation of partial
@@ -349,11 +355,23 @@ dependence on each parameter. It is therefore likely that for a given
 application involving multiple outputs, the RSS can only be constructed for a
 selected few, using the approach presented above.  Hence, it is important to
 assess the nature of the input-output relationship for a given model prior to
-implementing the present framework.
+implementing the present framework. Additionally, in some cases, the partial
+derivative of the output with respect to each uncertain input is not available
+analytically. In these cases, one could use finite difference (FD) to approximate
+the gradient as illustrated in~\ref{eq:partial}. However, since FD requires
+model evaluations at neighboring points, the underlying computational cost is
+expected to increase by a factor, $N_p+1$; $N_p$ being the number of inputs. 
+A possible, more efficient alternative to FD involves the use of adjoints for
+gradient computation~\cite{Griewank:2008}. In the adjoint approach, each
+gradient evaluation requires 
+a solution of the state equation (forward solve) and that of the 
+corresponding adjoint equation; 
+see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
+The adjoint method, however, requires the availability of an adjoint solver.
 
 Using the framework proposed in this section, we aim to construct a reliable
 surrogate in the most efficient manner within the constraints of the computational
-budget. However, it is likely that for a given application, the RSS is not
+budget. However, it might be possible that for a given application, the RSS is not
 found to be sufficiently accurate. In such a scenario, we suggest enriching the
 set of important inputs by incorporating the least unimportant model input
 as determined after a series of screening steps, and re-constructing the RSS. 

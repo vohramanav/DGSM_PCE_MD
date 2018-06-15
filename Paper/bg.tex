@@ -32,9 +32,7 @@ with respect to $\theta_i$, $i = 1, \ldots, \Np$.
 
 If an analytic expression for $\GG$ is available the derivative in the above
 expression can be computed directly. In many applications, however, $\GG$ is
-often defined in terms of a solution of a mathematical model.  In some cases,
-one has access to appropriate adjoint solvers that enable efficient
-adjoint-based gradient computations. This is discussed further below.  In the
+often defined in terms of a solution of a mathematical model.  In the
 present work, we consider a generic computational model and only assume that
 the model output depends differentiably on the parameter $\bm{\theta}$. A
 simple approach to computing the gradient is to use finite-differences: 
@@ -47,7 +45,7 @@ simple approach to computing the gradient is to use finite-differences:
 \GG(\bm{\theta})}{\Delta\theta_i}, \quad i = 1, \ldots, \Np. 
 \label{eq:partial}
 \ee
-Then,~\eqref{eq:mu} can be evaluated by Monte Carlo sampling in
+Then,~\eqref{eq:mu} can be evaluated by Monte Carlo (MC) sampling in
 the uncertain parameter space. 
 The total number of model realizations or function evaluations
 needed to
@@ -60,10 +58,13 @@ therefore, $N\times(\Np+1)$.
 %compared to the uncertainty in $\theta_i$ which leads to a significant improvement
 %over the `elementary effect' of a parameter, estimated in the Morris method~\cite{Morris:1991}
 %using large increments.  
-It is noted by many authors~\alennote{Need to give some references}, and also
-observed in the numerical experiments in the present work, that a modest Monte
-Carlo sample size is often sufficient for computing~\eqref{eq:mu} with
-sufficient accuracy to indentify the unimportant inputs.
+It is noted in previous studies~\cite{Kucherenko:2016,Kucherenko:2009},
+and also
+observed in the numerical experiments in the present work, that a modest MC sample size is often sufficient for computing~\eqref{eq:mu} with
+reasonable accuracy to indentify the unimportant inputs. Moreover, the
+computational efficiency for estimating $\mu_i$ can be enhanced by using
+techniques such as the automatic differentiation
+algorithm~\cite{Kiparissides:2009}. 
 
 Consider the total 
 Sobol' sensitivity index~\cite{Sobol:2001},
@@ -94,7 +95,7 @@ parameter screening as discussed later in Section~\ref{sec:method}, we consider
 a normalized product, $\widehat{\mathcal{C}_i\mu_i}$ to ensure that it lies
 between 0 and 1:
 \be
-\widehat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}
+\widehat{\mathcal{C}_i\mu_i} = \frac{\mathcal{C}_i\mu_i}{\sum_i \mathcal{C}_i\mu_i}.
 \label{eq:cmu}
 \ee
 The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability
@@ -204,7 +205,7 @@ norm of the PC coefficients is used:
 \be
 \hat{\bm{c}} = \mbox{argmin}~\mathbb{E}_{\bm\theta}
 \left[\left(\sum_{k=0}^\Npc c_k \Psi_k(\bm\xi(\bm\theta)) -
-\GG(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}}
+\GG(\bm{\theta})\right)^{2}\right]  + \lambda\normone{\bm{c}},
 \label{eq:reg}
 \ee
 where $\normone{\bm{c}}$ = $\sum_{k=0}^\Npc |c_k |$.

@@ -13,12 +13,12 @@
 %since several surrogates are needed. 
 %\end{enumerate}
 
-In this work, we have presented a systematic and efficient approach for constructing
+In this work, we have presented an efficient and practical approach for constructing
 a reduced-space
 surrogate for scientific and engineering applications. Dimension reduction is accomplished
 by identifying uncertain parameters that contribute relatively less towards the uncertainty
 in the quantity of interest. These parameters deemed as \textit{unimportant} are determined
-using a screening metric~(\eqref{eq:cmu}) involving derivative-based sensitivity
+using a screening metric~\eqref{eq:cmu} involving derivative-based sensitivity
 measures. Initially, the metric is estimated
 using model evaluations at a small set of samples in the parameter domain. However, these
 estimates are refined by subsequent enrichment of the sample set during the screening
@@ -28,7 +28,7 @@ surrogate (RSS) is constructed. The RSS is tested for accuracy in a least-square
 as well as a probabilistic sense using a cross-validation test suite. In the proposed framework,
 a surrogate in the full-space (FSS) is constructed in tandem with parameter screening using
 the available set of model evaluations. Both, RSS and FSS are
-constructed using regression-based sparse basis methods. Simultaneous construction
+constructed using regression-based sparse PCEs. Simultaneous construction
 of the FSS ensures that the computational effort associated with the proposed framework
 does not overshoot the effort required to construct the FSS directly.
 Hence, the RSS is constructed only in situations where computational gains are
@@ -46,10 +46,8 @@ relationship as well as the uncertainty in the quantity of interest with
 reasonable accuracy. Additional highlights of the proposed framework are as
 follows:
 \begin{enumerate}
-\item The proposed framework is agnostic to the choice of the surrogate although PCE's were used
-in this work. 
-\item The scope for dimension reduction and associated computational gains are
-dependent upon the application as well as the quantity of interest. 
+\item Although PCEs were used in this work, the proposed framework is
+agnostic to the choice of the surrogate model construction method.
 %\item The quantity of interest must be differentiable with respect to each uncertain parameter
 %for the derivative-based sensitivity measures in~\eqref{eq:mu} to be defined. 
 %to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
@@ -69,12 +67,17 @@ effort required for model calibration wherein only the important parameters
 are calibrated. 
 \end{enumerate}
 
-Based on the results presented for a variety of test problems, and a
-higher-dimensional chemical kinetics application in this work, it can be said
-that the proposed framework seems quite promising in its potential for
-identifying favorable scenarios for constructing a reduced-space surrogate in a
-computationally efficient manner.  However, it is important to remain cognizant
-about the limitations of the framework as well. For instance, it does not
+Based on the results presented for the test problems and the kinetics
+application, the proposed framework seems quite promising in its
+potential for identifying the unimportant model inputs. These
+observations could be exploited to construct efficient model surrogates
+in a reduced input space. However, it is important to remain cognizant
+about the limitations of the framework as well. 
+For instance, the quantity of interest is required to be differentiable with
+respect to each parameter in the considered domain. This condition once
+satisfied, helps improve the DGSM estimates and enhances the accuracy
+of the PCE-based surrogates as well.  
+Additionally, the proposed framework does not
 account for the existence of possible correlations between the uncertain
 inputs of the model. However, while the assumption of independent
 inputs is not always justified, in many cases, correlations between
@@ -83,18 +86,10 @@ could be reasonable at least in initial screening using DGSMs. On the other
 hand, if approximate correlations are known, we recommend using a Gaussian 
 process or Kriging-based surrogate since it 
 provides a means for incorporating the correlation between inputs.  
-Additionally, the quantity of interest is required to be differentiable with
-respect to each parameter in the considered domain. This condition, however,
-must anyways be satisfied for the resulting surrogate to be able to represent
-the input-output relationship for a given model with reasonable accuracy.
-Finally, careful assessment and decision-making is required with regards to
-proceeding with the construction of a reduced-space surrogate based on the
-outcome of parameter screening, and accuracy of the most recent full-space
-surrogate as well as allocation of computational resources for parameter
-screening, and constructing the validation test suite. Implementation to more
-advanced applications in the future would enable further development of the
-proposed framework. 
-
+Implementation to applications involving strongly correlated parameters
+could enhance the applicability of the proposed framework. 
+We consider that to be a potential direction for future studies related
+to this work. 
 
 
 
