@@ -19,8 +19,7 @@ source of clean energy for applications such as
 transportation~\cite{Das:1996}. 
 The mechanism comprises of 19 reactions including chain reactions,
 dissociation/recombination reactions, and formation and consumption
-of intermediate species: HO$_2$ and H$_2$O$_2$, as provided below
-in Table~\ref{tab:kinetics}.
+of intermediate species as provided below in Table~\ref{tab:kinetics}.
 
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
@@ -65,16 +64,21 @@ k_i(T) = A_iT^{n_i}\exp(-E_{a,i}/RT),
 %
 where $A_i$ is the pre-exponent, $n_i$ is the index of $T$, $E_{a,i}$ is the
 activation energy corresponding to the $i^{th}$ reaction, and $R$ is the
-universal gas constant. We focus on quantifying the uncertainty in the
-\emph{ignition delay} due to uncertainty associated with the pre-exponent,
-$A_i$ for each reaction. Hence, the total number of uncertain parameters in the
+universal gas constant. 
+The TChem~\cite{Safta:2011} software package is used to model homogenous
+ignition at constant pressure for a range of initial conditions for the
+fuel-oxidizer mixture. During the simulation, the fuel-oxidizer mixture goes 
+through a radical build-up phase followed by a sharp increase in temperature
+as heat is realeased during the thermal runaway. We focus on quantifying the 
+uncertainty in the \emph{ignition delay} due to uncertainty associated 
+with the pre-exponent, $A_i$, for each reaction. The ignition delay 
+is defined as the inflection point on the temperature profile during the thermal
+runaway. The total number of uncertain parameters in the
 present case is 19.  The $A_i$'s are considered to be uniformly distributed in
 the interval: $[0.9A_i^\ast, 1.1A_i^\ast]$; $A_i^\ast$ being the nominal
-estimate corresponding to the $i^{th}$ reaction. TChem~\cite{Safta:2011}, an
-open source C package was used for simulating temperature and concentration
-evolution during the progress of reactions $\mathcal{R}_1$--$\mathcal{R}_{19}$,
-and determining the ignition delay. The set of nominal values used in the
-computations, for parameters in~\eqref{eq:rate} are provided
+estimate corresponding to the $i^{th}$ reaction.
+The set of nominal values used in the computations, for parameters 
+in~\eqref{eq:rate} are provided
 in~\cite{Yetter:1991}. 
 
 While the dimensionality of the problem is relatively moderate,
