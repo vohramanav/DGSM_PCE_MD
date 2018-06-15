@@ -3,27 +3,30 @@
 
 In section~\ref{sec:method}, we presented a framework for constructing
 an RSS (if deemed advantageous) by identifying unimportant parameters based on 
-estimates of the screening metric, $\widehat{\mathcal{C}_i\mu_i}$
+estimates of the screening metric, $\widehat{\mathcal{C}_i\mu_i}$,
 for individual parameters.
-In this section, we motivate the underlying methodology by applying it to three
+In this section, we motivate the proposed methodology by applying it to two
 test problems,
 namely, the borehole function, and a semilinear elliptic PDE.
-Since model evaluations in all these test
-problems are inexpensive, we are able to compare the relative importance of
-model parameters based
-on the screening metric, obtained using model evaluations with 
-converged estimates of $\mathcal{T}(\theta_i)$ based on the surrogate constructed in the
-full parameter space (FSS). Additionally, to illustrate the computational gains, 
+Model evaluations in these test
+problems are inexpensive. Therefore, we are able to compare the 
+relative importance of model parameters based
+on the screening metric (computed by sampling the model) with 
+those obtained from converged estimates of $\mathcal{T}(\theta_i)$ (computed
+using the surrogate constructed in the
+full parameter space (FSS)). Additionally, to illustrate the computational gains, 
 we compare
 convergence trends as a function of training runs for the RSS and the FSS using 
 $\epsilon_{\mbox{\tiny LOO}}$ in Eq.~\ref{eq:loo}. 
 Furthermore, as discussed earlier in section~\ref{sec:method}, we compare
-PDFs of the model output, obtained using the RSS and the full-space surrogate for
+PDFs of the model output, obtained using the RSS, the FSS,
+as well as true model evaluations, for
 the purpose of verification. 
 
 \subsection{Borehole function}
 
 The borehole function is a benchmark reference problem in sensitivity analysis.
+\alennote{Give references}
 It models the discharge of water ($\mathcal{Q}$) through a borehole in terms of
 geometrical and physical inputs:
 \be
@@ -31,17 +34,22 @@ geometrical and physical inputs:
 2\pi T_u(H_u - H_l)}{\displaystyle
 \ln({r}/{r_w})\Big[1 +
 \frac{2LT_u}{
-\ln({r}/{r_w})r_w^2K_w} + \frac{T_u}{T_l}\Big]}
+\ln({r}/{r_w})r_w^2K_w} + \frac{T_u}{T_l}\Big]}.
 \label{eq:bore}
 \ee
 The radius of influence, $r$ is fixed at 3698.30 m whereas all other parameters
 in the right hand side of~\eqref{eq:bore} are considered 
 as uncertain. Hence, $\mathcal{Q} = \mathcal{Q}(\vec{\theta})$ with 
- $\vec{\theta} = (r_w, L, T_u, H_u, T_l, H_l, K_w)^T$, a vector of
- uncertain parameters. Table~\ref{tab:bore} provides distributions of the
- uncertain input parameters. 
+\[
+\vec{\theta} = \begin{bmatrix}r_w & L & T_u & H_u & T_l & H_l & 
+K_w\end{bmatrix}^T, 
+\]
+being the vector of
+uncertain parameters. Table~\ref{tab:bore} provides distributions of the
+uncertain input parameters. 
 
-\begin{table}[htbp]
+
+\begin{table}[ht]
 \renewcommand*{\arraystretch}{1.2}
 \caption{Description and distributions of uncertain inputs in the borehole function
 given by~\eqref{eq:bore}.}
@@ -64,7 +72,7 @@ Borehole hydraulic conductivity, $K_w$ (m/yr) & $\mathcal{U}$[9855,12045] \\
 \end{center}
 
 %
-Cheap function evaluations of the discharge $\mathcal{Q}(\vec{\theta})$ using
+Cheap function evaluations of the discharge $\mathcal{Q}(\vec{\theta})$ 
 enables computing accurate estimates of $\mathcal{T}(\theta_i)$ through
 sampling, with a sufficiently large MC sample size.  Shown in
 Figure~\ref{fig:sense_bore}~(left) are estimates of these indices corresponding to the
@@ -102,8 +110,8 @@ with predictions based on the Sobol' index.
 In the considered intervals for the uncertain parameters, it is clear 
 that the discharge is insensitive to $T_u$ and $T_l$. 
 Moreover, the sensitivity to $K_w$ is also small. We exploit these findings to reduce
-the dimensionality of the problem by 
-discounting the variabilities in $T_u$, $T_l$, and $K_w$ by fixing 
+the dimensionality of the problem: we can 
+discount the variabilities in $T_u$, $T_l$, and $K_w$ by fixing 
 them at their respective nominal values. 
 
 Our goal as discussed earlier is to gain computational advantage by constructing
@@ -142,7 +150,7 @@ As discussed earlier in this section, the reduced-space PCE's are verified for
 predictive accuracy in a least-squares sense and a probabilistic sense.
 Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ based on 50 samples in the
 validation test suite were
-found to be 0.0551 and 0.0112 for the 4D and 5D PCE's respectively. In other
+found to be 0.0551 and 0.0112 for the 4D and 5D PCE's, respectively. In other
 words, the 4D PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within
 1.12$\%$ of predictions based on the borehole function. We note  that although
 the convergence in the case of a 5D PCE is slower (Figure~\ref{fig:conv_bore}),
@@ -291,7 +299,7 @@ We consider the following semilinear elliptic PDE:
 \end{equation}
 Here $\Omega = (0, 1)\times(0,1)$, 
 $u$ is the state variable, and $\kappa$ and $c$ are coefficients of the diffusion term
-and the nonlinear term in the above equation respectively. 
+and the nonlinear term in the above equation, respectively. 
 We consider uncertainties in $\kappa$, $c$, and the source term. 
 The right hand side function $q$ is defined by 
 \be
@@ -302,8 +310,12 @@ q(x, y) =
 \ee
 where $\alpha_i$, $i = 1, \ldots, 8$ are random coefficients.
 %
-Hence, $u~=~u(\vec{\theta})$, where $\vec{\theta} = 
-(\kappa,c,\alpha_1,\alpha_2,\ldots,\alpha_{8})^T$ is the vector
+Hence, $u~=~u(\vec{\theta})$, where 
+\[\vec{\theta} = 
+\begin{bmatrix} \kappa & c & \alpha_1 & \alpha_2 & \cdots & \alpha_{8}
+\end{bmatrix}^T
+\] 
+is the vector
 of uncertain parameters. Distributions of the uncertain
 input parameters are tabulated in Figure~\ref{fig:elliptic}~(left).
 The solution of~\eqref{eq:semilinear} for
@@ -342,7 +354,7 @@ $\kappa$~=~0.075, $c$~=~1.5, and $\alpha_i$~=~4.0}
 
 We aim to construct a reduced-space surrogate for the following QoI:
 \be
-\mathcal{F}(\kappa, c, \theta) = \frac{1}{|D|} \int_D u(x; \kappa, c, \theta) \, dx, 
+\mathcal{F}(\vec\theta) = \frac{1}{|D|} \int_D u(\vec{x}; \vec\theta) \, d\vec{x}, 
 \label{eq:qoi}
 \ee
 %
@@ -351,7 +363,7 @@ and $|D|$ denotes the area of $D$.
 While this model is considerably more complex than the previous numerical
 examples, it can still be solved efficiently.
 The equation was discretized using finite differences, and Newton's method
-was used to solve the resulting nonlinear system on a (100$\times$100) 2D
+was used to solve the resulting nonlinear system on a $100 \times 100$ 2D
 cartesian grid.
 We computed converged estimates of the Sobol
 total-effect index $\mathcal{T}(\theta_i)$, reported 
@@ -394,7 +406,7 @@ is expected to be much smaller.
   \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_elliptic}
 \caption{Left: Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is plotted against sample size for 
 PCEs constructed in 10 and 5 dimensions to compare their convergence characteristics. 
-Right: PDF of the QoI, $\mathcal{F}(\kappa, c, \theta)$ in~\eqref{eq:semilinear} is
+Right: PDF of the QoI, $\mathcal{F}(\vec\theta)$ in~\eqref{eq:semilinear} is
 plotted using the full-surrogate and the reduced-space PC surrogate.}
 \label{fig:conv_elliptic}
 \end{center}
@@ -409,7 +421,7 @@ validation test-suite, in
 Figure~\ref{fig:conv_elliptic}~(right). While the two PDFs are in favorable agreement,
 the modal estimate and the spread in the QoI based on the histogram is also captured
 by them. Hence, the RSS could be used with a reasonable degree of confidence to
-quantify the uncertainty in $\mathcal{F}(\kappa, c, \theta)$ thereby leading to
+quantify the uncertainty in $\mathcal{F}(\vec\theta)$ thereby leading to
 a computational advantage in this case.
 
 
