@@ -73,10 +73,11 @@ Borehole hydraulic conductivity, $K_w$ (m/yr) & $\mathcal{U}$[9855,12045] \\
 
 %
 Cheap function evaluations of the discharge $\mathcal{Q}(\vec{\theta})$ 
-enables computing accurate estimates of $\mathcal{T}(\theta_i)$ through
-sampling, with a sufficiently large MC sample size.  Shown in
+enables construction of the FSS with minimal effort. FSS predictions at
+a large set of MC samples in the input space are used to obtain converged
+estimates of $\mathcal{T}(\theta_i)$. Shown in
 Figure~\ref{fig:sense_bore}~(left) are estimates of these indices corresponding to the
-uncertain parameters in the borehole function using 10$^6$ pseudo-random
+uncertain parameters in the borehole function using 10$^6$ MC
 samples in the input parameter space. 
 %\footnote{Although $\mathcal{T}(\theta_i)$ might converge with much fewer
 %samples depending upon the model, we consider a large number that typically
@@ -152,9 +153,9 @@ Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ based on 50 samples in the
 validation test suite were
 found to be 0.0551 and 0.0112 for the 4D and 5D PCE's, respectively. In other
 words, the 4D PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within
-1.12$\%$ of predictions based on the borehole function. We note  that although
-the convergence in the case of a 5D PCE is slower (Figure~\ref{fig:conv_bore}),
-its predictive accuracy is higher than the 4D PCE. This illustrates the
+1.12$\%$ of predictions based on the borehole function. Note that $\epsilon_\text{\tiny{LOO}}$
+however, is lower in the case of 4D PCE (Figure~\ref{fig:conv_bore}).
+This illustrates the
 trade-off between accuracy and computational efficiency for the present 
 problem. Generally, the required level of accuracy is problem dependent. 
 The present framework allows for moving towards higher fidelity 
@@ -367,8 +368,11 @@ was used to solve the resulting nonlinear system on a $100 \times 100$ 2D
 cartesian grid.
 We computed converged estimates of the Sobol
 total-effect index $\mathcal{T}(\theta_i)$, reported 
-in Figure~\ref{fig:sense_elliptic}~(left) by solving the above non-linear
-system at 500 samples in the 10-dimensional parameter space. 
+in Figure~\ref{fig:sense_elliptic}~(left) using FSS predictions at 10$^6$
+MC samples in the input space. The FSS was 
+constructed using model predictions at 500 training points in the 10-dimensional
+input space. Corresponding value of $\epsilon_\text{\tiny{LOO}}$ was 
+found to be 9.729$\times 10^{-4}$. 
 %
 \begin{figure}[htbp]
  \begin{center}
