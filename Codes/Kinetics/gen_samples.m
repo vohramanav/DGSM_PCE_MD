@@ -24,7 +24,7 @@ for i = 1:dim
   pts(i*nsams+1:(i+1)*nsams,i) = pts(i*nsams+1:(i+1)*nsams,i) + dX(1,i);
 end
 
-f1 = fopen('pts_pce19D_10.txt','w');
+f1 = fopen('pts_test.txt','w');
 %fmt = '%15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f\n';
 fmt = '%10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e\n';
 

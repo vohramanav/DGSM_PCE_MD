@@ -3,8 +3,8 @@ clearvars
 uqlab
 
 % Input data
-X = dlmread(fullfile('pts_pce4D_4D.dat')) ;
-Y = dlmread(fullfile('record_id_pce4D_19D.dat')) ;
+X = dlmread(fullfile('pts_pce4D_4D_60.dat')) ;
+Y = dlmread(fullfile('record_id_pce4D_19D_60.dat')) ;
 MetaOpts.ExpDesign.X = X;
 MetaOpts.ExpDesign.Y = Y;
 
@@ -29,11 +29,11 @@ MetaOpts.Method = 'LARS';
 myPCE = uq_createModel(MetaOpts);
 uq_print(myPCE);
 
-nsams = 1000;
-qoi = load('record_id_val.txt');
-E1 = verify_L2(nsams,qoi);
-save('rel_L2.txt','E1','-ASCII');
-verify_pdf(qoi,L,U);
+%nsams = 1000;
+%qoi = load('record_id_val.txt');
+%E1 = verify_L2(nsams,qoi);
+%save('rel_L2.txt','E1','-ASCII');
+%verify_pdf(qoi,L,U);
 %
 %% Function Definitions
 function errl = verify_L2(nsams,qoi)
