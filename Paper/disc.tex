@@ -20,7 +20,7 @@ by identifying uncertain parameters that contribute relatively less towards the 
 in the quantity of interest. These parameters deemed as \textit{unimportant} are determined
 using a screening metric~\eqref{eq:cmu} involving derivative-based sensitivity
 measures. Initially, the metric is estimated
-using model evaluations at a small set of samples in the parameter domain. However, these
+using model evaluations at a small set of samples in the parameter domain. These
 estimates are refined by subsequent enrichment of the sample set during the screening
 procedure presented in Algorithm~\ref{alg:screen}. The outcome of parameter screening is
 assessed for the scope of dimension reduction. In a favorable scenario, a reduced-space
@@ -58,7 +58,7 @@ small.
 %surrogate as well as resource allocation is needed. is required when
 %implementing the framework. 
 
-\item Exponential gains can be realized in situations where multiple surrogates need to be
+\item Significant gains can be realized in situations where multiple surrogates need to be
 constructed as illustrated in the kinetics application. Other possible scenarios may
 include inverse problems involving parameter estimation in a Bayesian setting.
 
@@ -75,8 +75,7 @@ in a reduced input space. However, it is important to remain cognizant
 about the limitations of the framework as well. 
 For instance, the quantity of interest is required to be differentiable with
 respect to each parameter in the considered domain. This condition once
-satisfied, helps improve the DGSM estimates and enhances the accuracy
-of the PCE-based surrogates as well.  
+satisfied, enhances the accuracy of the PCE-based surrogates as well.  
 Additionally, the proposed framework does not
 account for the existence of possible correlations between the uncertain
 inputs of the model. However, while the assumption of independent

@@ -48,17 +48,17 @@ associated with surrogate model construction.
 %One of the primary objectives for constructing a model surrogate is to be able
 %to perform parametric sensitivity analysis tractably. 
 
-Variance based global sensitivity analysis based on Sobol indices~\cite{Sobol93,
+Variance based global sensitivity analysis based on Sobol' indices~\cite{Sobol93,
 Sobol:2001,
 Owen13,
 SaltelliRattoAndresEtAl08} provides
 insight into the relative contributions of the uncertain model inputs to the
 uncertainty in predictions. Specifically, such analysis can help reduce the
-dimensionality of the problem.  Computing Sobol indices, however, is a
+dimensionality of the problem.  Computing Sobol' indices, however, is a
 computationally demanding task.  
 Availability of a surrogate model typically
 enables efficient computation 
-of Sobol indices~\cite{Sudret08,CrestauxLeMaitreMartinez09,BlatmanSudret10,HartAlexanderianGremaud17,Sargsyan17}. This has enabled performing global sensitivity analysis
+of Sobol' indices~\cite{Sudret08,CrestauxLeMaitreMartinez09,BlatmanSudret10,HartAlexanderianGremaud17,Sargsyan17}. This has enabled performing global sensitivity analysis
 on a wide range of applications including in ocean 
 modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
 geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
@@ -67,7 +67,7 @@ to name a few.
 
 While surrogate models provide an efficient way of computing sensitivity
 indices, constructing them in the case of models with high-dimensional inputs
-can be as expensive as computing the Sobol indices via sampling. 
+can be as expensive as computing the Sobol' indices via sampling. 
 In this article, we propose a practical and efficient
 approach to address this commonly observed ``chicken-and-egg'' problem
 in surrogate modelling for engineering applications.
@@ -75,8 +75,8 @@ Specifically, we reduce
 the dimensionality of the input space using derivative-based global sensitivity
 analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016},
 which enables a tractable approach for global sensitivity
-analysis~\cite{Kucherenko:2016}. Moreover, the links between derivative based
-global sensitivity measures (DGSMs) and total Sobol
+analysis~\cite{Kucherenko:2016}. The links between derivative based
+global sensitivity measures (DGSMs) and total Sobol'
 indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
 basis for their use in identifying unimportant parameters. In addition
 to the construction of an efficient surrogate in the reduced space,
@@ -110,7 +110,7 @@ to demonstrate the suitability of the proposed strategy.
 
 \paragraph{Contributions}
 The contributions of this article are as follows: (i) We establish a robust and
-practical framework for dimension reduction in surrogate modeling using
+practical framework for dimension reduction and surrogate modeling using
 derivative-based global sensitivity measures. Our
 approach is general in that it is applicable to a wide range of applications.
 (ii) We present comprehensive numerical results demonstrating the viability of
@@ -125,7 +125,7 @@ or 4-dimensional problem.
 This article is structured as follows. In section~\ref{sec:bg}, we provide a
 brief introduction to DGSMs as well as the polynomial chaos methodology used in
 the present work.  In section~\ref{sec:method}, we present our proposed
-approach. There we also provide a detailed numerical algorithm and a flow
+approach, where we also provide a detailed numerical algorithm and a flow
 diagram to aid practitioners in implementing the presented framework.
 Section~\ref{sec:examples} is devoted to numerical examples
 examining various aspects of our approach. This is followed by implementation

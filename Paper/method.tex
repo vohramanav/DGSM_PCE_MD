@@ -3,7 +3,7 @@
 
 %Stage1: QoI selection for accurate estimation of derivatives and PCE, Stage 2: Parameter Screening, Stage 3: Reduced-order Surrogate Verification
 %
-%1. Goal is to estimate the upper bound on Sobol total-effect index using DGSM. 
+%1. Goal is to estimate the upper bound on Sobol' total-effect index using DGSM. 
 %2. QoI should be differentiable w.r.t all the parameters. 
 %3. Derivative could be estimated analytically or numerically.
 %4. The expected value of the partial derivative w.r.t a given parameter is approximated over a few samples.
@@ -30,8 +30,10 @@ salient features of the proposed framework.
 In the proposed framework, we
 adopt a novel approach for constructing an RSS based on estimating the
 upper-bound $\widehat{\mathcal{C}_i\mu_i}$, given in~\eqref{eq:bound}, on 
-Sobol total effect index ($\mathcal{T}(\theta_i)$) for each 
-parameter, $\theta_i$, and use it as a metric to screen 
+total Sobol' index ($\mathcal{T}(\theta_i)$) for each 
+parameter $\theta_i$; the \emph{screening metrics}, 
+$\{\widehat{\mathcal{C}_i\mu_i}\}_{i=1}^\Np$,  
+are used to identify
 parameters that are relatively unimportant. 
 
 %The metric is initially computed using model evaluations at say, $n_1$ samples
@@ -53,7 +55,7 @@ parameters that are relatively unimportant.
 %see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
 %The adjoint method, however, requires the availability of an adjoint solver.
 
-An initial set of say, $n_1$ samples is used to obtain a rough estimate
+An initial set of $n_1$ samples is used to obtain a rough estimate
 of the metric.  
 Based on the associated metric value, an initial
 rank ($\mathcal{R}_i^{old}$) is assigned to each parameter. At each iteration,
@@ -80,7 +82,7 @@ guide the number of new samples $\lceil \beta n_1 \rceil$
 at each iteration ($\lceil \beta n_1
 \rceil$ 
 is the smallest integer greater than or equal to $\beta n_1$); 
-(4) a set of samples $\{ \bm{\theta}_k \}_{k = 1}^{n_0}$ 
+(4) a set of samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
 for the initial screening step in
 the algorithm and the corresponding gradient evaluations 
 $\{ \bm{g}^k \}_{k=1}^{n_0}$, where
@@ -152,10 +154,10 @@ $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm
 \bigskip
 
 \textbf{Adaptive surrogate model construction.}
-Parameter screening is an integral part of an overall framework for adaptive
-surrogate model construction. Key attributes of the framework are discussed 
-as follows. 
-
+%Parameter screening is an integral part of an overall framework for adaptive
+%surrogate model construction. Key attributes of the framework are discussed 
+%as follows. 
+%
 We begin by allocating computational resources for constructing a cross-validation
 test suite to be used for assessing the accuracy of the resulting surrogate.
 Naturally, the resources allocated for this purpose depend upon the application
@@ -188,7 +190,7 @@ used for screening and those associated with the cross-validation test suite.  O
 other hand, if $\alpha$ is close to 1, the set of inputs required for screening are
  updated as needed, and a
 new set of $n_1$ samples and corresponding model evaluations are generated. The
-FSS is re-constructed using the enriched set of evaluations and the
+FSS is reconstructed using the enriched set of evaluations and the
 aforementioned analysis is repeated as illustrated in the flow-diagram
 in Figure~\ref{fig:flow} that shows the overall 
 parameter screening and surrogate model construction method.
@@ -222,7 +224,7 @@ $s_\text{max}$, $\beta$, $N_\text{total}$ = 0};
      
 \draw [arro] (tol) -- (sam0);     
 
-%\node (counter) [process, below of=sam0, text width=9.5em, yshift=-0.21cm] {\vspace{-6mm}\be N_\text{total} = N_\text{total} + n_0 \nonumber\ee};
+%\node (counter) [process, below of=sam0, text width=9.5em, yshift=-0.21cm] {\vspace{-6mm}\be N_\text{total} = N_\text{total} + n_1 \nonumber\ee};
 
 %\draw [arro] (sam0) -- (counter);     
 
@@ -283,7 +285,7 @@ $\tau_\text{screen}$, $s_\text{max}$, $\beta$; Input: $\{ \bm{g}^k \}_{k=1}^{N_\
 
 
 \textbf{Assessment of the surrogate.}
-To assess convergence of the resulting surrogate, one could estimate the
+To assess accuracy of the resulting surrogate, one could estimate the
 leave-one-out cross validation error as follows:
 \be
 \epsilon_{\mbox{\tiny LOO}} = 
@@ -305,11 +307,12 @@ predictions between the model and the surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$)
 \be
 \epsilon_{\mbox{\tiny{L-2}}} = \frac{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i) - 
 G^{\mbox{\tiny {PC}}}(\bm{\xi(\theta}_i))\right)^2\right]^{\frac{1}{2}}}
-{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i)\right)^2\right]^{\frac{1}{2}}},
+{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i)\right)^2\right]^{\frac{1}{2}}}.
 \label{eq:l2}
 \ee
-where $N_v$ is the number of sampling points in the full parameter space at
-which model evaluations are available. In the case of an RSS, it is the
+Here $N_v$ is the number of sampling points in the full parameter space at
+which model evaluations are available; this, in the case of an RSS, is 
+given by the
 augmented set of model evaluations used for validation and screening.  
 %
 Accuracy of the surrogate could be further investigated by comparing
@@ -319,8 +322,8 @@ to a large number of samples (say, 10$^6$ for a high-dimensional input space).
 However, in realistic problems
 involving complex, compute-intensive simulations, constructing the PDF based on model
 evaluations would be infeasible.  A practical alternative would be to compare
-a histogram based on sparse model evaluations with the surrogate-based PDF in
-order to gain some insight into the quality of the comparison. 
+a (normalized) histogram based on sparse model evaluations with the surrogate-based PDF in
+order to gain some insight into the statistical quality of the surrogate. 
 
 \textbf{Discussion on the proposed methodology.}
 The amount of computational effort associated with the presented methodology
@@ -355,19 +358,23 @@ dependence on each parameter. It is therefore likely that for a given
 application involving multiple outputs, the RSS can only be constructed for a
 selected few, using the approach presented above.  Hence, it is important to
 assess the nature of the input-output relationship for a given model prior to
-implementing the present framework. Additionally, in some cases, the partial
+implementing the present framework. 
+
+Additionally, in some cases, the partial
 derivative of the output with respect to each uncertain input is not available
 analytically. In these cases, one could use finite difference (FD) to approximate
 the gradient as illustrated in~\ref{eq:partial}. However, since FD requires
 model evaluations at neighboring points, the underlying computational cost is
-expected to increase by a factor, $N_p+1$; $N_p$ being the number of inputs. 
-A possible, more efficient alternative to FD involves the use of adjoints for
+expected to increase by a factor, $N_p+1$, with $N_p$ being the number of inputs. 
+A possible, more efficient alternative to FD, which might be suitable in some cases, involves the use of adjoints for
 gradient computation~\cite{Griewank:2008}. In the adjoint approach, each
 gradient evaluation requires 
 a solution of the state equation (forward solve) and that of the 
 corresponding adjoint equation; 
 see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
 The adjoint method, however, requires the availability of an adjoint solver.
+Another alternative for efficient gradient computation is the use of 
+automatic differentiation.
 
 Using the framework proposed in this section, we aim to construct a reliable
 surrogate in the most efficient manner within the constraints of the computational
