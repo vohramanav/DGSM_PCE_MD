@@ -1,6 +1,6 @@
 close all;
 clear all;
-rng(100);
+rng(10);
 
 dim = 19;
 L = zeros(1,dim); U = zeros(1,dim); 
@@ -12,14 +12,14 @@ nom = [1.915e14,5.080e04,2.160e08,1.230e04,4.577e19,6.165e15,4.714e18,2.240e22,6
        7.000e12];
 
 L(1,:) = 0.9.*nom(1,:); U(1,:) = 1.1.*nom(1,:);
-nsams = 1000; pts = zeros(nsams,dim);
+nsams = 20; pts = zeros(nsams,dim);
 
 % Generate 50 samples in the 19D space
 for j = 1:dim
   pts(1:nsams,j) = unifrnd(L(1,j),U(1,j),nsams,1);
 end
 
-f1 = fopen('pts_val.txt','w');
+f1 = fopen('pts_pce19D_20.txt','w');
 %fmt = '%15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f\n';
 fmt = '%10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e\n';
 

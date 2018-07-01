@@ -16,7 +16,7 @@ L(2) = 0.9.*nom(9); U(2) = 1.1.*nom(9);
 L(3) = 0.9.*nom(15); U(3) = 1.1.*nom(15);
 L(4) = 0.9.*nom(17); U(4) = 1.1.*nom(17);
 
-nsams = 100; pts = zeros(nsams,19);
+nsams = 60; pts = zeros(nsams,19);
 
 pts(:,1) = unifrnd(L(1),U(1),nsams,1);
 pts(:,9) = unifrnd(L(2),U(2),nsams,1);
@@ -39,7 +39,7 @@ end
 
 %save('pts_pce2D.mat','pts');
 
-f1 = fopen('pts_pce4D.txt','w');
+f1 = fopen('pts_pce4D_19D_60.txt','w');
 %fmt = '%15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f %15.4f\n';
 fmt = '%10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e %10.6e\n';
 
