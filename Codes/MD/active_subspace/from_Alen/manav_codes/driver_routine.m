@@ -28,13 +28,15 @@ end
 % figures
 %
 %close all;
-%figure(1);
-%plot(ff, ff_hat, '*');
-%set(gca, 'fontsize', 20);
-%xlabel('true model');
-%ylabel('surrogate');
-%
-%figure(2)
+figure;
+plot(ff, ff_hat, '*');
+xlabel('$$\mathrm{Model}$$','interpreter','latex','fontsize',20);
+ylabel('$$\mathrm{1D~Surrogate}$$','interpreter','latex','fontsize',20);
+set(gca,'ticklabelinterpreter','latex','fontsize',18);
+box on;
+print -depsc surr.eps
+
+%figure;
 %hold on;
 %histnorm(ff);
 %plot(xi, pdf, 'r', 'linewidth',2);
@@ -42,5 +44,5 @@ end
 %ylabel('distribution');
 %legend('true model evals', 'surrogate');
 %set(gca, 'fontsize', 20);
-
+%print -depsc pdf_comp.eps
 

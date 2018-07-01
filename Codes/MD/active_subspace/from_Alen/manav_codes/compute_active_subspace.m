@@ -49,7 +49,14 @@ eta2 = W(:,2);
 %
 % plot of eigenvalues
 %
-semilogy(lambda./lambda(1), '-o');
+figure();
+semilogy(1:8,lambda./lambda(1), '-o','MarkerFaceColor','k');
+xlabel('$$\mathrm{\mbox{Index}}$$','interpreter','latex','fontsize',20);
+ylabel('$$\mathrm{\mbox{Eigenvalue}}$$','interpreter','latex','fontsize',20);
+set(gca,'ticklabelinterpreter','latex','fontsize',18);
+box on;
+grid on;
+print -depsc lam.eps
 
 
 %
@@ -58,10 +65,11 @@ semilogy(lambda./lambda(1), '-o');
 figure;
 y = eta1'*x';
 plot(y, f, 'ko', 'markerfacecolor', 'k')
-set(gca, 'fontsize', 20);
-xlabel('y = <eta1, x>');
-ylabel('f(x)');
-print -dpng uni_SSP.png
+xlabel('$$\mathrm{\eta_1^\top x}$$','interpreter','latex','fontsize',20);
+ylabel('$$\mathrm{I(t^\ast)}$$','interpreter','latex','fontsize',20);
+set(gca,'ticklabelinterpreter','latex','fontsize',18);
+box on;
+print -depsc uni_SSP.eps
 
 %
 % bivariate SSP
