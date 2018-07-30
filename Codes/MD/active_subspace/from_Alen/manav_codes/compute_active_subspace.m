@@ -50,7 +50,7 @@ eta2 = W(:,2);
 % plot of eigenvalues
 %
 semilogy(lambda./lambda(1), '-o');
-
+print -depsc lam.eps
 
 %
 % univariate SSP
@@ -61,7 +61,7 @@ plot(y, f, 'ko', 'markerfacecolor', 'k')
 set(gca, 'fontsize', 20);
 xlabel('y = <eta1, x>');
 ylabel('f(x)');
-print -dpng uni_SSP.png
+print -depsc uni_SSP.eps
 
 %
 % bivariate SSP

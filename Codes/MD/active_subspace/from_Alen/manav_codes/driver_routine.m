@@ -28,19 +28,19 @@ end
 % figures
 %
 %close all;
-%figure(1);
-%plot(ff, ff_hat, '*');
-%set(gca, 'fontsize', 20);
-%xlabel('true model');
-%ylabel('surrogate');
-%
-%figure(2)
-%hold on;
-%histnorm(ff);
-%plot(xi, pdf, 'r', 'linewidth',2);
-%xlabel('parameter x');
-%ylabel('distribution');
-%legend('true model evals', 'surrogate');
-%set(gca, 'fontsize', 20);
+figure(1);
+plot(ff, ff_hat, '*');
+set(gca, 'fontsize', 20);
+xlabel('true model');
+ylabel('surrogate');
+print -depsc surr.eps
 
-
+figure(2)
+hold on;
+histnorm(ff);
+plot(xi, pdf, 'r', 'linewidth',2);
+xlabel('parameter x');
+ylabel('distribution');
+legend('true model evals', 'surrogate');
+set(gca, 'fontsize', 20);
+print -depsc pdf_comp.eps
