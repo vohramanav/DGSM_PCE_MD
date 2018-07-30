@@ -1,30 +1,71 @@
 \section{Introduction}
 \label{sec:intro}
 
-
-The emerging field of uncertainty quantification (UQ) aims at methodologies for
-incorporating, characterizing, quantifying, propagating, and reducing the
-uncertainties associated with predictive models and simulations.  For
-situations involving complex physical models and computationally intensive
-simulations, surrogate modeling often provides orders of magnitude speedups in
-statistical studies. This is done by replacing repeated evaluations of
-computationally expensive models by inexpensive evaluations of a surrogate
-model.  Thus, an efficient approach to construction of surrogate models is of
-central importance in enabling efficient uncertainty quantification for
-computationally intensive models. 
-
-
-Commonly used surrogate modeling approaches use polynomial chaos expansions
+\paragraph{Motivation}
+Surrogate modeling has become a critical component of scientific computing
+owing to the emergence of the field of uncertainty quantification for
+scientific and engineering applications. Commonly used approaches for
+surrogate modeling include polynomial chaos expansions
 (PCEs)~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}, multivariate adaptive
 regression splines (MARS)~\cite{friedman93}, Gaussian processes
-(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}.  Many real-world
-applications involve a large number of model inputs. This makes
-the construction of surrogate models difficult or impossible in some cases.
-However, in many situations, the variability in model observables of interest
-is sensitive to only a small subset of the uncertain inputs.  Hence,
-identifying model inputs that are inessential to variability in model output is
-a key step that can help reduce the input parameter dimension and hence the effort
-associated with surrogate model construction. 
+(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}. A 
+pertinent challenge associated with surrogate construction involves the
+process of \textit{training} that typically requires a large number of model runs.
+In situations involving large-dimensional systems,
+and computationally intensive simulations, the training of a surrogate
+becomes remarkably challenging and even prohibitive in some cases. A possible
+approach for mitigating this challenge involves computation of sensitivity
+measures (e.g. Sobol' indices~\cite{Sobol93,Sobol:2001,Owen13,SaltelliRattoAndresEtAl08})
+to ascertain important parameters that predominantly contribute towards the variability
+of the model output. Sensitivity-based dimension reduction could thus help
+reduce the computational effort significantly. However, numerically estimating
+the Sobol' indices that involve multi-dimensional integrals can be a demanding task
+in itself. In fact, surrogate models are constructed to estimate the 
+Sobol sensitivity indices for a variety of applications including in ocean 
+modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
+geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
+and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014}
+to name a few. Hence, this common practical issue in scientific computing can
+be characterized as a ``chicken-and-egg" problem. 
+
+In this article, we propose a practical and efficient approach that focuses on
+optimal use of computational resources for surrogate construction in a 
+reduced-input space. Specifically, we reduce the dimensionality of the
+input space by using the derivative-based global sensitivity
+analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016},
+which enables a tractable approach for global sensitivity
+analysis~\cite{Kucherenko:2016}. The links between derivative based
+global sensitivity measures (DGSMs) and total Sobol'
+indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
+basis for their use in identifying unimportant parameters. In addition
+to the construction of an efficient surrogate in the reduced space,
+dimension reduction highlights key features of the input-output relationship
+encapsulated by the model, and allows for an efficient approach to calibration
+of the important inputs. 
+
+%The emerging field of uncertainty quantification (UQ) aims at methodologies for
+%incorporating, characterizing, quantifying, propagating, and reducing the
+%uncertainties associated with predictive models and simulations.  For
+%situations involving complex physical models and computationally intensive
+%simulations, surrogate modeling often provides orders of magnitude speedups in
+%statistical studies. This is done by replacing repeated evaluations of
+%computationally expensive models by inexpensive evaluations of a surrogate
+%model.  Thus, an efficient approach to construction of surrogate models is of
+%central importance in enabling efficient uncertainty quantification for
+%computationally intensive models. 
+%
+%
+%Commonly used surrogate modeling approaches use polynomial chaos expansions
+%(PCEs)~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}, multivariate adaptive
+%regression splines (MARS)~\cite{friedman93}, Gaussian processes
+%(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}.  Many real-world
+%applications involve a large number of model inputs. This makes
+%the construction of surrogate models difficult or impossible in some cases.
+%However, in many situations, the variability in model observables of interest
+%is sensitive to only a small subset of the uncertain inputs.  Hence,
+%identifying model inputs that are inessential to variability in model output is
+%a key step that can help reduce the input parameter dimension and hence the effort
+%associated with surrogate model construction. 
 
 %However, both approaches
 %quickly become prohibitive when the set of uncertain model inputs and
@@ -48,41 +89,39 @@ associated with surrogate model construction.
 %One of the primary objectives for constructing a model surrogate is to be able
 %to perform parametric sensitivity analysis tractably. 
 
-Variance based global sensitivity analysis based on Sobol' indices~\cite{Sobol93,
-Sobol:2001,
-Owen13,
-SaltelliRattoAndresEtAl08} provides
-insight into the relative contributions of the uncertain model inputs to the
-uncertainty in predictions. Specifically, such analysis can help reduce the
-dimensionality of the problem.  Computing Sobol' indices, however, is a
-computationally demanding task.  
-Availability of a surrogate model typically
-enables efficient computation 
-of Sobol' indices~\cite{Sudret08,CrestauxLeMaitreMartinez09,BlatmanSudret10,HartAlexanderianGremaud17,Sargsyan17}. This has enabled performing global sensitivity analysis
-on a wide range of applications including in ocean 
-modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
-geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
-and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014}
-to name a few.
-
-While surrogate models provide an efficient way of computing sensitivity
-indices, constructing them in the case of models with high-dimensional inputs
-can be as expensive as computing the Sobol' indices via sampling. 
-In this article, we propose a practical and efficient
-approach to address this commonly observed ``chicken-and-egg'' problem
-in surrogate modelling for engineering applications.
-Specifically, we reduce
-the dimensionality of the input space using derivative-based global sensitivity
-analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016},
-which enables a tractable approach for global sensitivity
-analysis~\cite{Kucherenko:2016}. The links between derivative based
-global sensitivity measures (DGSMs) and total Sobol'
-indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
-basis for their use in identifying unimportant parameters. In addition
-to the construction of an efficient surrogate in the reduced space,
-dimension reduction highlights key features of the input-output relationship
-encapsulated by the model, and allows for an efficient approach to calibration
-of the important inputs. 
+%Variance based global sensitivity analysis based on Sobol' indices~\cite{Sobol93,
+%Sobol:2001,Owen13,SaltelliRattoAndresEtAl08} provides
+%insight into the relative contributions of the uncertain model inputs to the
+%uncertainty in predictions. Specifically, such analysis can help reduce the
+%dimensionality of the problem.  Computing Sobol' indices, however, is a
+%computationally demanding task.  
+%Availability of a surrogate model typically
+%enables efficient computation 
+%of Sobol' indices~\cite{Sudret08,CrestauxLeMaitreMartinez09,BlatmanSudret10,HartAlexanderianGremaud17,Sargsyan17}. This has enabled performing global sensitivity analysis
+%on a wide range of applications including in ocean 
+%modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
+%geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
+%and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014}
+%to name a few.
+%
+%While surrogate models provide an efficient way of computing sensitivity
+%indices, constructing them in the case of models with high-dimensional inputs
+%can be as expensive as computing the Sobol' indices via sampling. 
+%In this article, we propose a practical and efficient
+%approach to address this commonly observed ``chicken-and-egg'' problem
+%in surrogate modelling for engineering applications.
+%Specifically, we reduce
+%the dimensionality of the input space using derivative-based global sensitivity
+%analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016},
+%which enables a tractable approach for global sensitivity
+%analysis~\cite{Kucherenko:2016}. The links between derivative based
+%global sensitivity measures (DGSMs) and total Sobol'
+%indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
+%basis for their use in identifying unimportant parameters. In addition
+%to the construction of an efficient surrogate in the reduced space,
+%dimension reduction highlights key features of the input-output relationship
+%encapsulated by the model, and allows for an efficient approach to calibration
+%of the important inputs. 
 
 
 %However, as discussed
