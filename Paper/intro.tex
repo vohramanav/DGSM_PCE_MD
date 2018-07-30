@@ -1,32 +1,51 @@
 \section{Introduction}
 \label{sec:intro}
 
-\paragraph{Motivation}
-Surrogate modeling has become a critical component of scientific computing
-owing to the emergence of the field of uncertainty quantification for
-scientific and engineering applications. Commonly used approaches for
-surrogate modeling include polynomial chaos expansions
-(PCEs)~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}, multivariate adaptive
-regression splines (MARS)~\cite{friedman93}, Gaussian processes
-(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}. A 
-pertinent challenge associated with surrogate construction involves the
-process of \textit{training} that typically requires a large number of model runs.
-In situations involving large-dimensional systems,
-and computationally intensive simulations, the training of a surrogate
-becomes remarkably challenging and even prohibitive in some cases. A possible
-approach for mitigating this challenge involves computation of sensitivity
-measures (e.g. Sobol' indices~\cite{Sobol93,Sobol:2001,Owen13,SaltelliRattoAndresEtAl08})
-to ascertain important parameters that predominantly contribute towards the variability
-of the model output. Sensitivity-based dimension reduction could thus help
-reduce the computational effort significantly. However, numerically estimating
-the Sobol' indices that involve multi-dimensional integrals can be a demanding task
-in itself. In fact, surrogate models are constructed to estimate the 
-Sobol sensitivity indices for a variety of applications including in ocean 
+%\paragraph{Motivation}
+Computing statistical properties of 
+complex systems containing uncertain parameters is
+challening due to the need for a large number of expensive model evaluations. 
+Surrogate models make such computations possible by replacing 
+expensive model runs with cheap evaluations of an approximate model.
+%
+%Surrogate modeling has become a critical component of scientific computing
+%owing to the emergence of the field of uncertainty quantification for
+%scientific and engineering applications. 
+%
+Commonly used approaches for surrogate modeling include polynomial chaos
+expansions (PCEs)~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}, multivariate
+adaptive regression splines (MARS)~\cite{friedman93}, Gaussian processes
+(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}. A pertinent
+challenge associated with surrogate construction involves the process of
+\textit{training} that typically requires a large number of model runs.  In
+situations involving large-dimensional systems, and computationally intensive
+simulations, the training of a surrogate becomes challenging and
+even prohibitive in some cases. A possible approach for mitigating this
+challenge involves computation of global sensitivity measures such as Sobol'
+indices~\cite{Sobol93,Sobol:2001,Owen13,SaltelliRattoAndresEtAl08} to identify
+the \emph{important parameters}---i.e., parameters that predominantly
+contribute towards the variability of the model output. 
+
+Sensitivity-based
+dimension reduction can help reduce the computational effort
+significantly. However, numerically estimating the Sobol' indices, which
+involve multi-dimensional integrals, can be a demanding task in itself. In
+fact, often surrogate models are constructed to estimate the Sobol' sensitivity
+indices; this has been done for a variety of applications including in ocean
 modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
 geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
-and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014}
-to name a few. Hence, this common practical issue in scientific computing can
-be characterized as a ``chicken-and-egg" problem. 
+and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014} to
+name a few. 
+We are thus, faced with a ``chicken-and-egg'' problem: on the one hand,
+computing global sensitivity measures enable dimension reduction, which in turn
+enable efficient surrogate model construction.  On the other hand, computing
+sensitivity measures is expensive and is often made possible by using
+surrogate models. Development of an approach for 
+overcoming this chicken-and-egg problem is a major goal of this article. 
+
+ 
+%Hence, this common practical issue in scientific computing can
+%be characterized as a ``chicken-and-egg" problem. 
 
 In this article, we propose a practical and efficient approach that focuses on
 optimal use of computational resources for surrogate construction in a 
