@@ -61,7 +61,7 @@ Based on the associated metric value, an initial
 rank ($\mathcal{R}_i^{old}$) is assigned to each parameter. At each iteration,
 a new set of samples is generated based on the joint probability distribution
 of $\bm{\theta}$ and corresponding model
-output at each sample point is computed. The new set of model evaluations
+output at each sample point is computed. The new set of gradient evaluations
 combined with prior evaluations is used to update parameter ranks. Additionally,
 deviation in the derivative-based sensitivity measure between successive iterations
 normalized by the measure in the previous iteration is recorded for each parameter.
@@ -374,7 +374,7 @@ corresponding adjoint equation;
 see e.g.,~\cite{jameson1988aerodynamic,gunzburger2003perspectives,Borzi2011}.
 The adjoint method, however, requires the availability of an adjoint solver.
 Another alternative for efficient gradient computation is the use of 
-automatic differentiation.
+automatic differentiation~\cite{Kiparissides:2009}.
 
 Using the framework proposed in this section, we aim to construct a reliable
 surrogate in the most efficient manner within the constraints of the computational
