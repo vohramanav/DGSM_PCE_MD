@@ -4,7 +4,7 @@
 %\paragraph{Motivation}
 Computing statistical properties of 
 complex systems containing uncertain parameters is
-challening due to the need for a large number of expensive model evaluations. 
+challenging due to the need for a large number of expensive model evaluations. 
 Surrogate models make such computations possible by replacing 
 expensive model runs with cheap evaluations of an approximate model.
 %
@@ -15,23 +15,26 @@ expensive model runs with cheap evaluations of an approximate model.
 Commonly used approaches for surrogate modeling include polynomial chaos
 expansions (PCEs)~\cite{Xiu:2002,Ghanem:2003,Olivier:2010}, multivariate
 adaptive regression splines (MARS)~\cite{friedman93}, Gaussian processes
-(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}. A pertinent
+(GPs)~\cite{Rasmussen:2004}, or Kriging~\cite{Stein:2012}, and neural
+networks~\cite{Funahashi:1989,Specht:1990}. A pertinent
 challenge associated with surrogate construction involves the process of
 \textit{training} that typically requires a large number of model runs.  In
-situations involving large-dimensional systems, and computationally intensive
+situations involving large-dimensional systems and computationally intensive
 simulations, the training of a surrogate becomes challenging and
 even prohibitive in some cases. A possible approach for mitigating this
 challenge involves computation of global sensitivity measures such as Sobol'
-indices~\cite{Sobol93,Sobol:2001,Owen13,SaltelliRattoAndresEtAl08} to identify
+indices~\cite{Sobol93} to identify
 the \emph{important parameters}---i.e., parameters that predominantly
 contribute towards the variability of the model output. 
 
 Sensitivity-based
-dimension reduction can help reduce the computational effort
+dimension reduction can help reduce the computational effort associated with
+surrogate construction,
 significantly. However, numerically estimating the Sobol' indices, which
 involve multi-dimensional integrals, can be a demanding task in itself. In
-fact, often surrogate models are constructed to estimate the Sobol' sensitivity
-indices; this has been done for a variety of applications including in ocean
+fact, because of the large number of samples required, computation of Sobol'
+indices is often done using surrogate models, as shown in a variety of 
+applications including in ocean
 modeling~\cite{AlexanderianWinokurSrajEtAl12,LiIskandaraniLeHenaffEtAl16},
 geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianPrudhommeEtAl17},
 and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014} to
@@ -49,18 +52,19 @@ overcoming this chicken-and-egg problem is a major goal of this article.
 
 In this article, we propose a practical and efficient approach that focuses on
 optimal use of computational resources for surrogate construction in a 
-reduced-input space. Specifically, we reduce the dimensionality of the
-input space by using the derivative-based global sensitivity
+reduced input space. Specifically, we reduce the dimensionality of the
+input space by using derivative-based global sensitivity
 analysis~\cite{Sobol:2009,Sobol:2010,Lamboni:2013,Kucherenko:2009,Kucherenko:2016},
 which enables a tractable approach for global sensitivity
-analysis~\cite{Kucherenko:2016}. The links between derivative based
+analysis~\cite{Kucherenko:2016}. The links between derivative-based
 global sensitivity measures (DGSMs) and total Sobol'
 indices~\cite{Sobol:2009,Kucherenko:2009,Kucherenko:2016} provide a strong
-basis for their use in identifying unimportant parameters. In addition
+basis for their use in identifying important uncertainty contributors. 
+In addition
 to the construction of an efficient surrogate in the reduced space,
 dimension reduction highlights key features of the input-output relationship
 encapsulated by the model, and allows for an efficient approach to calibration
-of the important inputs. 
+of the important model parameters. 
 
 %The emerging field of uncertainty quantification (UQ) aims at methodologies for
 %incorporating, characterizing, quantifying, propagating, and reducing the
@@ -148,15 +152,15 @@ of the important inputs.
 %computational resources. 
 
 
-\paragraph{Our approach}
-We present a strategy for identifying and screening uncertain model parameters
+We present a strategy for identifying and screening uncertain model inputs
 that are significantly less important than the rest, thereby reducing the
 dimensionality of the problem and enabling the construction of a reduced-space
 surrogate (RSS).  Our approach combines DGSMs and surrogate modeling in an
 iterative manner.  To make optimum use of computational resources, batches of
-model evaluations are performed iteratively, and convergence of our DGSM based
+model evaluations are performed iteratively, and convergence of our DGSM-based
 screening metric is tested successively. Moreover, a series of verification steps
-incorporated in our method enable monitoring the accuracy of the parameter-screening
+incorporated in our method enable monitoring the accuracy of the parameter 
+screening
 and the resulting surrogate model.  Our approach is agnostic to the choice of
 methodology for constructing the surrogate. However, in the present work, we
 rely on sparse polynomial chaos expansions (PCEs) 
@@ -165,8 +169,6 @@ to demonstrate the suitability of the proposed strategy.
 %Moreover, the availability of adjoint solvers for
 %efficient gradient computation can enhance the performance of our approach.  
 
-
-\paragraph{Contributions}
 The contributions of this article are as follows: (i) We establish a robust and
 practical framework for dimension reduction and surrogate modeling using
 derivative-based global sensitivity measures. Our
@@ -179,8 +181,8 @@ uncertain parameters. The problem is studied in multiple regimes.
 It is shown that the 19-parameter problem can be efficiently reduced to a 3- 
 or 4-dimensional problem.
 
-\paragraph{Paper outline}
-This article is structured as follows. In section~\ref{sec:bg}, we provide a
+The remainder of this article is structured as follows. 
+In section~\ref{sec:bg}, we provide a
 brief introduction to DGSMs as well as the polynomial chaos methodology used in
 the present work.  In section~\ref{sec:method}, we present our proposed
 approach, where we also provide a detailed numerical algorithm and a flow
