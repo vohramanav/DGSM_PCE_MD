@@ -1,0 +1,108 @@
+\documentclass[11pt,final]{article}
+\renewcommand*\familydefault{\sfdefault}
+%\usepackage{amssymb,amsmath,amsfonts,comment}
+%\usepackage{amsmath,amssymb,graphicx,subfigure,psfrag}
+\usepackage{amsmath,amssymb,graphicx,subfigure,psfrag,upgreek}
+\usepackage{algorithm,algorithmic}
+\usepackage{amssymb,mathrsfs}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{color,pdfcolmk}
+\newcommand{\todo}[1]{\noindent\emph{\textcolor{red}{Todo: #1\:}}}
+%\newcommand{\alennote}[1]{\noindent\emph{\vspace{1ex}\textcolor{cyan}{Alen: #1\:}}\\[1ex]}
+\newcommand{\referee}[1]{\vspace{.1ex}\noindent{\textcolor{blue}{#1}}}
+
+
+
+\begin{document}
+
+We thank the reviewers for their careful reading of our article 
+and the helpful comments and suggestions.
+Please find below point-by-point replies (in black) to your comments and
+questions (which are reprinted in blue). To give you an overview of all the
+changes in the paper, we also provide a diff-document that highlights the
+changes between the initial submission and this re-submission.\\[1ex]
+
+
+\section{Replies to reviewer \#1}
+\referee{This draft proposed a systematic approach for surrogate model construction in
+reduced input parameter spaces in order to reduce the number of model
+evaluations. The key idea is to approximate the screening parameter iteratively
+in order to identify the unimportant inputs. The screening procedure also
+integrates with the adaptive construction of a surrogate in the reduced space
+to improve the efficiency of the methods. Several numerical examples are used
+to demonstrate the efficiency and accuracy of the proposed framework.}
+
+Comments and Questions:
+\begin{enumerate}
+
+\item \referee{P16, Figure.2,  the estimated screening parameters eq (5) based on eq(1)
+quickly converge with a small number of samples (5-10 samples). It seems that
+if $\mu_i$ is based on eq(1), it will still require a reasonable amount of
+samples, can authors comment on why this example converges with a small number
+of samples? The same question applies to Figure 5 and Figure 7.}
+
+\item 
+\referee{P17, Figure 3, what's the degree of the PCE used in the example? The same
+question applies to Figure 6 and Figure 8.}
+
+\item
+\referee{
+P25, Figure 7, it seems that the rank of the parameters and the difference of
+$\mu_s$ doesn't change too much over iterations. Does it indicate the initial
+parameter screening  (line 1-6 in Algorithm 1) is good enough for ranking the
+parameters? Can the authors plot the similar figure for other examples to see
+if the iterative screening procedure does make a difference on the ranking the
+parameters compared with the initial parameter screening step?}
+\end{enumerate}
+
+\section{Replies to reviewer \#2}
+
+\referee{
+An adaptive surrogate model construction approach in reduced input parameter
+space is proposed in this paper. Instead of variance based sensitivity indices,
+derivative based global sensitivity measures are employed to calibration of the
+important model inputs, upon which surrogate models are constructed. To
+demonstrate the computational advantage, the proposed approach is then
+validated against three examples.  The reviewer’s recommendation is ``major
+revision''.}
+
+Major comments:
+\begin{enumerate}
+
+\item
+\referee{
+In this paper, the constructed surrogate model is either a RSS or a FSS. Based
+on the diagram on page 12, the resulting RSS is built upon the not sufficiently
+accurate FSS model (which could lead the accuracy to decrease further), or
+is the RSS constructed directly from the original model with reduced input
+parameters? The diagram is ambigous on this issue.}
+
+\item
+\referee{The reviewer would also like to see the comparison of the computational cost
+(not just the numerical results) of DGSMs to variance based sensitivity indices
+with increasing parameter dimension, e.g. Sobol’ indices incorporated with
+sparse grid, since the difference decreases with increasing number of parameters.}
+
+\item 
+\referee{In section 4 and 5, no predictive convergence using the test data sample is
+presented, only the convergence of $\epsilon_\text{LOO}$, which reuses the training data as
+the validation set, is shown. This shows only the convergence of the model,
+and does not necessarily indicate the (predictive) accuracy of the constructed
+model, hence could lead to false conclusion. The reviewer would like to see the
+convergence of $\epsilon_{L_2}$.}
+
+\item 
+\referee{How would the proposed approach behave when presented with severe nonlinearity
+or rare events where the screening metrics could misrepresent the significance
+of parameters?}
+
+\item 
+\referee{The reviewer would like to see some comments on the change of computational
+cost of the proposed approach with respect to the increase of parameter dimensions.}
+\end{enumerate}
+
+Minor comments have been addressed in the revised draft. Thanks for pointing them out.
+
+
+\end{document}
