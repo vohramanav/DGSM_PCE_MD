@@ -16,12 +16,32 @@
 
 \begin{document}
 
-We thank the reviewers for their careful reading of our article 
-and the helpful comments and suggestions.
-Please find below point-by-point replies (in black) to your comments and
-questions (which are reprinted in blue). To give you an overview of all the
-changes in the paper, we also provide a diff-document that highlights the
-changes between the initial submission and this re-submission.\\[1ex]
+%We thank the reviewers for their careful reading of our article 
+%and the helpful comments and suggestions.
+%Please find below point-by-point replies (in black) to your comments and
+%questions (which are reprinted in blue). To give you an overview of all the
+%changes in the paper, we also provide a diff-document that highlights the
+%changes between the initial submission and this re-submission.\\[1ex]
+\begin{center}
+{\bf Summary of Modifications to JOMP-D-18-00403}\\[6pt]
+{\bf Sensitivity-driven Adaptive Construction of Reduced-space Surrogates}\\[6pt]
+By \\
+Manav Vohra, Alen Alexanderian, Cosmin Safta, Sankaran Mahadevan 
+\end{center}
+
+\baselineskip=22pt
+
+
+\vspace*{1in}
+
+We thank the reviewers for their assessment of our manuscript. Please find
+below point-by-point replies (in black) to your comments and questions
+(reprinted in blue). Where possible, key modifications have been highlighted
+in blue in the revised manuscript. We sincerely hope that with these
+modifications, the paper is found suitable for publication in the
+{\it Journal of Scientific Computing}.
+
+\clearpage
 
 
 \section{Replies to reviewer \#1}
@@ -41,6 +61,19 @@ quickly converge with a small number of samples (5-10 samples). It seems that
 if $\mu_i$ is based on eq(1), it will still require a reasonable amount of
 samples, can authors comment on why this example converges with a small number
 of samples? The same question applies to Figure 5 and Figure 7.}
+
+Convergence behavior in this case depends upon the variability in the gradient of
+$G(\theta)$ with respect to individual parameters, $\theta_i$ in their respective
+domains. For the numerical tests and the application considered in this work, the
+gradient is not observed to vary significantly in the considered domain of the
+parameters. In other words, the variance of the estimator is low. 
+Hence, a small number of Monte Carlo samples are able to estimate
+the screening parameters. This is a common observation in many practical
+applications, and therefore the proposed methodology involving an iterative
+approach can yield significant computational savings. 
+
+These points have been emphasized in the discussion in Section~6 (Summary and
+Conclusion) in the revised manuscript. 
 
 \item 
 \referee{P17, Figure 3, what's the degree of the PCE used in the example? The same

@@ -4,14 +4,13 @@
 \usepackage{latexsym,amssymb,amsmath,color}
 %\usepackage{theorem}
 \usepackage{graphicx}
-\usepackage[colorlinks=true]{hyperref}
-\hypersetup{urlcolor=blue, citecolor=red}
+%\usepackage[colorlinks=true]{hyperref}
+%\hypersetup{urlcolor=blue, citecolor=red}
 %\usepackage{algorithmic}
 %\usepackage{algorithm}
 \usepackage{cite}
+\usepackage{verbatim}
 \usepackage[table]{xcolor}
-
-
 
 % -------------- macros
 \newcommand{\p}{\partial}
@@ -189,29 +188,4 @@
  \def\ol{\overline}
  \def\no{\noindent}
  \def\qd{\dot{Q}}
-
-% macros added by Alen
-\newcommand{\Np}{{N_\text{p}}}
-\newcommand{\Npc}{{N_\text{PC}}}
-\newcommand{\alennote}[1]{{\color{blue}Alen: {#1}}}
-\newcommand{\rebut}[1]{{\color{blue}{#1}}}
-\newcommand{\manavnote}[1]{{\color{blue}Manav: {#1}}}
-
-\def\longrightharpoonup{\relbar\joinrel\rightharpoonup}
-\def\longleftharpoondown{\leftharpoondown\joinrel\relbar}
-\def\longrightleftharpoons{
-  \mathop{
-    \vcenter{
-      \hbox{
-      \ooalign{
-        \raise1pt\hbox{$\longrightharpoonup\joinrel$}\crcr
-          \lower1pt\hbox{$\longleftharpoondown\joinrel$}
-          }
-      }
-    }
-  }
-}
-
-
-\newcommand{\GG}{G}
 % ----------------- end macros
