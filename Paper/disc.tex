@@ -28,11 +28,11 @@ surrogate (RSS) is constructed. The RSS is tested for accuracy in a least-square
 as well as a probabilistic sense using a cross-validation test suite. In the proposed framework,
 a surrogate in the full-space (FSS) is constructed in tandem with parameter screening using
 the available set of model evaluations. Both, RSS and FSS are
-constructed using regression-based sparse PCEs. Simultaneous construction
-of the FSS ensures that the computational effort associated with the proposed framework
-does not overshoot the effort required to construct the FSS directly.
-Hence, the RSS is constructed only in situations where computational gains are
-expected. 
+constructed using regression-based sparse PCEs. \rebut{Note however that the FSS is
+constructed in an independent manner to ensure that the computational effort associated
+with the proposed methodology does not overshoot the effort required to construct the 
+FSS directly. Therefore, it does not impact the accuracy of the RSS which is only
+constructed in situations where computational gains are expected.}
 
 Parameter screening methodology was implemented to low-to-moderate dimensional
 test problems and an accurate RSS was constructed to demonstrate potential for
@@ -82,6 +82,18 @@ about the limitations of the framework as well.
 For instance, the quantity of interest is required to be differentiable with
 respect to each parameter in the considered domain. This condition once
 satisfied, enhances the accuracy of the PCE-based surrogates as well.  
+\rebut{Moreover, in the presence of severe non-linearities in the model output
+leading to significant variability in its gradient in the considered input domain,
+the number of samples and hence, the computational effort associated with
+the estimation of screening metrics would expectedly 
+increase. The extent of increase in the effort would of course depend upon the
+application. In the case of rare events, the variance-based methods typically
+lead to inaccurate estimates of the uncertainty in the model output. Since the
+methodology proposed in this work is based on reducing computational
+effort associated with variance-based sensitivity analysis, specifically, the
+total-effect Sobol' index, it might lead to erroneous estimates of the
+screening metrics and consequently the relative importance of the
+uncertain parameters.}
 Additionally, the proposed framework does not
 account for the existence of possible correlations between the uncertain
 inputs of the model. However, while the assumption of independent

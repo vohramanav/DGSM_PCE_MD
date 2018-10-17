@@ -187,7 +187,7 @@ in the screening procedure in both cases.
 
 A reduced-space surrogate (RSS) was constructed in 4D for the fuel-rich case,
 and in 3D for
-the fuel-lean case. Figure~\ref{fig:err_samples_kinetics} illustrates a
+the fuel-lean case. Figure~\ref{fig:err_samples_kinetics}~(left) illustrates a
 comparison of convergence characteristics for the PCEs constructed in the
 full-space and the reduced-space for the fuel-rich case. Note that the
 plot is generated using the implementation of least angle regression (LAR)
@@ -195,10 +195,14 @@ for sparse PCEs in UQLab.
 %
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_kinetics}
-\caption{A semi-log plot of $\epsilon_\text{\tiny LOO}$ as a function of
+  \includegraphics[width=0.45\textwidth]{./Figures/err_samples_kinetics}
+   \includegraphics[width=0.44\textwidth]{./Figures/errL2_samples_kinetics}
+\caption{Left: A semi-log plot of $\epsilon_\text{\tiny LOO}$ as a function of
 number of model evaluations in the full-space (19D) and the reduced-space (4D)
-for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0.}
+for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0. \rebut{The degree of
+the resulting PCE was found to be 3 and 2 in the 4D and the 19D case respectively.
+Right: Semilog plot of the relative L-2 error norm ($\epsilon_{\mbox{\tiny{L-2}}}$)
+for the PCEs constructed in 4D and 19D.}}
 \label{fig:err_samples_kinetics}
 \end{center}
 \end{figure}
@@ -208,12 +212,19 @@ and plateau with the increase in training points for the 19-dimensional
 PCE. However, in the case of 4-dimensional PCE, the error exhibits a
 monotonic behavior and is found to be smaller than $\mathcal{O}(10^{-5})$
 at 60 training points. Clearly, the RSS shows a much faster rate of convergence.
+\rebut{Additionally, the
+convergence of the relative error norm, $\epsilon_{\mbox{\tiny{L-2}}}$ in 
+Figure~\ref{fig:err_samples_kinetics}~(right) indicates that for the case of 10
+samples, the 4D PCE is observed to be more accurate. However, the 19D PCE
+is observed to be more accurate by an order of magnitude as the sample size
+increases. Specifically, the 4D PCE was found to be accurate within 1.8$\%$ in the
+fuel-rich case, and within 3.1$\%$ in the fuel-lean case. Therefore, the 4D PCE
+is still observed to be reasonably accurate in this case. Moreover, its faster convergence
+as mentioned earlier should help reduce computational effort associated with
+surrogate model construction.}
 Similar trends (not included) were observed in the fuel-lean case. 
 
-Based on $\epsilon_{\mbox{\tiny{L-2}}}$ estimates using the 
-cross-validation set, the RSS was found to be accurate within 1.8$\%$ in the
-fuel-rich case, and
-within 3.1$\%$ in the fuel-lean case. Model evaluations at 1000 samples in the test suite
+Model evaluations at 1000 samples in the test suite
 are further used to plot a normalized histogram of the ignition time in 
 Figure~\ref{fig:pdf_kinetics}. To verify the accuracy of the RSS in a 
 probabilistic-sense, we compare the histogram plot with a PDF of ignition time

@@ -85,7 +85,7 @@ is the smallest integer greater than or equal to $\beta n_1$);
 (4) a set of samples $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$ 
 for the initial screening step in
 the algorithm and the corresponding gradient evaluations 
-$\{ \bm{g}^k \}_{k=1}^{n_0}$, where
+$\{ \bm{g}^k \}_{k=1}^{\rebut{n_1}}$, where
 $\bm{g}^k = \nabla_{\bm{\theta}} G(\bm{\theta}_k)$. 
 The outputs are the set of active
 indices $\mathcal{I}_\text{active}$ corresponding to the 
@@ -126,7 +126,7 @@ $s_\text{max} \geq 1$, $\beta > 0$, $\{ \bm{\theta}_k \}_{k = 1}^{n_1}$, $\{ \bm
       \While {$\mathrm{done} == \mathrm{false}$ \textbf{AND} $s \leq s_\text{max}$} 
         \State $s = s + 1$.
         \State Draw $n_s = \lceil \beta n_1 \rceil$ new samples 
-                  $\bm{\theta}_k$, $k = n_{s-1} + 1, \ldots, n_{s-1} + n_s$
+                  $\bm{\theta}_k$, $k = \rebut{N_\text{total} + 1, \ldots, N_\text{total} + n_s}$
        \State $N_\text{total} = N_\text{total} + n_s$.
         \State Compute $\bm{g}^k = \nabla_{\bm{\theta}}G(\bm\theta_k)$,
              $k = n_{s-1}+1, \ldots, n_{s-1}+n_s$.

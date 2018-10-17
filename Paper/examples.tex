@@ -75,7 +75,7 @@ Cheap function evaluations of the discharge $\mathcal{Q}(\vec{\theta})$
 enables construction of the FSS with minimal effort. FSS predictions at
 a large set of MC samples in the input space are used to obtain converged
 estimates of $\mathcal{T}(\theta_i)$. Shown in
-Figure~\ref{fig:sense_bore}~(left) are estimates of these indices corresponding to the
+Figure~\ref{fig:sense_bore}(a) are estimates of these indices corresponding to the
 uncertain parameters in the borehole function using 10$^6$ MC
 samples in the input parameter space. 
 %\footnote{Although $\mathcal{T}(\theta_i)$ might converge with much fewer
@@ -86,22 +86,34 @@ parameter screening based on the methodology presented in Section~\ref{sec:metho
 
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.48\textwidth]{./Figures/sense_borehole}
-  \includegraphics[width=0.51\textwidth]{./Figures/ub_conv_borehole}
+ \begin{tabular}{cc}
+  \includegraphics[width=0.45\textwidth]{./Figures/sense_borehole}
+  &
+  \includegraphics[width=0.49\textwidth]{./Figures/ub_conv_borehole}
+  \\ (a) & (b)
+  \end{tabular}
+  \\
+  \includegraphics[width=0.45\textwidth]{./Figures/ub_conv_borehole2}
+  \\ (c)
 \caption{
-Left: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain
+(a) Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain
 parameters in the
-borehole discharge function in~\eqref{eq:bore}. Right: 
+borehole discharge function in~\eqref{eq:bore}; (b)
 Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$), plotted
 against number of samples. Also included in the legend are estimates of
-$\mathcal{T}(\theta_i)$ in each case in the legend.}
+$\mathcal{T}(\theta_i)$ in each case in the legend; \rebut{and (c) Estimates of
+$\widehat{\mathcal{C}_i\mu_i}$ for individual parameters using $N$ = 5, 10,
+15, and 20 samples in the full parameter space.}}
 \label{fig:sense_bore}
 \end{center}
 \end{figure}
 
-In Figure~\ref{fig:sense_bore}~(right), we plot estimates of the screening parameter 
+In Figure~\ref{fig:sense_bore}(b), we plot estimates of the screening parameter 
 $\widehat{\mathcal{C}_i\mu_i}$ for a wide range of the number of 
-samples used for approximating $\mu_i$ using~\eqref{eq:mu}.
+samples used for approximating $\mu_i$ using~\eqref{eq:mu}. \rebut{Additionally,
+to illustrate a comparison of the estimates of $\widehat{\mathcal{C}_i\mu_i}$ obtained
+at the end of the initial screening step, i.e. $N$~=~5, with subsequent steps, we plot
+them for individual parameters at $N$~=`5, 10, 15, and 20 samples in Figure~\ref{fig:sense_bore}(c).}
 Estimates for $\widehat{\mathcal{C}_i\mu_i}$ are found to be in excellent agreement
 with $\mathcal{T}(\theta_i)$ even when small number of samples (5--10) are used. 
 Consequently, the relative importance of uncertain 
@@ -119,17 +131,27 @@ surrogates in a reduced input parameter space. To this end, we use LAR to
 construct PCEs
 in 5D and 4D spaces by fixing $\{T_u,T_l\}$ in the former and additionally
 fixing $K_w$ in the latter at their respective mean values. In
-Figure~\ref{fig:conv_bore}~(left), we compare convergence of PCEs constructed in the
+Figure~\ref{fig:conv_bore}(a), we compare convergence of PCEs constructed in the
 full space (7D) with those constructed in the two reduced spaces (4D and 5D)
 using $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}). 
 
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_borehole}
-  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_borehole}
-\caption{Left: A comparison of order of the leave-one-out-error 
+ \begin{tabular}{cc}
+  \includegraphics[width=0.45\textwidth]{./Figures/err_samples_borehole}
+  &
+  \includegraphics[width=0.45\textwidth]{./Figures/errL2_samples_borehole}
+  \\ (a) & (b)
+  \end{tabular}
+  \includegraphics[width=0.45\textwidth]{./Figures/pdf_comp_borehole}
+  \\ (c)
+\caption{(a) A comparison of order of the leave-one-out-error 
 ($\epsilon_{\mbox{\tiny{LOO}}}$) as a function of number of regression samples
-used for constructing the PCE in 4, 5, and 7 dimensions. Right: A comparison of
+used for constructing the PCE in 4, 5, and 7 dimensions. \rebut{The degree of
+the resulting PCE was found to be 3, 2,and 5 in the 4D, 5D, and 7D case respectively;
+(b) Semilog plot of the relative L-2 error norm ($\epsilon_{\mbox{\tiny{L-2}}}$) 
+for the PCEs constructed in 4D, 5D, and 7D};
+and (c) A comparison of
 PDFs of the discharge, $\mathcal{Q}$, generated using 10$^{6}$ samples from
 the marginal distributions of the uncertain parameters in each case.} 
 \label{fig:conv_bore}
@@ -141,22 +163,28 @@ at a much faster rate. For instance, if a PCE with $\mathcal{O}(10^{-4})$
 accuracy is sought, we need function evaluations at only about 50 sample points
 in the 4D parameter space whereas the number of samples needed in the full 7D
 space seems much higher. Latin hypercube sampling (LHS) was used in
-each case. It must be pointed out that the error in Figure~\ref{fig:conv_bore}~(left)
+each case. It must be pointed out that the error in Figure~\ref{fig:conv_bore}(a)
 is not expected to decrease monotonically with the increase in sample size
 owing to the penalty term in the regularized optimization problem in Eq.~\ref{eq:reg}. 
+\rebut{However, the plot of $\epsilon_{\mbox{\tiny{L-2}}}$ as a function of sample
+size for the three surrogate models in Figure~\ref{fig:conv_bore}(b)
+clearly demonstrates the trade-off between
+computational effort associated with surrogate construction and its predictive 
+accuracy. For a small sample size of 20, the relative  error in the case of 4D
+PCE is found to be the smallest. However, as the sample size increases, the higher
+order PCE becomes more accurate. Note that the same set of 50 samples in the
+validation test suite were used in each case. Hence, when limited computational resources
+are available, the proposed methodology could yield substantial gains due to fast
+convergence as well as higher accuracy of the surrogate in the reduced space.
+The gains are expected to increase exponentially as the dimensionality of the 
+input space increases.}
 
-
-As discussed earlier in this section, the reduced-space PCE's are verified for
-predictive accuracy in a least-squares sense and a probabilistic sense.
-Estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ based on 50 samples in the
-validation test suite were
+Specifically, the estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ were
 found to be 0.0551 and 0.0112 for the 4D and 5D PCE's, respectively. In other
 words, the 4D PCE is accurate within 5.52$\%$ and the 5D PCE is accurate within
 1.12$\%$ of predictions based on the borehole function. Note that $\epsilon_\text{\tiny{LOO}}$
 however, is lower in the case of 4D PCE (Figure~\ref{fig:conv_bore}).
-This illustrates the
-trade-off between accuracy and computational efficiency for the present 
-problem. Generally, the required level of accuracy is problem dependent. 
+Generally, the required level of accuracy is problem dependent. 
 The present framework allows for moving towards higher fidelity 
 reduced-space surrogates based on the ranking of the parameter sensitivities. 
  
@@ -166,8 +194,7 @@ reduced-space surrogates based on the ranking of the parameter sensitivities.
 %account for the order of PCE convergence as well as its predictive accuracy for
 %a given application, as highlighted earlier in section~\ref{sec:method}. 
 
-
-Figure~\ref{fig:conv_bore}~(right) illustrates a comparison of the PDFs
+Figure~\ref{fig:conv_bore}(c) illustrates a comparison of the PDFs
 of the
 discharge, $\mathcal{Q}$ obtained by propagating 10$^6$ random
 samples through the 7D PCE in the original input parameter domain as well as
@@ -395,7 +422,7 @@ the uncertainty in the QoI in \eqref{eq:qoi} is largely dependent on $c$,
 $\alpha_2$, $\alpha_3$, $\alpha_4$, and $\alpha_5$. These observations underscore the
 potential for computational gains by constructing an RSS in the 5D parameter space. We 
 illustrate the comparison of convergence characteristics of the PCEs constructed in the
-full parameter space (10D) and the reduced space (5D) in Figure~\ref{fig:conv_elliptic} (left). 
+full parameter space (10D) and the reduced space (5D) in Figure~\ref{fig:conv_elliptic}(a). 
 As expected, the RSS converges considerably faster. Using model evaluations at 90
 sample points, $\epsilon_{\mbox{\tiny{LOO}}}$ is found to be two orders of magnitude
 smaller than that in the case of full-surrogate ($\mathcal{O}(10^{-4}$) versus
@@ -405,15 +432,39 @@ is expected to be much smaller.
 %
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.48\textwidth]{./Figures/err_samples_elliptic}
-  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_elliptic}
-\caption{Left: Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is plotted against sample size for 
-PCEs constructed in 10 and 5 dimensions to compare their convergence characteristics. 
-Right: PDF of the QoI, $\mathcal{F}(\vec\theta)$ in~\eqref{eq:semilinear} is
-plotted using the full-surrogate and the reduced-space PC surrogate.}
+ \begin{tabular}{cc}
+  \includegraphics[width=0.45\textwidth]{./Figures/err_samples_elliptic}
+  &
+  \includegraphics[width=0.45\textwidth]{./Figures/errL2_samples_elliptic}
+  \\ (a) & (b)
+  \end{tabular}
+  \includegraphics[width=0.45\textwidth]{./Figures/pdf_comp_elliptic}
+  \\ (c)
+\caption{(a) Logarithm of $\epsilon_{\mbox{\tiny{LOO}}}$ is plotted against sample 
+size for PCEs constructed in 10 and 5 dimensions to compare their convergence 
+characteristics. \rebut{The degree of
+the resulting PCE was found to be 3 in both cases; 
+(b) Semilog plot of the relative L-2 error norm ($\epsilon_{\mbox{\tiny{L-2}}}$) 
+for the PCEs constructed in 5D and 7D}; 
+and (c) PDF of the QoI, $\mathcal{F}(\vec\theta)$ in~\eqref{eq:semilinear}
+is plotted using the full-surrogate and the reduced-space PC surrogate.}
 \label{fig:conv_elliptic}
 \end{center}
 \end{figure}
+%
+\rebut{The comparison of convergence characteristics of $\epsilon_{\mbox{\tiny{L-2}}}$
+illustrated in Figure~\ref{fig:conv_elliptic}(b) indicates that for a small sample size of 20,
+the surrogate constructed in the reduced space performs better in terms of
+predictability. However, as the sample size increases, the full space is observed to
+be slightly more accurate. However, the order of the accuracy is found to be 
+consistent in both cases until the sample size is less than 80. When the sample size
+increases to 90, the 19D PCE is observed to be more accurate by an order of magnitude.
+However, the corresponding value of $\epsilon_{\mbox{\tiny{LOO}}}$ is~$\mathcal{O}(10^{-1})$.
+Hence, the 19D PCE does not seem to have fully  converged and requires additional 
+model evaluations. Therefore, considering
+fast convergence of the surrogate in the 5D space and predictive accuracy comparable
+to the 19D PCE,
+the proposed methodology significantly reduces computational effort in this case.}
 
 Once again, we verify the accuracy of the RSS by estimating $\epsilon_{\mbox{\tiny{L-2}}}$
 using model evaluations at 1000 independent MC samples in the 10D parameter
@@ -421,7 +472,7 @@ space. The RSS was found to be accurate
 within 5$\%$. In order to bolster confidence in the RSS, we compare PDFs of the QoI
 as well as a normalized histogram plot based on sparse model evaluations in the  
 validation test-suite, in 
-Figure~\ref{fig:conv_elliptic}~(right). While the two PDFs are in favorable agreement,
+Figure~\ref{fig:conv_elliptic}(c). While the two PDFs are in favorable agreement,
 the modal estimate and the spread in the QoI based on the histogram is also captured
 by them. Hence, the RSS could be used with a reasonable degree of confidence to
 quantify the uncertainty in $\mathcal{F}(\vec\theta)$ thereby leading to

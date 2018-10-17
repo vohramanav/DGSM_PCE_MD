@@ -79,6 +79,14 @@ Conclusion) in the revised manuscript.
 \referee{P17, Figure 3, what's the degree of the PCE used in the example? The same
 question applies to Figure 6 and Figure 8.}
 
+In the borehole test case, the degree of the PCE was found to be 3 in the reduced space (4D)
+and 5 in the full space (7D). In the case of semilinear elliptic PDE, the degree of the PCE was 
+found to be 3 in the reduced space (5D) as well as the original space (10D). For the reaction
+kinetics application, the degree of the PCE was found to be 3 in the reduced space (4D) and 
+2 in the full space (19D). 
+
+The captions of Figures 3, 6, and 8 have been updated to include this information. 
+
 \item
 \referee{
 P25, Figure 7, it seems that the rank of the parameters and the difference of
@@ -87,6 +95,14 @@ parameter screening  (line 1-6 in Algorithm 1) is good enough for ranking the
 parameters? Can the authors plot the similar figure for other examples to see
 if the iterative screening procedure does make a difference on the ranking the
 parameters compared with the initial parameter screening step?}
+
+The reviewer is correct in pointing out from Figure 7 that the initial screening step
+reasonably approximates the screening metric. The is also observed in
+Figure 5 for the semilinear elliptic PDE test case. It is also true in the borehole test
+case and a similar figure has been included for this example in the revised manuscript
+(Figure 2c) as suggested by the reviewer. The reason for this observation has already
+been discussed in response to Comment~1 above and included in the revised manuscript. 
+
 \end{enumerate}
 
 \section{Replies to reviewer \#2}
@@ -111,6 +127,21 @@ accurate FSS model (which could lead the accuracy to decrease further), or
 is the RSS constructed directly from the original model with reduced input
 parameters? The diagram is ambigous on this issue.}
 
+The reviewer correctly points out that the resulting surrogate model is either an RSS or
+an FSS. However, we would like to clarify that the main purpose of the proposed
+methodology is to construct an RSS based on estimates of the screening metric.
+However, since estimating the metric requires model evaluations, we further exploit these
+evaluations to construct an FSS (free of cost) using regression-based approaches 
+mentioned in the paper. Note that the FSS construction is performed simultaneously to 
+ensure that the computational effort associated with obtaining converged estimates of
+the screening metric and RSS construction does not overshoot that required for
+constructing a sufficiently accurate FSS. 
+
+The above points are already included in the paragraph on the discussion of the proposed
+methodology in Section 3. Nevertheless, based on the reviewer's feedback, we have tried to
+clarify and emphasize these points in the first paragraph in Section 6 (Summary and Conclusion)
+in the revised manuscript. 
+
 \item
 \referee{The reviewer would also like to see the comparison of the computational cost
 (not just the numerical results) of DGSMs to variance based sensitivity indices
@@ -125,17 +156,34 @@ and does not necessarily indicate the (predictive) accuracy of the constructed
 model, hence could lead to false conclusion. The reviewer would like to see the
 convergence of $\epsilon_{L_2}$.}
 
+As suggested by the reviewer, the plots and related discussion pertaining to the convergence 
+of $\epsilon_{L_2}$ have been included for the numerical tests presented in Section 3 and 
+the chemical kinetics application presented in Section 4. 
+
+
 \item 
 \referee{How would the proposed approach behave when presented with severe nonlinearity
 or rare events where the screening metrics could misrepresent the significance
 of parameters?}
+
+Severe non-linearity in the model output as a function of uncertain inputs could potentially lead
+to a significantly large variability in its gradient. Hence, a large number of Monte Carlo samples might be
+required to estimate the screening metrics with reasonable accuracy in this case depending upon the
+application. Therefore, the computational effort is expected to increase in such cases. In the presence
+of rare events, the variance-based approaches typically lead to inaccurate estimates of 
+parametric sensitivities. Since the proposed methodology in this work aims to reduce the computational
+effort pertaining to total-effect Sobol index which is a variance-based measure, it might lead to
+inaccurate estimates of the screening metric and therefore, the relative importance of the. uncertain
+inputs.
+
+A brief discussion based on the above points has been included in Section 6 (Summary and Discussion).
 
 \item 
 \referee{The reviewer would like to see some comments on the change of computational
 cost of the proposed approach with respect to the increase of parameter dimensions.}
 \end{enumerate}
 
-Minor comments have been addressed in the revised draft. Thanks for pointing them out.
-
+Minor comments have also been addressed in the revised manuscript. The authors thank
+the reviewer for pointing those out as well. 
 
 \end{document}
