@@ -16,7 +16,19 @@ The proposed framework in section~\ref{sec:method} is implemented to
 the H$_2$/O$_2$ reaction mechanism provided in~\cite{Yetter:1991}.
 The H$_2$/O$_2$ reaction is gaining a lot of attention as a potential
 source of clean energy for applications such as 
-transportation~\cite{Das:1996}. 
+transportation~\cite{Das:1996} and fuel cell 
+applications~\cite{Loges:2008,Cosnier:2016}. \rebut{We begin by providing
+the necessary background information for setting up the problem
+in~\ref{sub:setup}. Results and discussion based on the implementation
+of the proposed framework are provided in~\ref{sub:imp}. Finally, 
+in~\ref{sub:cost}, we
+provide a comparative analysis of the computational cost involved
+in determining relative parameter importance using DGSMs and the
+total-effect Sobol index as the dimensionality increases from 19 to 33
+for the present application.}
+
+\subsection{Problem Set-up}
+\label{sub:setup}  
 The mechanism comprises of 19 reactions including chain reactions,
 dissociation/recombination reactions, and formation and consumption
 of intermediate species as provided below in Table~\ref{tab:kinetics}.
@@ -137,6 +149,8 @@ Since $\phi>1$ corresponds to a rich mixture, and $\phi<1$ corresponds to a
 lean mixture, we consider $\phi$ = 2.0 and 0.5 to investigate the two scenarios
 respectively. 
 
+\subsection{DGSM-guided surrogate construction}
+\label{sub:imp}
 We apply the parameter screening algorithm with the following
 parameters: $\tau_\text{screen}$, $s_\text{min}$,
 $s_\text{max}$, $\beta$ are fixed at 0.2, 3, 10, and 1.0 respectively for both cases.
@@ -161,11 +175,11 @@ Figure~\ref{fig:sense_kinetics}~(bottom row).
 
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.48\textwidth]{./Figures/ub_conv_kinetics_rich}
-  \includegraphics[width=0.48\textwidth]{./Figures/ub_conv_kinetics_lean}
+  \includegraphics[width=0.45\textwidth]{./Figures/ub_conv_kinetics_rich}
+  \includegraphics[width=0.45\textwidth]{./Figures/ub_conv_kinetics_lean}
   \\ \vspace{2mm}
-  \includegraphics[width=0.48\textwidth]{./Figures/mu_rich}
-  \includegraphics[width=0.48\textwidth]{./Figures/mu_lean}
+  \includegraphics[width=0.45\textwidth]{./Figures/mu_rich}
+  \includegraphics[width=0.45\textwidth]{./Figures/mu_lean}
 \caption{Top: Estimates of $\widehat{\mathcal{C}_i\mu_i}$ for $A_i$'s in the case
 of fuel-rich mixture~(left) and fuel-lean mixture~(right). Bottom: The value of
 $\Delta\mu_s$ during three iterations within the screening step are plotted for
@@ -200,7 +214,7 @@ for sparse PCEs in UQLab.
 \caption{Left: A semi-log plot of $\epsilon_\text{\tiny LOO}$ as a function of
 number of model evaluations in the full-space (19D) and the reduced-space (4D)
 for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0. \rebut{The degree of
-the resulting PCE was found to be 3 and 2 in the 4D and the 19D case respectively.
+the PCE constructed using 60 training points was found to be 1 and 3 in the 19D and the 4D cases respectively.
 Right: Semilog plot of the relative L-2 error norm ($\epsilon_{\mbox{\tiny{L-2}}}$)
 for the PCEs constructed in 4D and 19D.}}
 \label{fig:err_samples_kinetics}
@@ -232,8 +246,8 @@ using surrogate predictions at 10$^{6}$ samples in the reduced space in both cas
 %
 \begin{figure}[htbp]
  \begin{center}
-  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_rich}
-  \includegraphics[width=0.48\textwidth]{./Figures/pdf_comp_lean}
+  \includegraphics[width=0.45\textwidth]{./Figures/pdf_comp_rich}
+  \includegraphics[width=0.45\textwidth]{./Figures/pdf_comp_lean}
 \caption{A normalized histogram based on model evaluations at 1000 samples is plotted
 along with a PDF of ignition delay for the fuel-rich case (left) and the fuel-lean
 case (right).}
@@ -246,3 +260,73 @@ the ignition delay in both scenarios. Hence, the proposed framework
 has enabled significant dimension reduction and construction of an accurate
 RSS for multiple scenarios pertaining to the H$_2$/O$_2$ reaction
 mechanism.    
+
+\rebut{
+\subsection{Comparative cost analysis}
+\label{sub:cost}
+
+In this section, we perform a comparative analysis of the computational cost
+associated with obtaining converged estimates of parametric sensitivities
+using DGSM, and the total-effect Sobol indices ($\mathcal{T}(\theta_i)$). The former is computed
+using the parameter screening algorithm (Algorithm~\ref{alg:screen}), and the latter is
+estimated analytically using a sparse-basis PCE. Note that estimating $\mathcal{T}(\theta_i)$
+using a PCE has been shown to be more efficient compared to sampling techniques.
+Moreover, a sparse-basis PCE is expected to require fewer training points which
+enhances computational savings. To investigate the impact of the dimensionality, the
+analysis is performed with 19 uncertain parameters, i.e.
+the pre-exponents~($A_i$'s) as discussed earlier in~\ref{sub:setup} and~\ref{sub:imp}, and
+33 uncertain parameters wherein the activation energies~($E_{a,i}$'s) are also considered to
+be uncertain. The $E_{a,i}$'s are also considered to be uniformly distributed in the
+interval: [$0.9E_{a,i}^\ast,1.1E_{a,i}^\ast$], where $E_{a,i}^\ast$ is the nominal value
+for the $i^\text{th}$ reaction as provided in~\cite{Yetter:1991}. Note that only those
+$E_{a,i}$'s with a non-zero nominal value are considered as uncertain, and therfore the
+total number of uncertain parameters in the high-dimensional case is 33 as opposed to 38. 
+
+The 33-dimensional sparse basis PCE was assessed for its convergence characteristics
+and its predictive accuracy using $\epsilon_{\mbox{\tiny LOO}}$~(see~\eqref{eq:loo}) and
+$\epsilon_{\mbox{\tiny{L-2}}}$~(see~\eqref{eq:l2}) respectively as shown in
+Figure~\ref{fig:err_samples}.  
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.45\textwidth]{./Figures/err_samples_kinetics33D}
+\caption{A semi-log plot of $\epsilon_\text{\tiny LOO}$  and $\epsilon_{\mbox{\tiny{L-2}}}$
+as a function of the number of training points in the 33D parameter space 
+for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0. The degree of
+the PCE constructed using 500 training points was found to be 3.}
+\label{fig:err_samples}
+\end{center}
+\end{figure}
+%
+The sparse-basis PCEs constructed in the 19 and the 33 dimensional parameter
+space are considered to have converged once $\epsilon_\text{\tiny LOO}$ is found to be
+smaller than 6.0$\times$10$^{-3}$. As observed in Figures~\ref{fig:err_samples_kinetics}
+and~\ref{fig:err_samples}, the number of training points required in the 19D
+and the 33D cases are found to be 60 and 500 respectively. As expected, the predictive
+accuracy is observed to increase with increase in the number of training points in both cases.
+The estimate of $\epsilon_{\mbox{\tiny{L-2}}}$ was found to be 7.22$\times$10$^{-2}$ using the
+converged 33D PCE and an independent set of model evaluations at 1000 samples.
+
+Sensitivity estimates for the 33 uncertain parameters are hence determined
+using the DGSM-based strategy and by evaluating $\mathcal{T}(\theta_i)$ analytically
+using the sparse-basis PCE as discussed earlier in this section. The estimates based
+on the two approaches were plotted separately and placed side-by-side for comparison
+in Figure~\ref{fig:sense33D}.
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.42\textwidth]{./Figures/ub33D}
+  \includegraphics[width=0.40\textwidth]{./Figures/sens_kinetics33D}
+\caption{
+Left: Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) for each 
+uncertain parameter, obtained using $N$ = 5, 10, 15, and 20 samples in the full parameter space.
+Right: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the
+semilinear elliptic PDE~\eqref{eq:semilinear}.}
+\label{fig:sense33D}
+\end{center}
+\end{figure}
+%
+
+
+
+}
