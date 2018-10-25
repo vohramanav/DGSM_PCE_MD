@@ -24,7 +24,7 @@ of the proposed framework are provided in~\ref{sub:imp}. Finally,
 in~\ref{sub:cost}, we
 provide a comparative analysis of the computational cost involved
 in determining relative parameter importance using DGSMs and the
-total-effect Sobol index as the dimensionality increases from 19 to 33
+total-effect Sobol' index as the dimensionality increases from 19 to 33
 for the present application.}
 
 \subsection{Problem Set-up}
@@ -165,7 +165,7 @@ Following the steps outlined in the flow-diagram in Figure~\ref{fig:flow}, model
 evaluations are initially generated at $n_1$ = 5 samples. The evaluations are
 used to construct a regression-based surrogate in the full-space. As
 expected, the surrogate is found to be highly inaccurate. Moreover, unlike the
-test problems in section~\ref{sec:examples}, we do not estimate the Sobol
+test problems in section~\ref{sec:examples}, we do not estimate the Sobol'
 total-effect sensitivity indices in the interest of following the overall framework
 closely. Hence, we proceed to the screening step to estimate the screening metric
 for the uncertain pre-exponents, $A_i$'s. Results are plotted below
@@ -267,19 +267,21 @@ mechanism.
 
 In this section, we perform a comparative analysis of the computational cost
 associated with obtaining converged estimates of parametric sensitivities
-using DGSM, and the total-effect Sobol indices ($\mathcal{T}(\theta_i)$). The former is computed
+using DGSM, and the total-effect Sobol' indices ($\mathcal{T}(\theta_i)$). The former is computed
 using the parameter screening algorithm (Algorithm~\ref{alg:screen}), and the latter is
-estimated analytically using a sparse-basis PCE. Note that estimating $\mathcal{T}(\theta_i)$
-using a PCE has been shown to be more efficient compared to sampling techniques.
-Moreover, a sparse-basis PCE is expected to require fewer training points which
-enhances computational savings. To investigate the impact of the dimensionality, the
+estimated analytically by constructing a sparse-basis PCE. Note that estimating $\mathcal{T}(\theta_i)$
+using a PCE has been shown to be more efficient compared to sampling 
+techniques~\cite{Crestaux:2009,BlatmanSudret10}.
+Moreover, a sparse-basis PCE requires fewer training points which
+enhances computational savings~\cite{Sudret:2008,Blatman:2009}. 
+To investigate the impact of the dimensionality, the
 analysis is performed with 19 uncertain parameters, i.e.
 the pre-exponents~($A_i$'s) as discussed earlier in~\ref{sub:setup} and~\ref{sub:imp}, and
-33 uncertain parameters wherein the activation energies~($E_{a,i}$'s) are also considered to
-be uncertain. The $E_{a,i}$'s are also considered to be uniformly distributed in the
+33 uncertain parameters wherein the activation energies~($E_{a,i}$'s) are considered to
+be uncertain in addition to the $A_i$'s. The $E_{a,i}$'s are also considered to be uniformly distributed in the
 interval: [$0.9E_{a,i}^\ast,1.1E_{a,i}^\ast$], where $E_{a,i}^\ast$ is the nominal value
 for the $i^\text{th}$ reaction as provided in~\cite{Yetter:1991}. Note that only those
-$E_{a,i}$'s with a non-zero nominal value are considered as uncertain, and therfore the
+$E_{a,i}$'s with a non-zero nominal value are considered as uncertain, and therefore the
 total number of uncertain parameters in the high-dimensional case is 33 as opposed to 38. 
 
 The 33-dimensional sparse basis PCE was assessed for its convergence characteristics
@@ -299,18 +301,19 @@ the PCE constructed using 500 training points was found to be 3.}
 \end{figure}
 %
 The sparse-basis PCEs constructed in the 19 and the 33 dimensional parameter
-space are considered to have converged once $\epsilon_\text{\tiny LOO}$ is found to be
+space were considered to have converged once $\epsilon_\text{\tiny LOO}$ was found to be
 smaller than 6.0$\times$10$^{-3}$. As observed in Figures~\ref{fig:err_samples_kinetics}
 and~\ref{fig:err_samples}, the number of training points required in the 19D
-and the 33D cases are found to be 60 and 500 respectively. As expected, the predictive
+and the 33D cases are found to be 20 and 500 respectively. As expected, the predictive
 accuracy is observed to increase with increase in the number of training points in both cases.
 The estimate of $\epsilon_{\mbox{\tiny{L-2}}}$ was found to be 7.22$\times$10$^{-2}$ using the
 converged 33D PCE and an independent set of model evaluations at 1000 samples.
 
-Sensitivity estimates for the 33 uncertain parameters are hence determined
-using the DGSM-based strategy and by evaluating $\mathcal{T}(\theta_i)$ analytically
-using the sparse-basis PCE as discussed earlier in this section. The estimates based
-on the two approaches were plotted separately and placed side-by-side for comparison
+Before comparing the computational cost pertaining to the two approaches (DGSM-based and 
+Sobol'-based) and the impact of dimensionality, we verify that the parametric sensitivities are
+consistent in both cases. Sensitivity estimates for the 33 uncertain parameters obtained
+using the DGSM-based strategy, and by evaluating $\mathcal{T}(\theta_i)$ analytically
+using the sparse-basis PCE are plotted and placed adjacent to each other for comparison
 in Figure~\ref{fig:sense33D}.
 %
 \begin{figure}[htbp]
@@ -318,14 +321,76 @@ in Figure~\ref{fig:sense33D}.
   \includegraphics[width=0.42\textwidth]{./Figures/ub33D}
   \includegraphics[width=0.40\textwidth]{./Figures/sens_kinetics33D}
 \caption{
-Left: Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) for each 
-uncertain parameter, obtained using $N$ = 5, 10, 15, and 20 samples in the full parameter space.
-Right: Sobol' total sensitivity index, $\mathcal{T}(\theta_i)$ for uncertain parameters in the
-semilinear elliptic PDE~\eqref{eq:semilinear}.}
+Left: Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$), 
+obtained using $N$ = 5, 10 samples in the full parameter space; and
+Right: Total-effect Sobol' indices, $\mathcal{T}(\theta_i)$ for the 33 uncertain rate-controlling
+parameters ($A_i$'s and $E_{a,i}$'s).}
 \label{fig:sense33D}
 \end{center}
 \end{figure}
 %
+The plots clearly indicate that the relative importance of the uncertain parameters is
+consistent in both cases. Specifically, both approaches reveal that the uncertainty in
+the ignition delay is predominantly due to the uncertainty in $E_{a,1}$ and $E_{a,10}$ with a 
+minor contribution from $E_{a,12}$, whereas, contributions from other parameters is either zero
+or negligible. These results are clearly indicative of the potential for dimension reduction in this
+case using the proposed sensitivity-driven approach. A reasonably accurate RSS in a 2D
+parameter space could potentially capture the uncertainty in the ignition delay due to the
+uncertainty in the 33 rate-controlling parameters.
+
+The computational cost is estimated in terms of the number of function evaluations or model runs,
+denoted by $\mathcal{M}$ in each case. In the case of DGSM-based approach presented in this work, 
+$\mathcal{M}$ = $N(N_p+1)$ ($N$: number of samples, $N_p$: number of parameters)
+as discussed earlier in~\ref{sub:dgsm}. In the case of PCE-based computation of $\mathcal{T}(\theta_i)$,
+$\mathcal{M}$ is the sum total of the number of training points used for constructing the sparse-basis
+PCE and the number of evaluations used for its verification, denoted by $N_v$. In Table~\ref{tab:cost},
+we provide a comparison of $\mathcal{M}$ for the two approaches in the case of 19 and 33 uncertain
+parameters for the H$_2$/O$_2$ reaction kinetics application. 
+%
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{A comparison of computational cost for the DGSM-based and Sobol'-based parametric 
+sensitivity analysis in the case of 19 and 33 uncertain rate-controlling parameters.}
+\begin{center}
+\begin{tabular}{c|c|c|}
+\cline{2-3}
+& \multicolumn{2}{ c| }{$\mathbf{\#}$ \textbf{of Function Evaluations/Model Runs}~($\mathcal{M}$)} \\ \cline{2-3} 
+& \textbf{19D} & \textbf{33D} \\  \hhline{===}
+\multicolumn{1}{ |l|| }{\textbf{DGSM-based}, $\widehat{\mathcal{C}_i\mu_i}$} & 5(19+1) = 100 & 5(33+1) = 170 \\ 
+\cline{1-3}
+\multicolumn{1}{ |l|| }{\textbf{Total-effect Sobol'}, $\mathcal{T}(\theta_i)$} & 20 + $N_v$ & 
+500 + $N_v$ \\ \cline{1-3}  
+\end{tabular}
+\end{center}
+\label{tab:cost}
+\end{table}
+%
+For the 19D case, estimating the converged estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$)
+required 5 samples. However, since finite difference was used in this work for estimating the gradient of the
+model output, a total of 100 model runs were required. However, as mentioned earlier in~\ref{sub:dgsm}, depending
+upon the application, it is possible to explore efficient techniques for gradient estimation such as those involving 
+adjoint computation and automatic differentiation. Hence, there is scope for reduction in the computational cost
+associated with the DGSM-based approach. Constructing the sparse-basis PCE requires only 20 samples in
+the 19D parameter space with uncertain pre-exponents. However, additional model runs typically ranging from
+$\mathcal{O}(10^{2})$ - $\mathcal{O}(10^{3})$ are needed to build a cross validation test suite to verify the 
+accuracy of the PCE. The DGSM-based approach could thus yield computational gains especially when 
+efficient gradient computation techniques are used. The comparison is significantly more favorable for the 
+proposed DGSM-based framework in the higher dimensional case involving 33 uncertain parameters. 
+Once again, converged estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) are obtained
+using only 5 samples in the 33D parameter space. Hence, a total of 170 model runs are needed in this case
+including for gradient computation using finite difference. Whereas,
+constructing the sparse PCE itself requires model runs at 500 training points to sufficiently converge. Additional
+model runs are required to further verify the accuracy of the resulting PCE. Note that the analysis was performed
+for the fuel-rich case. However, similar trends are expected for the fuel-lean case and we do not include them here
+for brevity. 
+
+In addition to the potential for computational cost reduction using the proposed framework, the comparative 
+analysis also reveals the significant increase in computational effort pertaining to the estimation of the total-effect
+Sobol' indices as the dimensionality increases from 19 to 33 despite using an efficient approach involving
+sparse-basis PCEs. It can thus be understood that for higher dimensional problems involving hundreds of 
+parameters, conventional approaches can quickly become prohibitive and the proposed framework could help
+reduce the computational effort by several orders of magnitude. 
+
 
 
 

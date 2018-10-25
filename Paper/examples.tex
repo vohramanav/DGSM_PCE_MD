@@ -148,7 +148,8 @@ using $\epsilon_{\mbox{\tiny{LOO}}}$ (Eq.~\ref{eq:loo}).
 \caption{(a) A comparison of order of the leave-one-out-error 
 ($\epsilon_{\mbox{\tiny{LOO}}}$) as a function of number of regression samples
 used for constructing the PCE in 4, 5, and 7 dimensions. \rebut{The degree of
-the PCE using 50 training points was found to be 3, 2,and 2 in the 4D, 5D, and 7D case respectively;
+the PCE constructed using 50 training points was found to be 
+3, 2,and 2 in the 4D, 5D, and 7D case respectively;
 (b) Semilog plot of the relative L-2 error norm ($\epsilon_{\mbox{\tiny{L-2}}}$) 
 for the PCEs constructed in 4D, 5D, and 7D};
 and (c) A comparison of
@@ -270,7 +271,7 @@ output is reliably captured and predicted by the reduced-space PCE.
 %\label{fig:sense_osc}
 %\end{center}
 %\end{figure}
-%We note that the total Sobol sensitivity indices are in excellent agreement
+%We note that the total Sobol' sensitivity indices are in excellent agreement
 %with the screening metric estimates. 
 %Consequently, the parameter ranks are found to be consistent in the
 %two plots in  
@@ -392,7 +393,7 @@ examples, it can still be solved efficiently.
 The equation was discretized using finite differences, and Newton's method
 was used to solve the resulting nonlinear system on a $100 \times 100$ 2D
 cartesian grid.
-We computed converged estimates of the Sobol
+We computed converged estimates of the Sobol'
 total-effect index $\mathcal{T}(\theta_i)$, reported 
 in Figure~\ref{fig:sense_elliptic}~(left) using FSS predictions at 10$^6$
 MC samples in the input space. The FSS was 
@@ -453,11 +454,11 @@ is plotted using the full-surrogate and the reduced-space PC surrogate.}
 \end{center}
 \end{figure}
 %
-\rebut{The comparison of convergence characteristics of $\epsilon_{\mbox{\tiny{L-2}}}$
-illustrated in Figure~\ref{fig:conv_elliptic}(b) indicates that for a small sample size of 20,
+\rebut{The comparison of predictive accuracy of the PCEs using $\epsilon_{\mbox{\tiny{L-2}}}$
+is illustrated in Figure~\ref{fig:conv_elliptic}(b). It is observed that for a small sample size of 20,
 the surrogate constructed in the reduced space performs better in terms of
 predictability. However, as the sample size increases, the full space is observed to
-be slightly more accurate. However, the order of the accuracy is found to be 
+be slightly more accurate although the order of the accuracy is found to be 
 consistent in both cases until the sample size is less than 80. When the sample size
 increases to 90, the 19D PCE is observed to be more accurate by an order of magnitude.
 However, the corresponding value of $\epsilon_{\mbox{\tiny{LOO}}}$ is~$\mathcal{O}(10^{-1})$.
@@ -467,9 +468,8 @@ fast convergence of the surrogate in the 5D space and predictive accuracy compar
 to the 19D PCE,
 the proposed methodology significantly reduces computational effort in this case.}
 
-Once again, we verify the accuracy of the RSS by estimating $\epsilon_{\mbox{\tiny{L-2}}}$
-using model evaluations at 1000 independent MC samples in the 10D parameter
-space. The RSS was found to be accurate
+Using model evaluations at 1000 independent MC samples in the 10D parameter
+space, the RSS was found to be accurate
 within 5$\%$. In order to bolster confidence in the RSS, we compare PDFs of the QoI
 as well as a normalized histogram plot based on sparse model evaluations in the  
 validation test-suite, in 

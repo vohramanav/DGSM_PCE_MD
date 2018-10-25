@@ -73,7 +73,7 @@ applications, and therefore the proposed methodology involving an iterative
 approach can yield significant computational savings. 
 
 These points have been emphasized in the discussion in Section~6 (Summary and
-Conclusion) in the revised manuscript. 
+Conclusion, Page 34) in the revised manuscript. 
 
 \item 
 \referee{P17, Figure 3, what's the degree of the PCE used in the example? The same
@@ -133,10 +133,11 @@ parameters? The diagram is ambigous on this issue.}
 
 The reviewer correctly points out that the resulting surrogate model is either an RSS or
 an FSS. However, we would like to clarify that the main purpose of the proposed
-methodology is to construct an RSS based on estimates of the screening metric.
+methodology is to construct an RSS based on estimates of a screening metric that
+involves derivative-based global sensitivity measure (DGSM) for each uncertain parameter.
 However, since estimating the metric requires model evaluations, we further exploit these
-evaluations to construct an FSS (free of cost) using regression-based approaches 
-mentioned in the paper. Note that the FSS construction is performed simultaneously to 
+evaluations to construct an FSS (free of cost) using a sparse regression-based approach
+as mentioned in the paper. Note that the FSS construction is performed simultaneously to 
 ensure that the computational effort associated with obtaining converged estimates of
 the screening metric and RSS construction does not overshoot that required for
 constructing a sufficiently accurate FSS. 
@@ -151,6 +152,15 @@ in the revised manuscript.
 (not just the numerical results) of DGSMs to variance based sensitivity indices
 with increasing parameter dimension, e.g. Sobol’ indices incorporated with
 sparse grid, since the difference decreases with increasing number of parameters.}
+
+As suggested by the reviewer, the computational cost pertaining to the estimation of DGSM-based
+sensitivity indices is compared with the cost associated with estimating the total-effect Sobol' indices
+for the 19-dimensional reaction kinetics application in this work. Additionally, the comparison is 
+performed for the same application with 33 uncertain rate-controlling parameters to investigate
+the impact of dimensionality. 
+
+A new sub-section (5.3) on ``comparative cost analysis" has been included in the revised
+manuscript. 
 
 \item 
 \referee{In section 4 and 5, no predictive convergence using the test data sample is
@@ -178,14 +188,22 @@ application. Therefore, the computational effort is expected to increase in such
 of rare events, the variance-based approaches typically lead to inaccurate estimates of 
 parametric sensitivities. Since the proposed methodology in this work aims to reduce the computational
 effort pertaining to total-effect Sobol index which is a variance-based measure, it might lead to
-inaccurate estimates of the screening metric and therefore, the relative importance of the. uncertain
+inaccurate estimates of the screening metric and therefore to erroneous relative importance of the uncertain
 inputs.
 
-A brief discussion based on the above points has been included in Section 6 (Summary and Discussion).
+A brief discussion based on the above points has been included in the last paragraph in
+Section 6 (Summary and Discussion).
 
 \item 
 \referee{The reviewer would like to see some comments on the change of computational
 cost of the proposed approach with respect to the increase of parameter dimensions.}
+
+As mentioned earlier in the response to Comment $\#$ 2, a comparative analysis of the
+computational cost with increasing parameter dimensions has been included for the reaction
+kinetics application in Section 5.3 in the revised manuscript. Additional comments pertaining
+to the increase in computational cost and expected gains with dimensionality, based on
+our findings have been included in Section 6 (Summary and Discussion).
+
 \end{enumerate}
 
 Minor comments have also been addressed in the revised manuscript. The authors thank

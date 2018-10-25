@@ -43,8 +43,13 @@ dimensions to 3 or 4 dimensions) was
 accomplished for two different scenarios involving a fuel-rich and a fuel-lean
 mixture. In both cases, the resulting RSS was able to capture the input-output
 relationship as well as the uncertainty in the quantity of interest with
-reasonable accuracy. Additional highlights of the proposed framework are as
-follows:
+reasonable accuracy. \rebut{Moreover, it was shown that the parameter
+screening procedure (Algorithm~\ref{alg:screen}) was able to determine the
+relative importance of the
+parameters using only 5 samples in an even higher dimensional
+case involving 33 uncertain rate-controlling parameters. It was observed that
+the parameter dimension could be reduced from 33 to 2 in this case.}
+Additional highlights of the proposed framework are as follows:
 \begin{enumerate}
 \item Although PCEs were used in this work, the proposed framework is
 agnostic to the choice of the surrogate model construction method.
@@ -53,7 +58,9 @@ agnostic to the choice of the surrogate model construction method.
 %to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
 \item Substantial computational gains are expected in situations involving
 compute-intensive simulations even if the scope for dimension reduction is
-small. 
+small. \rebut{However, computational gains using the proposed framework
+are expected to increase significantly with the increase in dimensionality of the
+parameter space.}
 %Hence, careful judgment pertaining to the construction of a reduced-order
 %surrogate as well as resource allocation is needed. is required when
 %implementing the framework. 
