@@ -378,17 +378,20 @@ efficient gradient computation techniques are used. The comparison is significan
 proposed DGSM-based framework in the higher dimensional case involving 33 uncertain parameters. 
 Once again, converged estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) are obtained
 using only 5 samples in the 33D parameter space. Hence, a total of 170 model runs are needed in this case
-including for gradient computation using finite difference. Whereas,
+including for gradient computation using finite difference. Whereas, as discussed earlier,
 constructing the sparse PCE itself requires model runs at 500 training points to sufficiently converge. Additional
-model runs are required to further verify the accuracy of the resulting PCE. Note that the analysis was performed
+model runs ($\mathcal{O}(10^{2})$ - $\mathcal{O}(10^{3})$) are required to further verify the accuracy of the 
+resulting PCE. Note that the analysis was performed
 for the fuel-rich case. However, similar trends are expected for the fuel-lean case and we do not include them here
 for brevity. 
 
 In addition to the potential for computational cost reduction using the proposed framework, the comparative 
-analysis also reveals the significant increase in computational effort pertaining to the estimation of the total-effect
+analysis also reveals the significant increase in computational effort associated with the PCE-based approach for
+computing  the total-effect
 Sobol' indices as the dimensionality increases from 19 to 33 despite using an efficient approach involving
 sparse-basis PCEs. It can thus be understood that for higher dimensional problems involving hundreds of 
-parameters, conventional approaches can quickly become prohibitive and the proposed framework could help
+parameters, conventional approaches (even sparse-basis PCEs) can quickly become prohibitive and
+the proposed DGSM-based approach could help
 reduce the computational effort by several orders of magnitude. 
 
 
