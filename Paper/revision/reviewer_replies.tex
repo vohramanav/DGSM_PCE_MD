@@ -72,7 +72,7 @@ the screening parameters. This is a common observation in many practical
 applications, and therefore the proposed methodology involving an iterative
 approach can yield significant computational savings. 
 
-These points have been emphasized in the discussion in Section~6 (Summary and
+These points have been added in the discussion in Section~6 (Summary and
 Conclusion, Page 34) in the revised manuscript. 
 
 \item 
@@ -154,12 +154,23 @@ with increasing parameter dimension, e.g. Sobol’ indices incorporated with
 sparse grid, since the difference decreases with increasing number of parameters.}
 
 As suggested by the reviewer, the computational cost pertaining to the estimation of DGSM-based
-sensitivity indices is compared with the cost associated with estimating the total-effect Sobol' indices
-for the 19-dimensional reaction kinetics application in this work. Additionally, the comparison is 
+sensitivity indices using the approach presented in this work is compared with the cost associated 
+with estimating the total-effect Sobol' indices using a sparse-basis PCE
+for the 19-dimensional reaction kinetics application. Additionally, the comparison is 
 performed for the same application with 33 uncertain rate-controlling parameters to investigate
 the impact of dimensionality. 
 
-A new sub-section (5.3) on ``comparative cost analysis" has been included in the revised
+For the 19-dimensional case, the DGSM-based approach seems 
+slightly more efficient depending upon the model runs required for training and verifying the sparse-basis PCE
+used to compute the total-effect Sobol' indices. However, computational gains are observed to 
+be much more substantial in the case of DGSM-based approach for the 33-dimensional problem
+owing to the increase in the number of training points required to construct the PCE. Our analysis
+clearly indicates that with increasing dimensionality, the DGSM-based approach presented in this
+work is expected to yield a higher computational dividend especially when efficient gradient estimation
+techniques are employed. 
+
+A new sub-section (5.3) on ``comparative cost analysis" comprising the results and
+discussion based on the above points has been included in the revised
 manuscript. 
 
 \item 
@@ -173,8 +184,11 @@ convergence of $\epsilon_{L_2}$.}
 As suggested by the reviewer, the plots and related discussion pertaining to the convergence 
 of $\epsilon_{L_2}$ have been included for the numerical tests presented in Section 3 (Figures 3b
 and 6b) and 
-the chemical kinetics application presented in Section 4 (Figure 8, right). 
-
+the chemical kinetics application presented in Section 4 (Figure 8, right). As expected, the predictive
+accuracy of the surrogates is observed to increase with the number of training points in all cases. 
+Additionally, the RSS is observed to be more accurate when a small number of training samples, $N$=10
+is used. However, as $N$ increases the FSS is observed to be more accurate depending upon the
+application. 
 
 \item 
 \referee{How would the proposed approach behave when presented with severe nonlinearity
@@ -183,11 +197,11 @@ of parameters?}
 
 Severe non-linearity in the model output as a function of uncertain inputs could potentially lead
 to a significantly large variability in its gradient. Hence, a large number of Monte Carlo samples might be
-required to estimate the screening metrics with reasonable accuracy in this case depending upon the
+required to estimate the screening metrics with reasonable accuracy in that case depending upon the
 application. Therefore, the computational effort is expected to increase in such cases. In the presence
 of rare events, the variance-based approaches typically lead to inaccurate estimates of 
 parametric sensitivities. Since the proposed methodology in this work aims to reduce the computational
-effort pertaining to total-effect Sobol index which is a variance-based measure, it might lead to
+effort pertaining to total-effect Sobol' index which is a variance-based measure, it might lead to
 inaccurate estimates of the screening metric and therefore to erroneous relative importance of the uncertain
 inputs.
 
