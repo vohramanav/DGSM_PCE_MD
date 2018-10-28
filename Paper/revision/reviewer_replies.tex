@@ -87,7 +87,9 @@ In the borehole test case, the PCE constructed using 50 training points for the 
 In the semilinear elliptic PDE example, the PCE constructed using 90 training
 points for the 10D and 5D cases was found to be of degree 2 and 3 respectively.
 For the reaction kinetics application, the PCE constructed using 60 training points
-for the 19D and 4D cases was found to be of degree 1 and 3 respectively. 
+for the 19D and 4D cases was found to be of degree 1 and 3 respectively. Note that
+in each case, the degree refers to the maximal degree associated with the polynomial
+basis as reported by UQLab. 
 
 The captions of Figures 3, 6, and 8 have been updated to include this information. 
 
@@ -101,7 +103,9 @@ if the iterative screening procedure does make a difference on the ranking the
 parameters compared with the initial parameter screening step?}
 
 The reviewer is correct in pointing out from Figure 7 that the initial screening step
-reasonably approximates the screening metric. The same is observed in
+reasonably approximates the screening metric. However, as shown in Algorithm~1,
+the screening procedure involves atleast $s_\text{min}$ iterations to ensure that
+the screening metric has converged. The same is observed in
 Figure 5 for the semilinear elliptic PDE test case. It is also true in the borehole test
 case and a similar figure has been included for this example in the revised manuscript
 (Figure 2c) as suggested by the reviewer. The reason for this observation has already
