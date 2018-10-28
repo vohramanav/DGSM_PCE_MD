@@ -173,11 +173,13 @@ clearly demonstrates the trade-off between
 computational effort associated with surrogate construction and its predictive 
 accuracy. For a small sample size of 20, the relative  error in the case of 4D
 PCE is found to be the smallest. However, as the sample size increases, the higher
-order PCE becomes more accurate. Note that the same set of 50 samples in the
+order PCE becomes more accurate. This is expected since the higher order PCE
+inherently contains more information pertaining to the input-output relationship.
+Note that the same set of 50 samples in the
 validation test suite were used in each case. Hence, when limited computational resources
 are available, the proposed methodology could yield substantial gains due to fast
 convergence as well as higher accuracy of the surrogate in the reduced space.
-The gains are expected to increase exponentially as the dimensionality of the 
+The gains are expected to increase significantly as the dimensionality of the 
 input space increases.}
 
 Specifically, the estimates for $\epsilon_{\mbox{\tiny{L-2}}}$ were
@@ -457,7 +459,7 @@ is plotted using the full-surrogate and the reduced-space PC surrogate.}
 \rebut{The comparison of predictive accuracy of the PCEs using $\epsilon_{\mbox{\tiny{L-2}}}$
 is illustrated in Figure~\ref{fig:conv_elliptic}(b). It is observed that for a small sample size of 20,
 the surrogate constructed in the reduced space performs better in terms of
-predictability. However, as the sample size increases, the full space is observed to
+predictability. However, as the sample size increases, the FSS is observed to
 be slightly more accurate although the order of the accuracy is found to be 
 consistent in both cases until the sample size is less than 80. When the sample size
 increases to 90, the 19D PCE is observed to be more accurate by an order of magnitude.
