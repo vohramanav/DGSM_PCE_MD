@@ -75,16 +75,17 @@ are calibrated.
 \end{enumerate}
 
 Based on the results presented for the test problems and the kinetics
-application, the proposed framework seems quite promising in its
-potential for identifying the unimportant model inputs. \rebut{In fact, in 
-the numerical tests and the chemical kinetics application presented in this
-work, reasonable estimates of the screening metric are obtained during the
-initial screening step with a few samples. This is indicative of a small
-degree of
-variability in the gradient of the model output with respect to individual
-parameters, and therefore, a low variance of the Monte Carlo estimator.}
-These observations could be exploited to construct efficient model surrogates
-in a reduced input space. However, it is important to remain cognizant
+application, the proposed framework seems quite promising in its potential for
+identifying the unimportant model inputs. \rebut{In fact, in the numerical
+tests and the chemical kinetics application presented in this work, reasonable
+estimates of the screening metric are obtained during the initial screening
+step with a few samples. This is indicative of a small degree of variability in
+the gradient of the model output with respect to individual parameters, and
+therefore, a low variance of the Monte Carlo estimator.} These observations
+could be exploited to construct efficient model surrogates in a reduced input
+space. 
+
+While the proposed approach has attractive features, it is important to remain cognizant
 about the limitations of the framework as well. 
 For instance, the quantity of interest is required to be differentiable with
 respect to each parameter in the considered domain. This condition once
@@ -94,13 +95,22 @@ leading to significant variability in its gradient in the considered input domai
 the number of samples and hence, the computational effort associated with
 the estimation of screening metrics would expectedly 
 increase. The extent of increase in the effort would of course depend upon the
-application. In the case of rare events, the variance-based methods typically
-lead to inaccurate estimates of the uncertainty in the model output. Since the
-methodology proposed in this work is based on reducing computational
-effort associated with variance-based sensitivity analysis, specifically, the
-total-effect Sobol' index, it might lead to erroneous estimates of the
-screening metrics and consequently the relative importance of the
-uncertain parameters.}
+application. 
+Also, we note that the proposed methodology aims to reduce the computational
+effort pertaining to the total-effect Sobol' index, which is a
+variance-based measure.  For severely nonlinear models, whose QoIs
+might exhibit heavy-tailed or multimodal distributions, the 
+variance might not provide an adequate representation of uncertainty.
+Possible remedies for such cases include the so-called moment independent
+measures; see e.g.,~\cite{BorgonovoIooss16,IoossLemaitre15}.}
+%In the case of rare events, the variance-based methods typically
+%lead to inaccurate estimates of the uncertainty in the model output. Since the
+%methodology proposed in this work is based on reducing computational
+%effort associated with variance-based sensitivity analysis, specifically, the
+%total-effect Sobol' index, it might lead to erroneous estimates of the
+%screening metrics and consequently the relative importance of the
+%uncertain parameters.
+
 Additionally, the proposed framework does not
 account for the existence of possible correlations between the uncertain
 inputs of the model. However, while the assumption of independent
