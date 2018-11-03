@@ -17,7 +17,7 @@ In this work, we have presented an efficient and practical approach for construc
 a reduced-space
 surrogate for scientific and engineering applications. Dimension reduction is accomplished
 by identifying uncertain parameters that contribute relatively less towards the uncertainty
-in the quantity of interest. These parameters deemed as \textit{unimportant} are determined
+in the QoI. These parameters deemed as \textit{unimportant} are determined
 using a screening metric~\eqref{eq:cmu} involving derivative-based sensitivity
 measures. Initially, the metric is estimated
 using model evaluations at a small set of samples in the parameter domain. These
@@ -42,7 +42,7 @@ of the H$_2$/O$_2$ reaction mechanism.  Significant dimension reduction (19
 dimensions to 3 or 4 dimensions) was
 accomplished for two different scenarios involving a fuel-rich and a fuel-lean
 mixture. In both cases, the resulting RSS was able to capture the input-output
-relationship as well as the uncertainty in the quantity of interest with
+relationship as well as the uncertainty in the QoI with
 reasonable accuracy. \rebut{Moreover, it was shown that the parameter
 screening procedure (Algorithm~\ref{alg:screen}) was able to determine the
 relative importance of the
@@ -87,7 +87,7 @@ space.
 
 While the proposed approach has attractive features, it is important to remain cognizant
 about the limitations of the framework as well. 
-For instance, the quantity of interest is required to be differentiable with
+For instance, the QoI is required to be differentiable with
 respect to each parameter in the considered domain. This condition once
 satisfied, enhances the accuracy of the PCE-based surrogates as well.  
 \rebut{Moreover, in the presence of severe non-linearity in the model output

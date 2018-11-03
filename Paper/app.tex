@@ -27,12 +27,12 @@ in determining relative parameter importance using DGSMs and the
 total-effect Sobol' index as the dimensionality increases from 19 to 33
 for the present application.}
 
-\subsection{Problem Set-up}
+\subsection{Problem Setup}
 \label{sub:setup}  
 The mechanism comprises of 19 reactions including chain reactions,
 dissociation/recombination reactions, and formation and consumption
 of intermediate species as provided below in Table~\ref{tab:kinetics}.
-
+%
 \begin{table}[htbp]
 \renewcommand*{\arraystretch}{1.2}
 \begin{center}
@@ -65,8 +65,7 @@ $\mathcal{R}_{19}$ & H$_2$O$_2$ + OH & $\rightleftharpoons$ & HO$_2$ + H$_2$O \\
 \caption{Reaction mechanism for H$_2$/O$_2$ from~\cite{Yetter:1991}}.
 \label{tab:kinetics}
 \end{table}
-
-
+%
 The reaction rate for the $i^{th}$ reaction as a function of temperature
 is given as follows:
 \be
@@ -74,8 +73,8 @@ k_i(T) = A_iT^{n_i}\exp(-E_{a,i}/RT),
 \label{eq:rate}
 \ee
 %
-where $A_i$ is the pre-exponent, $n_i$ is the index of $T$, $E_{a,i}$ is the
-activation energy corresponding to the $i^{th}$ reaction, and $R$ is the
+where $A_i$, $n_i$, and $E_{a,i}$ denote the pre-exponent, the index of $T$, and
+and the activation energy corresponding to the $i^{th}$ reaction; and $R$ is the
 universal gas constant. 
 The TChem~\cite{Safta:2011} software package is used to model homogeneous
 ignition at constant pressure for a range of initial conditions for the
@@ -93,7 +92,7 @@ The set of nominal values used in the computations, for parameters
 in~\eqref{eq:rate} are provided
 in~\cite{Yetter:1991}. 
 
-While the dimensionality of the problem is relatively moderate,
+While the dimensionality of the problem is moderate,
 constructing a surrogate in the 19-dimensional parameter space could still be
 expensive. Hence, we explore the possibility of constructing a
 reduced-space surrogate (RSS) using the framework presented 
@@ -262,14 +261,14 @@ RSS for multiple scenarios pertaining to the H$_2$/O$_2$ reaction
 mechanism.    
 
 \rebut{
-\subsection{Comparative cost analysis}
+\subsection{Comparative cost analysis: higher-dimensional setting}
 \label{sub:cost}
 
 In this section, we perform a comparative analysis of the computational cost
 associated with obtaining converged estimates of parametric sensitivities
 using DGSM, and the total-effect Sobol' indices ($\mathcal{T}(\theta_i)$). The former is computed
 using the parameter screening algorithm (Algorithm~\ref{alg:screen}), and the latter is
-estimated analytically by constructing a sparse-basis PCE. Note that estimating $\mathcal{T}(\theta_i)$
+estimated using a sparse-basis PCE. Note that estimating $\mathcal{T}(\theta_i)$
 using a PCE has been shown to be more efficient compared to sampling 
 techniques~\cite{Crestaux:2009,BlatmanSudret10}.
 Moreover, a sparse-basis PCE requires fewer training points which
@@ -312,7 +311,7 @@ converged 33D PCE and an independent set of model evaluations at 1000 samples.
 Before comparing the computational cost pertaining to the two approaches (DGSM-based and 
 Sobol'-based) and the impact of dimensionality, we verify that the parametric sensitivities are
 consistent in both cases. Sensitivity estimates for the 33 uncertain parameters obtained
-using the DGSM-based strategy, and by evaluating $\mathcal{T}(\theta_i)$ analytically
+using the DGSM-based strategy, and by evaluating $\mathcal{T}(\theta_i)$ 
 using the sparse-basis PCE are plotted and placed adjacent to each other for comparison
 in Figure~\ref{fig:sense33D}.
 %
@@ -352,11 +351,11 @@ parameters for the H$_2$/O$_2$ reaction kinetics application.
 \caption{A comparison of computational cost for the DGSM-based and Sobol'-based parametric 
 sensitivity analysis in the case of 19 and 33 uncertain rate-controlling parameters.}
 \begin{center}
-\begin{tabular}{c|p{4cm}|p{4cm}|}
+\begin{tabular}{c|p{4.2cm}|p{4.2cm}|}
 \cline{2-3}
 & \multicolumn{2}{ c| }{$\mathbf{\#}$ \textbf{of Function Evaluations/Model Runs}~($\mathcal{M}$)} \\ \cline{2-3} 
 & \centering \textbf{19D} & \hspace{18mm} \textbf{33D} \\  \hhline{===}
-\multicolumn{1}{ |l|| }{$\widehat{\mathcal{C}_i\mu_i}$ (\textbf{DGSM-based)}} & \centering 100 + $N_{v_1}$ & \hspace{13mm} 170 + $N_{v_1}$ \\ 
+\multicolumn{1}{ |l|| }{$\widehat{\mathcal{C}_i\mu_i}$ (\textbf{DGSM-based)}} & \centering 5(19+1) = 100 + $N_{v_1}$ & \hspace{3mm} 5(33+1) = 170 + $N_{v_1}$ \\ 
 \cline{1-3}
 \multicolumn{1}{ |l|| }{$\mathcal{T}(\theta_i)$ (\textbf{PCE-based})} & \centering 20 + $N_{v_2}$ & 
 \hspace{13mm} 500 + $N_{v_2}$ \\ \cline{1-3}  
@@ -391,14 +390,13 @@ including for gradient computation using finite difference as well as verificati
 constructing the sparse PCE itself requires model runs at 500 training points to sufficiently converge. Additional
 model runs ($\mathcal{O}(10^{2})$ - $\mathcal{O}(10^{3})$) are required to further verify the accuracy of the 
 resulting PCE. Note that the analysis was performed
-for the fuel-rich case. However, similar trends are expected for the fuel-lean case and we do not include them here
-for brevity. 
+for the fuel-rich case. 
 
 Based on our findings, it appears that the proposed DGSM-based approach can offer a significant
 computational advantage especially in higher dimensions due to multiple factors: (1) Computational
 effort required for estimating $\mathcal{T}(\theta_i)$ is observed to increase substantially with dimensionality even
 when using sparse-basis PCEs. Whereas, the DGSM-based estimates converge
-with only a few samples ($N$ = 5) even for a relatively higher-dimensional case. Moreover, it must be noted that
+with only a few samples, $\mathcal{O}(10^1)$ even for a relatively higher-dimensional case. Moreover, it must be noted that
 the computational gains associated with the proposed DGSM-based approach could be enhanced
 significantly by employing efficient gradient computation techniques such as those involving adjoints
 and automatic differentiation as mentioned earlier in~\ref{sub:dgsm}; (2) The number of model runs

@@ -27,8 +27,9 @@ convergence and accuracy of the RSS followed by a brief discussion on
 salient features of the proposed framework. 
 
 \textbf{Parameter screening.}
-In the proposed framework, we
-adopt a novel approach for constructing an RSS based on estimating the
+Dimension reduction and subsequent construction of the RSS is enabled by
+identifying key contributors to the uncertainty in the QoI. For this purpose,
+we estimate the 
 upper-bound $\widehat{\mathcal{C}_i\mu_i}$, given in~\eqref{eq:bound}, on 
 total Sobol' index ($\mathcal{T}(\theta_i)$) for each 
 parameter $\theta_i$; the \emph{screening metrics}, 
@@ -301,8 +302,8 @@ model realization.  From~\eqref{eq:loo}, it appears that $N_l$ PCEs are needed
 to evaluate $\epsilon_{\mbox{\tiny LOO}}$.  However, in practice a modified
 formulation for $\epsilon_{\mbox{\tiny LOO}}$~\cite{Blatman:2009}, independent
 of $G^{\mbox{\tiny {PC}\textbackslash i}}$ is used; for an easy reference,
-see~\cite[Eq.~(1.27)]{Marelli:2014}.  Accuracy of the surrogate could also 
-be assessed by evaluating the relative $\ell_2$-norm of the difference in
+see~\cite[Eq.~(1.27)]{Marelli:2014}.  Predictive accuracy of the surrogate is 
+assessed by evaluating the relative $\ell_2$-norm of the difference in
 predictions between the model and the surrogate ($\epsilon_{\mbox{\tiny{L-2}}}$), as follows:
 \be
 \epsilon_{\mbox{\tiny{L-2}}} = \frac{\left[\sum\limits_{i=1}^{N_v}\left(G(\bm{\theta}_i) - 

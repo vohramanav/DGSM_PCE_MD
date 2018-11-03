@@ -25,7 +25,7 @@ the purpose of verification.
 
 \subsection{Borehole function}
 
-The borehole function~\cite{Morris:1993} is a benchmark reference problem in sensitivity analysis.
+The borehole function~\cite{Morris:1993,Marelli:2014} is a benchmark reference problem in sensitivity analysis.
 It models the discharge of water ($\mathcal{Q}$) through a borehole in terms of
 geometrical and physical inputs:
 \be
@@ -89,7 +89,7 @@ parameter screening based on the methodology presented in Section~\ref{sec:metho
  \begin{tabular}{cc}
   \includegraphics[width=0.45\textwidth]{./Figures/sense_borehole}
   &
-  \includegraphics[width=0.49\textwidth]{./Figures/ub_conv_borehole}
+  \includegraphics[width=0.45\textwidth]{./Figures/ub_conv_borehole}
   \\ (a) & (b)
   \end{tabular}
   \\
@@ -390,8 +390,8 @@ We aim to construct a reduced-space surrogate for the following QoI:
 %
 where $D$ is the region $[2/5, 3/5] \times [2/5, 3/5] \subset \Omega$, 
 and $|D|$ denotes the area of $D$. 
-While this model is considerably more complex than the previous numerical
-examples, it can still be solved efficiently.
+While this model is considerably more complex than the borehole 
+example, it can still be solved efficiently.
 The equation was discretized using finite differences, and Newton's method
 was used to solve the resulting nonlinear system on a $100 \times 100$ 2D
 cartesian grid.
@@ -462,12 +462,12 @@ the surrogate constructed in the reduced space performs better in terms of
 predictability. However, as the sample size increases, the FSS is observed to
 be slightly more accurate although the order of the accuracy is found to be 
 consistent in both cases until the sample size is less than 80. When the sample size
-increases to 90, the 19D PCE is observed to be more accurate by an order of magnitude.
+increases to 90, the 10D PCE is observed to be more accurate by an order of magnitude.
 However, the corresponding value of $\epsilon_{\mbox{\tiny{LOO}}}$ is~$\mathcal{O}(10^{-1})$.
-Hence, the 19D PCE does not seem to have fully  converged and requires additional 
+Hence, the 10D PCE does not seem to have fully  converged and requires additional 
 model evaluations. Therefore, considering
 fast convergence of the surrogate in the 5D space and predictive accuracy comparable
-to the 19D PCE,
+to the 10D PCE,
 the proposed methodology significantly reduces computational effort in this case.}
 
 Using model evaluations at 1000 independent MC samples in the 10D parameter

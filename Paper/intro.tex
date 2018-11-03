@@ -40,8 +40,8 @@ geosciences~\cite{Namhata2016OladyshkinDilmoreEtAl16,deman2016,SaadAlexanderianP
 and chemical kinetics~\cite{DegasperiGilmore08,navarro2016global,Vohra:2014} to
 name a few. 
 We are thus, faced with a ``chicken-and-egg'' problem: on the one hand,
-computing global sensitivity measures enable dimension reduction, which in turn
-enable efficient surrogate model construction.  On the other hand, computing
+computing global sensitivity measures enables dimension reduction, which in turn
+enables efficient surrogate model construction.  On the other hand, computing
 sensitivity measures is expensive and is often made possible by using
 surrogate models. Development of an approach for 
 overcoming this chicken-and-egg problem is a major goal of this article. 
@@ -177,9 +177,14 @@ approach is general in that it is applicable to a wide range of applications.
 our strategy using motivating applications: the classic borehole
 function, and a semilinear elliptic PDE.  (iii) We 
 deploy our strategy in an application problem from chemical kinetics with 19
-uncertain parameters. The problem is studied in multiple regimes.
+uncertain rate-controlling parameters. The problem is studied in multiple regimes.
 It is shown that the 19-parameter problem can be efficiently reduced to a 3- 
-or 4-dimensional problem.
+or 4-dimensional problem. \rebut{The strategy is further implemented to a
+higher dimensional problem involving 33 uncertain rate-controlling parameters.
+In this case, it is shown that only 2 out of 33 parameters predominantly 
+contribute to the uncertainty in the quantity of interest (QoI). Moreover, 
+computational gains using the proposed strategy are shown to increase significantly
+with dimensionality.}
 
 The remainder of this article is structured as follows. 
 In section~\ref{sec:bg}, we provide a

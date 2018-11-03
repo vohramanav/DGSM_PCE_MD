@@ -28,7 +28,9 @@ Specifically, we consider the following DGSMs,
 \ee
 Here $\mathbb{E}$ denotes expectation over the uncertain parameters.
 Notice that this formulation assumes that the function $\GG$ is differentiable
-with respect to $\theta_i$, $i = 1, \ldots, \Np$.
+with respect to $\theta_i$, $i = 1, \ldots, \Np$ and the partial derivatives,
+$\left(\frac{\partial \GG(\bm{\bm{\theta}})}{\partial \theta_i}\right)$ are 
+square integrable. 
 
 If an analytic expression for $\GG$ is available, the derivative in the above
 expression can be computed directly. In real-world applications, 
@@ -102,7 +104,8 @@ between 0 and 1:
 The Poincar\'e constant, $\mathcal{C}_i$ is specific to the probability
 distribution of $\theta_i$. For $\theta_i \sim \mathcal{U}[a, b]$,
 $\mathcal{C}_i = (b-a)^{2}/\pi^2$, and for  
-$\theta_i \sim \mathcal{N}(\mu,\sigma^2)$, we have $\mathcal{C}_i = \sigma^2$. 
+$\theta_i \sim \mathcal{N}(\mu,\sigma^2)$, we have $\mathcal{C}_i = \sigma^2$
+(see~\cite{Lamboni:2013} for more details). 
 Here $\mathcal{N}(\mu,\sigma^2)$ denotes a normal distribution with mean $\mu$
 and variance $\sigma^2$, and $\mathcal{U}[a,b]$ denotes a uniform distribution
 on the interval $[a, b]$.
