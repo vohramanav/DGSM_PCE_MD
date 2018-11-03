@@ -199,18 +199,26 @@ application.
 or rare events where the screening metrics could misrepresent the significance
 of parameters?}
 
-Severe non-linearity in the model output as a function of uncertain inputs could potentially lead
-to a significantly large variability in its gradient. Hence, a large number of Monte Carlo samples might be
-required to estimate the screening metrics with reasonable accuracy in that case depending upon the
-application. Therefore, the computational effort is expected to increase in such cases. In the presence
-of rare events, the variance-based approaches typically lead to inaccurate estimates of 
-parametric sensitivities. Since the proposed methodology in this work aims to reduce the computational
-effort pertaining to total-effect Sobol' index which is a variance-based measure, it might lead to
-inaccurate estimates of the screening metric and therefore to erroneous relative importance of the uncertain
-inputs.
+Severe non-linearity in the model output as a function of uncertain
+inputs could potentially lead to a significantly large variability in
+its gradient. Hence, a large number of Monte Carlo samples might be
+required to estimate the screening metrics with reasonable accuracy
+in that case depending upon the application. Therefore, the
+computational effort is expected to increase in such cases.
+Moreover, the proposed methodology aims to reduce the computational
+effort pertaining to the total-effect Sobol' index, which is a
+variance-based measure.  For severely nonlinear models, whose QoIs
+might exhibit heavy tailed or multimodal distributions, the 
+variance might not provide an adequate representation of uncertainty. 
+Possible remedies for such cases 
+include the so-called moment independent measures.
 
-A brief discussion based on the above points has been included in the last paragraph in
-Section 6 (Summary and Discussion).
+%it might lead to inaccurate estimates of
+%%the screening metric and therefore to erroneous relative importance
+%of the uncertain inputs.
+
+A brief discussion based on the above points has been included in the
+last paragraph in Section 6 (Summary and Discussion).
 
 \item 
 \referee{The reviewer would like to see some comments on the change of computational
