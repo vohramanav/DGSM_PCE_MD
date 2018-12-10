@@ -1,0 +1,52 @@
+This is BibTeX, Version 0.99d (TeX Live 2015/Debian)
+Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
+The top-level auxiliary file: DGSM_surrogate_paper.aux
+The style file: unsrt.bst
+Database file #1: REFER.bib
+Warning--can't use both author and editor fields in Kucherenko:2016
+Warning--empty chapter and pages in Kucherenko:2016
+Warning--empty publisher in Marelli:2014
+Warning--can't use both author and editor fields in BorgonovoIooss16
+Warning--empty chapter and pages in BorgonovoIooss16
+You've used 45 entries,
+            1791 wiz_defined-function locations,
+            754 strings with 11799 characters,
+and the built_in function-call counts, 10910 in all, are:
+= -- 1017
+> -- 434
+< -- 9
++ -- 164
+- -- 119
+* -- 779
+:= -- 1704
+add.period$ -- 140
+call.type$ -- 45
+change.case$ -- 36
+chr.to.int$ -- 0
+cite$ -- 50
+duplicate$ -- 467
+empty$ -- 1075
+format.name$ -- 119
+if$ -- 2417
+int.to.chr$ -- 0
+int.to.str$ -- 45
+missing$ -- 51
+newline$ -- 229
+num.names$ -- 45
+pop$ -- 116
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 190
+stack$ -- 0
+substring$ -- 897
+swap$ -- 91
+text.length$ -- 9
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 5
+while$ -- 113
+width$ -- 47
+write$ -- 496
+(There were 5 warnings)

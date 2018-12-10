@@ -1,0 +1,413 @@
+\section{Application: H$_2$/O$_2$ Reaction Kinetics}
+\label{sec:app}
+
+%Problem set-up: something about the reaction - why is it important?
+%different reactions, reaction rate definition, uncertain parameters,
+%quantity of interest. 
+%
+%Implementation of the proposed methodology for two scenarios: lean
+%mix and rich mix. Describe what we mean by lean and rich using
+%stoichiometry. 
+%
+%Define all the inputs as per the framework and illustrate its
+%implementation to this application for both scenarios
+
+The proposed framework in section~\ref{sec:method} is implemented to 
+the H$_2$/O$_2$ reaction mechanism provided in~\cite{Yetter:1991}.
+The H$_2$/O$_2$ reaction is gaining a lot of attention as a potential
+source of clean energy for applications such as 
+transportation~\cite{Das:1996} and fuel cell 
+applications~\cite{Loges:2008,Cosnier:2016}. We begin by providing
+the necessary background information for setting up the problem
+in~\ref{sub:setup}. Results and discussion based on the implementation
+of the proposed framework are provided in~\ref{sub:imp}. Finally, 
+in~\ref{sub:cost}, we
+provide a comparative analysis of the computational cost involved
+in determining relative parameter importance using DGSMs and the
+total-effect Sobol' index as the dimensionality increases from 19 to 33
+for the present application.
+
+\subsection{Problem Setup}
+\label{sub:setup}  
+The mechanism comprises of 19 reactions including chain reactions,
+dissociation/recombination reactions, and formation and consumption
+of intermediate species as provided below in Table~\ref{tab:kinetics}.
+%
+\begin{table}[htbp]
+\renewcommand*{\arraystretch}{1.2}
+\begin{center}
+\begin{tabular}{llll}
+\toprule
+Reaction \#     & Reaction &&\\
+\bottomrule
+$\mathcal{R}_1$ & H + O$_2$          & $\rightleftharpoons$ & O + OH \\
+$\mathcal{R}_2$ & O + H$_2$          & $\rightleftharpoons$ & H + OH \\
+$\mathcal{R}_3$ & H$_2$ + OH         & $\rightleftharpoons$ & H$_2$O + H \\
+$\mathcal{R}_4$ & OH + OH            & $\rightleftharpoons$ & O + H$_2$O \\
+$\mathcal{R}_5$ & H$_2$ + M          & $\rightleftharpoons$ & H + H + M \\
+$\mathcal{R}_6$ & O + O + M          & $\rightleftharpoons$ & O$_2$ + M \\
+$\mathcal{R}_7$ & O + H + M          & $\rightleftharpoons$ & OH + M \\
+$\mathcal{R}_8$ & H + OH +M          & $\rightleftharpoons$ & H$_2$O + M \\
+$\mathcal{R}_9$ & H + O$_2$ + M      & $\rightleftharpoons$ & HO$_2$ + M \\
+$\mathcal{R}_{10}$ & HO$_2$ + H      & $\rightleftharpoons$ & H$_2$ + O$_2$ \\
+$\mathcal{R}_{11}$ & HO$_2$ + H      & $\rightleftharpoons$ & OH + OH \\
+$\mathcal{R}_{12}$ & HO$_2$ + O      & $\rightleftharpoons$ & O$_2$ + OH \\
+$\mathcal{R}_{13}$ & HO$_2$ + OH     & $\rightleftharpoons$ & H$_2$O + O$_2$ \\
+$\mathcal{R}_{14}$ & HO$_2$ + HO$_2$ & $\rightleftharpoons$ & H$_2$O$_2$ + O$_2$ \\
+$\mathcal{R}_{15}$ & H$_2$O$_2$ + M  & $\rightleftharpoons$ & OH + OH + M \\
+$\mathcal{R}_{16}$ & H$_2$O$_2$ + H  & $\rightleftharpoons$ & H$_2$O + OH \\
+$\mathcal{R}_{17}$ & H$_2$O$_2$ + H  & $\rightleftharpoons$ & HO$_2$ + H$_2$ \\
+$\mathcal{R}_{18}$ & H$_2$O$_2$ + O  & $\rightleftharpoons$ & OH + HO$_2$ \\
+$\mathcal{R}_{19}$ & H$_2$O$_2$ + OH & $\rightleftharpoons$ & HO$_2$ + H$_2$O \\
+\bottomrule
+\end{tabular}
+\end{center}
+\caption{Reaction mechanism for H$_2$/O$_2$ from~\cite{Yetter:1991}}.
+\label{tab:kinetics}
+\end{table}
+%
+The reaction rate for the $i^{th}$ reaction as a function of temperature
+is given as follows:
+\be
+k_i(T) = A_iT^{n_i}\exp(-E_{a,i}/RT), 
+\label{eq:rate}
+\ee
+%
+where $A_i$, $n_i$, and $E_{a,i}$ denote the pre-exponent, the index of $T$, and
+and the activation energy corresponding to the $i^{th}$ reaction; and $R$ is the
+universal gas constant. 
+The TChem~\cite{Safta:2011} software package is used to model homogeneous
+ignition at constant pressure for a range of initial conditions for the
+fuel-oxidizer mixture. During the simulation, the fuel-oxidizer mixture goes 
+through a radical build-up phase followed by a sharp increase in temperature
+as heat is released during the thermal runaway. We focus on quantifying the 
+uncertainty in the \emph{ignition delay} due to uncertainty associated 
+with the pre-exponent, $A_i$, for each reaction. The ignition delay 
+is defined as the inflection point on the temperature profile during the thermal
+runaway. The total number of uncertain parameters in the
+present case is 19.  The $A_i$'s are considered to be uniformly distributed in
+the interval: $[0.9A_i^\ast, 1.1A_i^\ast]$; $A_i^\ast$ being the nominal
+estimate corresponding to the $i^{th}$ reaction.
+The set of nominal values used in the computations, for parameters 
+in~\eqref{eq:rate} are provided
+in~\cite{Yetter:1991}. 
+
+While the dimensionality of the problem is moderate,
+constructing a surrogate in the 19-dimensional parameter space could still be
+expensive. Hence, we explore the possibility of constructing a
+reduced-space surrogate (RSS) using the framework presented 
+in section~\ref{sec:method}. 
+In the present study, we focus on two scenarios: fuel(H$_2$)-rich, and
+fuel(H$_2$)-lean. Consider the global reaction:
+%
+\be
+2\text{H}_2 + \text{O}_2 \rightarrow 2\text{H}_2\text{O}
+\label{eq:global}
+\ee 
+%
+The equivalence ratio $\phi$ is defined as follows:
+%
+\be
+\phi = \frac{(M_{\text{H}_2}/M_{\text{O}_2})_\text{obs}}{(M_{\text{H}_2}/M_{\text{O}_2})_\text{st}}
+\label{eq:phi}
+\ee
+%
+The numerator in the right-hand-side represents the observed (obs) fuel-oxygen
+mass ratio at a given condition and the denominator represents the
+stoichiometric (st) ratio of the same quantity. Hence, $\phi$ = 1 at
+stoichiometric conditions. The equivalence ratio can be altered by changing the
+amount of O$_2$ in the mixture. In the case of a lean
+mixture,~\eqref{eq:global} can be written as follows:
+%
+\be
+2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\text{H}_2\text{O} + (\alpha-1)\text{O}_2 
+\hspace{3mm} (\alpha>1)
+\label{eq:lean}
+\ee 
+%
+Similarly, for the case when the mixture if fuel rich,~\eqref{eq:global} is modified
+as follows:
+%
+\be
+2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\alpha\text{H}_2\text{O} + 2(1-\alpha)\text{H}_2
+\hspace{3mm} (\alpha<1)
+\label{eq:rich}
+\ee 
+%
+Eqs.~\eqref{eq:lean} and~\eqref{eq:rich} can be generalized as follows:
+%
+\be
+2\text{H}_2 + \alpha\text{O}_2 \rightarrow 2\min(1,\alpha)\text{H}_2\text{O} + 
+\max(\alpha-1,0)\text{O}_2 + \max(0,2-2\alpha)\text{H}_2
+\label{eq:gen}
+\ee 
+%
+From the above set of chemical equations, the relationship between $\phi$
+and $\alpha$ can be easily obtained as $\phi~=~\frac{1}{\alpha}$.
+Since $\phi>1$ corresponds to a rich mixture, and $\phi<1$ corresponds to a
+lean mixture, we consider $\phi$ = 2.0 and 0.5 to investigate the two scenarios
+respectively. 
+
+\subsection{DGSM-guided surrogate construction}
+\label{sub:imp}
+We apply the parameter screening algorithm with the following
+parameters: $\tau_\text{screen}$, $s_\text{min}$,
+$s_\text{max}$, $\beta$ are fixed at 0.2, 3, 10, and 1.0 respectively for both cases.
+Additionally, the value of $\tau$ is considered to be 1.0$\times 10^{-17}$ and
+5.0$\times 10^{-17}$ in the rich and lean case respectively. Such a small value
+of $\tau$ for this application is a consequence of the nature of convergence exhibited
+by the sensitivity measures. Moreover, the screening procedure is carried out
+for atleast $s_\text{min}$ number of iterations in order to bolster our confidence
+in the estimates. 
+
+Following the steps outlined in the flow-diagram in Figure~\ref{fig:flow}, model
+evaluations are initially generated at $n_1$ = 5 samples. The evaluations are
+used to construct a regression-based surrogate in the full-space. As
+expected, the surrogate is found to be highly inaccurate. Moreover, unlike the
+test problems in section~\ref{sec:examples}, we do not estimate the Sobol'
+total-effect sensitivity indices in the interest of following the overall framework
+closely. Hence, we proceed to the screening step to estimate the screening metric
+for the uncertain pre-exponents, $A_i$'s. Results are plotted below
+in Figure~\ref{fig:sense_kinetics}~(top row) for both cases. Furthermore, we illustrate
+the decay in the value of $\Delta\mu_s$ with iterations in 
+Figure~\ref{fig:sense_kinetics}~(bottom row). 
+
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.45\textwidth]{./Figures/ub_conv_kinetics_rich}
+  \includegraphics[width=0.45\textwidth]{./Figures/ub_conv_kinetics_lean}
+  \\ \vspace{2mm}
+  \includegraphics[width=0.45\textwidth]{./Figures/mu_rich}
+  \includegraphics[width=0.45\textwidth]{./Figures/mu_lean}
+\caption{Top: Estimates of $\widehat{\mathcal{C}_i\mu_i}$ for $A_i$'s in the case
+of fuel-rich mixture~(left) and fuel-lean mixture~(right). Bottom: The value of
+$\Delta\mu_s$ during three iterations within the screening step are plotted for
+the case of fuel-rich mixture~(left) and fuel-lean mixture~(right).}
+\label{fig:sense_kinetics}
+\end{center}
+\end{figure}
+%
+The screening metric estimates in the above plots are observed to converge with
+only a few samples (5--10). Moreover, out of the 19 uncertain pre-exponents,
+only $A_1$, $A_9$, $A_{15}$, and $A_{17}$ seem to be important in the fuel-rich
+case, whereas, only $A_1$, $A_9$, and $A_{15}$ seem important in the fuel-lean
+case, based on the value of $\tau_\text{screen}$. These observations are indicative
+of the potential for significant reduction in the dimensionality of this problem. 
+A reduced-space
+surrogate constructed using the proposed framework could thus lead to large computational
+gains. The decay of $\Delta\mu_s$ with iterations is expected and builds our confidence
+in the screening procedure in both cases.
+
+A reduced-space surrogate (RSS) was constructed in 4D for the fuel-rich case,
+and in 3D for
+the fuel-lean case. Figure~\ref{fig:err_samples_kinetics}~(left) illustrates a
+comparison of convergence characteristics for the PCEs constructed in the
+full-space and the reduced-space for the fuel-rich case. Note that the
+plot is generated using the implementation of least angle regression (LAR)
+for sparse PCEs in UQLab.  
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.45\textwidth]{./Figures/err_samples_kinetics}
+   \includegraphics[width=0.44\textwidth]{./Figures/errL2_samples_kinetics}
+\caption{Left: A semi-log plot of $\epsilon_\text{\tiny LOO}$ as a function of
+number of model evaluations in the full-space (19D) and the reduced-space (4D)
+for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0. The degree of
+the PCE constructed using 60 training points was found to be 1 and 3 in the 19D and the 4D cases respectively.
+Right: Semilog plot of the relative L-2 error norm ($\epsilon_{\mbox{\tiny{L-2}}}$)
+for the PCEs constructed in 4D and 19D.}
+\label{fig:err_samples_kinetics}
+\end{center}
+\end{figure}
+%
+The leave-one-out cross validation error is observed to drop initially
+and plateau with the increase in training points for the 19-dimensional
+PCE. However, in the case of 4-dimensional PCE, the error exhibits a
+monotonic behavior and is found to be smaller than $\mathcal{O}(10^{-5})$
+at 60 training points. Clearly, the RSS shows a much faster rate of convergence.
+Additionally, the
+convergence of the relative error norm, $\epsilon_{\mbox{\tiny{L-2}}}$ in 
+Figure~\ref{fig:err_samples_kinetics}~(right) indicates that for the case of 10
+samples, the 4D PCE is observed to be more accurate. However, the 19D PCE
+is observed to be more accurate by an order of magnitude as the sample size
+increases. Specifically, the 4D PCE was found to be accurate within 1.8$\%$ in the
+fuel-rich case, and within 3.1$\%$ in the fuel-lean case. Therefore, the 4D PCE
+is still observed to be reasonably accurate in this case. Moreover, its faster convergence
+as mentioned earlier should help reduce computational effort associated with
+surrogate model construction.
+Similar trends (not included) were observed in the fuel-lean case. 
+
+Model evaluations at 1000 samples in the test suite
+are further used to plot a normalized histogram of the ignition time in 
+Figure~\ref{fig:pdf_kinetics}. To verify the accuracy of the RSS in a 
+probabilistic-sense, we compare the histogram plot with a PDF of ignition time
+using surrogate predictions at 10$^{6}$ samples in the reduced space in both cases. 
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.45\textwidth]{./Figures/pdf_comp_rich}
+  \includegraphics[width=0.45\textwidth]{./Figures/pdf_comp_lean}
+\caption{A normalized histogram based on model evaluations at 1000 samples is plotted
+along with a PDF of ignition delay for the fuel-rich case (left) and the fuel-lean
+case (right).}
+\label{fig:pdf_kinetics}
+\end{center}
+\end{figure}
+%
+Clearly, the RSS captures the spread as well as the modal estimate of
+the ignition delay in both scenarios. Hence, the proposed framework 
+has enabled significant dimension reduction and construction of an accurate
+RSS for multiple scenarios pertaining to the H$_2$/O$_2$ reaction
+mechanism.    
+
+
+\subsection{Comparative cost analysis: higher-dimensional setting}
+\label{sub:cost}
+
+In this section, we perform a comparative analysis of the computational cost
+associated with obtaining converged estimates of parametric sensitivities
+using DGSM, and the total-effect Sobol' indices ($\mathcal{T}(\theta_i)$). The former is computed
+using the parameter screening algorithm (Algorithm~\ref{alg:screen}), and the latter is
+estimated using a sparse-basis PCE. Note that estimating $\mathcal{T}(\theta_i)$
+using a PCE has been shown to be more efficient compared to sampling 
+techniques~\cite{Crestaux:2009,BlatmanSudret10}.
+Moreover, a sparse-basis PCE requires fewer training points which
+enhances computational savings~\cite{Sudret:2008,Blatman:2009}. 
+To investigate the impact of the dimensionality, the
+analysis is performed with 19 uncertain parameters, i.e.
+the pre-exponents~($A_i$'s) as discussed earlier in~\ref{sub:setup} and~\ref{sub:imp}, and
+33 uncertain parameters wherein the activation energies~($E_{a,i}$'s) are considered to
+be uncertain in addition to the $A_i$'s. The $E_{a,i}$'s are also considered to be uniformly distributed in the
+interval: [$0.9E_{a,i}^\ast,1.1E_{a,i}^\ast$], where $E_{a,i}^\ast$ is the nominal value
+for the $i^\text{th}$ reaction as provided in~\cite{Yetter:1991}. Note that only those
+$E_{a,i}$'s with a non-zero nominal value are considered as uncertain, and therefore the
+total number of uncertain parameters in the high-dimensional case is 33 as opposed to 38. 
+
+The 33-dimensional sparse basis PCE was assessed for its convergence characteristics
+and its predictive accuracy using $\epsilon_{\mbox{\tiny LOO}}$~(see~\eqref{eq:loo}) and
+$\epsilon_{\mbox{\tiny{L-2}}}$~(see~\eqref{eq:l2}) respectively as shown in
+Figure~\ref{fig:err_samples}.  
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.45\textwidth]{./Figures/err_samples_kinetics33D}
+\caption{A semi-log plot of $\epsilon_\text{\tiny LOO}$  and $\epsilon_{\mbox{\tiny{L-2}}}$
+as a function of the number of training points in the 33D parameter space 
+for the fuel (H$_2$)-rich case i.e. $\phi$ = 2.0. The degree of
+the PCE constructed using 500 training points was found to be 3.}
+\label{fig:err_samples}
+\end{center}
+\end{figure}
+%
+The sparse-basis PCEs constructed in the 19 and the 33 dimensional parameter
+space were considered to have converged once $\epsilon_\text{\tiny LOO}$ was found to be
+smaller than 6.0$\times$10$^{-3}$. As observed in Figures~\ref{fig:err_samples_kinetics}
+and~\ref{fig:err_samples}, the number of training points required in the 19D
+and the 33D cases are found to be 20 and 500 respectively. As expected, the predictive
+accuracy is observed to increase with increase in the number of training points in both cases.
+The estimate of $\epsilon_{\mbox{\tiny{L-2}}}$ was found to be 7.22$\times$10$^{-2}$ using the
+converged 33D PCE and an independent set of model evaluations at 1000 samples.
+
+Before comparing the computational cost pertaining to the two approaches (DGSM-based and 
+Sobol'-based) and the impact of dimensionality, we verify that the parametric sensitivities are
+consistent in both cases. Sensitivity estimates for the 33 uncertain parameters obtained
+using the DGSM-based strategy, and by evaluating $\mathcal{T}(\theta_i)$ 
+using the sparse-basis PCE are plotted and placed adjacent to each other for comparison
+in Figure~\ref{fig:sense33D}.
+%
+\begin{figure}[htbp]
+ \begin{center}
+  \includegraphics[width=0.42\textwidth]{./Figures/ub33D}
+  \includegraphics[width=0.40\textwidth]{./Figures/sens_kinetics33D}
+\caption{
+Left: Estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$), 
+obtained using $N$ = 5, 10 samples in the full parameter space; and
+Right: Total-effect Sobol' indices, $\mathcal{T}(\theta_i)$ for the 33 uncertain rate-controlling
+parameters ($A_i$'s and $E_{a,i}$'s).}
+\label{fig:sense33D}
+\end{center}
+\end{figure}
+%
+The plots clearly indicate that the relative importance of the uncertain parameters is
+consistent in both cases. Specifically, both approaches reveal that the uncertainty in
+the ignition delay is predominantly due to the uncertainty in $E_{a,1}$ and $E_{a,10}$ with a 
+minor contribution from $E_{a,12}$, whereas, contributions from other parameters is either zero
+or negligible. These results are clearly indicative of the potential for dimension reduction in this
+case using the proposed sensitivity-driven approach. A reasonably accurate RSS in a 2D
+parameter space could potentially capture the uncertainty in the ignition delay due to the
+uncertainty in the 33 rate-controlling parameters.
+
+The computational cost is estimated in terms of the number of function evaluations or model runs,
+denoted by $\mathcal{M}$ in each case. In the case of DGSM-based approach presented in this work, 
+$\mathcal{M}$ = $N(N_p+1)$ ($N$: number of samples, $N_p$: number of parameters)
+as discussed earlier in~\ref{sub:dgsm}. In the case of PCE-based computation of $\mathcal{T}(\theta_i)$,
+$\mathcal{M}$ is the sum total of the number of training points used for constructing the sparse-basis
+PCE and the number of evaluations used for its verification. In Table~\ref{tab:cost},
+we provide a comparison of $\mathcal{M}$ for the two approaches in the case of 19 and 33 uncertain
+parameters for the H$_2$/O$_2$ reaction kinetics application. 
+%
+\begin{table}[htbp]
+\renewcommand{\arraystretch}{1.5}
+\caption{A comparison of computational cost for the DGSM-based and Sobol'-based parametric 
+sensitivity analysis in the case of 19 and 33 uncertain rate-controlling parameters.}
+\begin{center}
+\begin{tabular}{c|p{4.2cm}|p{4.2cm}|}
+\cline{2-3}
+& \multicolumn{2}{ c| }{$\mathbf{\#}$ \textbf{of Function Evaluations/Model Runs}~($\mathcal{M}$)} \\ \cline{2-3} 
+& \centering \textbf{19D} & \hspace{18mm} \textbf{33D} \\  \hhline{===}
+\multicolumn{1}{ |l|| }{$\widehat{\mathcal{C}_i\mu_i}$ (\textbf{DGSM-based)}} & \centering 5(19+1) = 100 + $N_{v_1}$ & \hspace{3mm} 5(33+1) = 170 + $N_{v_1}$ \\ 
+\cline{1-3}
+\multicolumn{1}{ |l|| }{$\mathcal{T}(\theta_i)$ (\textbf{PCE-based})} & \centering 20 + $N_{v_2}$ & 
+\hspace{13mm} 500 + $N_{v_2}$ \\ \cline{1-3}  
+\end{tabular}
+\end{center}
+\label{tab:cost}
+\end{table}
+%
+For the 19D case, estimating the converged estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$)
+required 5 samples. However, since finite difference was used in this work for estimating the gradient of the
+model output, a total of 100 model runs were required. Additionally, the screening procedure is continued for
+one iteration using $N$ = 10 samples to ensure the convergence of $\widehat{\mathcal{C}_i\mu_i}$.
+Since these additional runs are essentially used for verification, we denote them as $N_{v_1}$.
+%As mentioned earlier in~\ref{sub:dgsm}, depending
+%upon the application, it is possible to explore efficient techniques for gradient estimation such as those involving 
+%adjoint computation and automatic differentiation. Hence, there is scope for a significant
+%reduction in the computational cost
+%associated with the DGSM-based approach. 
+On the other hand, constructing the sparse-basis PCE requires only 20 samples in
+the 19D parameter space with uncertain pre-exponents. Additional model runs ($N_{v_2}$)
+ typically ranging from
+$\mathcal{O}(10^{2})$ - $\mathcal{O}(10^{3})$ are needed to build a cross validation test suite to verify the 
+accuracy of the PCE.  
+The DGSM-based approach could thus yield computational gains especially when 
+efficient gradient computation techniques are used. The comparison is significantly more favorable for the 
+proposed DGSM-based framework in the higher dimensional case involving 33 uncertain parameters. 
+Once again, converged estimates of the screening metric ($\widehat{\mathcal{C}_i\mu_i}$) are obtained
+using only 5 samples in the 33D parameter space. For verification, the screening procedure is
+continued for one iteration by evaluating the model output at 10 samples in 33 dimensions. 
+Therefore, a total of 340 model runs are needed in this case
+including for gradient computation using finite difference as well as verification. Whereas, as discussed earlier,
+constructing the sparse PCE itself requires model runs at 500 training points to sufficiently converge. Additional
+model runs ($\mathcal{O}(10^{2})$ - $\mathcal{O}(10^{3})$) are required to further verify the accuracy of the 
+resulting PCE. Note that the analysis was performed
+for the fuel-rich case. 
+
+Based on our findings, it appears that the proposed DGSM-based approach can offer a significant
+computational advantage especially in higher dimensions due to multiple factors: (1) Computational
+effort required for estimating $\mathcal{T}(\theta_i)$ is observed to increase substantially with dimensionality even
+when using sparse-basis PCEs. Whereas, the DGSM-based estimates converge
+with only a few samples, $\mathcal{O}(10^1)$ even for a relatively higher-dimensional case. Moreover, it must be noted that
+the computational gains associated with the proposed DGSM-based approach could be enhanced
+significantly by employing efficient gradient computation techniques such as those involving adjoints
+and automatic differentiation as mentioned earlier in~\ref{sub:dgsm}; (2) The number of model runs
+needed to verify the convergence of $\widehat{\mathcal{C}_i\mu_i}$ can be controlled
+using the iterative strategy in this work
+and is expected to be much smaller than the number of runs needed for verifying the accuracy of  
+$\mathcal{T}(\theta_i)$ especially in high-dimensional settings. Specifically, for the 33D case,
+model runs at 5 additional samples (corresponding to the first iteration) were used to verify the
+convergence of $\widehat{\mathcal{C}_i\mu_i}$ as opposed to 1000 model evaluations used to verify
+the accuracy of the PCE. 
+It can thus be understood that for higher dimensional problems involving hundreds of 
+parameters, conventional approaches (even sparse-basis PCEs) can quickly become prohibitive and
+the proposed DGSM-based approach could help
+reduce the computational effort by several orders of magnitude. 

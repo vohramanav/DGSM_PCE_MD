@@ -1,0 +1,142 @@
+\section{Summary and Conclusion}
+\label{sec:disc}
+
+%\begin{enumerate}
+%\item Methodology is agnostic to the choice of surrogate.
+%\item Outcome of parameter screening is QoI dependent. 
+%\item As required for a PCE, the uncertain parameters need not be independent. 
+% When working with a computational budget, consider relaxing the tolerance. 
+% Higher the dimension reduction, greater the gains. However, in case of intensive models, even a small reduction could be
+%advantageous. 
+% In general, computational advantage is not guaranteed. Nevertheless, the proposed methodology is promising. 
+% Gains with a reduced order surrogate are multiplied several time when evaluating the posterior distribution of the parameters
+%since several surrogates are needed. 
+%\end{enumerate}
+
+In this work, we have presented an efficient and practical approach for constructing
+a reduced-space
+surrogate for scientific and engineering applications. Dimension reduction is accomplished
+by identifying uncertain parameters that contribute relatively less towards the uncertainty
+in the QoI. These parameters deemed as \textit{unimportant} are determined
+using a screening metric~\eqref{eq:cmu} involving derivative-based sensitivity
+measures. Initially, the metric is estimated
+using model evaluations at a small set of samples in the parameter domain. These
+estimates are refined by subsequent enrichment of the sample set during the screening
+procedure presented in Algorithm~\ref{alg:screen}. The outcome of parameter screening is
+assessed for the scope of dimension reduction. In a favorable scenario, a reduced-space
+surrogate (RSS) is constructed. The RSS is tested for accuracy in a least-squares sense
+as well as a probabilistic sense using a cross-validation test suite. In the proposed framework,
+a surrogate in the full-space (FSS) is constructed in tandem with parameter screening using
+the available set of model evaluations. Both, RSS and FSS are
+constructed using regression-based sparse PCEs. Note however that the FSS is
+constructed in an independent manner to ensure that the computational effort associated
+with the proposed methodology does not overshoot the effort required to construct the 
+FSS directly. Therefore, it does not impact the accuracy of the RSS which is only
+constructed in situations where computational gains are expected.
+
+Parameter screening methodology was implemented to low-to-moderate dimensional
+test problems and an accurate RSS was constructed to demonstrate potential for
+computational gains in each case. Furthermore, the overall framework was
+implemented  to a relatively higher dimensional application involving kinetics
+of the H$_2$/O$_2$ reaction mechanism.  Significant dimension reduction (19 
+dimensions to 3 or 4 dimensions) was
+accomplished for two different scenarios involving a fuel-rich and a fuel-lean
+mixture. In both cases, the resulting RSS was able to capture the input-output
+relationship as well as the uncertainty in the QoI with
+reasonable accuracy. Moreover, it was shown that the parameter
+screening procedure (Algorithm~\ref{alg:screen}) was able to determine the
+relative importance of the
+parameters using only 5 samples in an even higher dimensional
+case involving 33 uncertain rate-controlling parameters. It was observed that
+the parameter dimension could be reduced from 33 to 2 in this case.
+Additional highlights of the proposed framework are as follows:
+\begin{enumerate}
+\item Although PCEs were used in this work, the proposed framework is
+agnostic to the choice of the surrogate model construction method.
+%\item The quantity of interest must be differentiable with respect to each uncertain parameter
+%for the derivative-based sensitivity measures in~\eqref{eq:mu} to be defined. 
+%to ensure accurate estimation of the derivative-based sensitivity measures in~\eqref{eq:mu}.
+\item Substantial computational gains are expected in situations involving
+compute-intensive simulations even if the scope for dimension reduction is
+small. However, computational gains using the proposed framework
+are expected to increase significantly with the increase in dimensionality of the
+parameter space.
+%Hence, careful judgment pertaining to the construction of a reduced-order
+%surrogate as well as resource allocation is needed. is required when
+%implementing the framework. 
+
+\item Significant gains can be realized in situations where multiple surrogates need to be
+constructed as illustrated in the kinetics application. Other possible scenarios may
+include inverse problems involving parameter estimation in a Bayesian setting.
+
+\item Dimension reduction based on the proposed methodology could help reduce the
+effort required for model calibration wherein only the important parameters
+are calibrated. 
+\end{enumerate}
+
+Based on the results presented for the test problems and the kinetics
+application, the proposed framework seems quite promising in its potential for
+identifying the unimportant model inputs. In fact, in the numerical
+tests and the chemical kinetics application presented in this work, reasonable
+estimates of the screening metric are obtained during the initial screening
+step with a few samples. This is indicative of a small degree of variability in
+the gradient of the model output with respect to individual parameters, and
+therefore, a low variance of the Monte Carlo estimator. These observations
+could be exploited to construct efficient model surrogates in a reduced input
+space. 
+
+While the proposed approach has attractive features, it is important to remain cognizant
+about the limitations of the framework as well. 
+For instance, the QoI is required to be differentiable with
+respect to each parameter in the considered domain. This condition once
+satisfied, enhances the accuracy of the PCE-based surrogates as well.  
+Moreover, in the presence of severe non-linearity in the model output
+leading to significant variability in its gradient in the considered input domain,
+the number of samples and hence, the computational effort associated with
+the estimation of screening metrics would expectedly 
+increase. The extent of increase in the effort would of course depend upon the
+application. 
+Also, we note that the proposed methodology aims to reduce the computational
+effort pertaining to the total-effect Sobol' index, which is a
+variance-based measure.  For severely nonlinear models, whose QoIs
+might exhibit heavy-tailed or multimodal distributions, the 
+variance might not provide an adequate representation of uncertainty.
+Possible remedies for such cases include the so-called moment independent
+measures; see e.g.,~\cite{BorgonovoIooss16,IoossLemaitre15}.
+%In the case of rare events, the variance-based methods typically
+%lead to inaccurate estimates of the uncertainty in the model output. Since the
+%methodology proposed in this work is based on reducing computational
+%effort associated with variance-based sensitivity analysis, specifically, the
+%total-effect Sobol' index, it might lead to erroneous estimates of the
+%screening metrics and consequently the relative importance of the
+%uncertain parameters.
+
+Additionally, the proposed framework does not
+account for the existence of possible correlations between the uncertain
+inputs of the model. However, while the assumption of independent
+inputs is not always justified, in many cases, correlations between
+inputs are not well understood a priori, and assuming mutual independence
+could be reasonable at least in initial screening using DGSMs. On the other
+hand, if approximate correlations are known, we recommend using a Gaussian 
+process or Kriging-based surrogate since it 
+provides a means for incorporating the correlation between inputs.  
+Implementation to applications involving strongly correlated parameters
+could enhance the applicability of the proposed framework. 
+We consider that to be a potential direction for future studies related
+to this work. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
