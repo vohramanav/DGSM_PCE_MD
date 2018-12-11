@@ -1,9 +1,9 @@
 all:
-	pdflatex DGSM_surrogate_paper 
-	bibtex DGSM_surrogate_paper
-	pdflatex DGSM_surrogate_paper
-	pdflatex DGSM_surrogate_paper
-	pdflatex DGSM_surrogate_paper
+	pdflatex paper 
+	bibtex paper
+	pdflatex paper
+	pdflatex paper
+	pdflatex paper
 
 clean:
 
